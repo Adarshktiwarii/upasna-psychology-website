@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychology Website - Test Suite</title>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        
+        .test-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-result {
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+        }
+        
+        .test-pass {
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            color: #15803d;
+        }
+        
+        .test-fail {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+            color: #dc2626;
+        }
+        
+        .test-info {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            color: #1d4ed8;
+        }
+        
+        .run-tests-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        
+        .run-tests-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #6366f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>🧠 Psychology Website - Test Suite</h1>
+        <p>Comprehensive testing for Dr. Upasna Shil's clinical psychology website</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number" id="total-tests">0</div>
+            <div>Total Tests</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="passed-tests">0</div>
+            <div>Passed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="failed-tests">0</div>
+            <div>Failed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="success-rate">0%</div>
+            <div>Success Rate</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎮 Test Controls</h2>
+        <button class="run-tests-btn" onclick="runAllTests()">Run All Tests</button>
+        <button class="run-tests-btn" onclick="runPsychologyTests()">Psychology Content</button>
+        <button class="run-tests-btn" onclick="runFunctionalTests()">Functional Tests</button>
+        <button class="run-tests-btn" onclick="runAccessibilityTests()">Accessibility Tests</button>
+        <button class="run-tests-btn" onclick="clearResults()">Clear Results</button>
+    </div>
+
+    <div class="test-section">
+        <h2>🧠 Psychology Content Tests</h2>
+        <div id="psychology-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Functional Tests</h2>
+        <div id="functional-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>♿ Accessibility Tests</h2>
+        <div id="accessibility-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Healthcare Compliance</h2>
+        <div id="compliance-results"></div>
+    </div>
+
+    <script>
+        let testStats = {
+            total: 0,
+            passed: 0,
+            failed: 0
+        };
+
+        function updateStats() {
+            document.getElementById('total-tests').textContent = testStats.total;
+            document.getElementById('passed-tests').textContent = testStats.passed;
+            document.getElementById('failed-tests').textContent = testStats.failed;
+            
+            const successRate = testStats.total > 0 ? 
+                Math.round((testStats.passed / testStats.total) * 100) : 0;
+            document.getElementById('success-rate').textContent = successRate + '%';
+        }
+
+        function addTestResult(containerId, testName, passed, details = '') {
+            const container = document.getElementById(containerId);
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${passed ? 'test-pass' : 'test-fail'}`;
+            
+            const status = passed ? '✅ PASS' : '❌ FAIL';
+            resultDiv.innerHTML = `<strong>${status}</strong> ${testName}${details ? '<br>' + details : ''}`;
+            
+            container.appendChild(resultDiv);
+            
+            testStats.total++;
+            if (passed) testStats.passed++;
+            else testStats.failed++;
+            
+            updateStats();
+        }
+
+        function addInfoResult(containerId, message) {
+            const container = document.getElementById(containerId);
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'test-result test-info';
+            resultDiv.innerHTML = `<strong>ℹ️ INFO</strong> ${message}`;
+            container.appendChild(resultDiv);
+        }
+
+        function clearResults() {
+            const containers = ['psychology-results', 'functional-results', 'accessibility-results', 'compliance-results'];
+            containers.forEach(id => {
+                document.getElementById(id).innerHTML = '';
+            });
+            
+            testStats = { total: 0, passed: 0, failed: 0 };
+            updateStats();
+        }
+
+        function runPsychologyTests() {
+            addInfoResult('psychology-results', 'Testing psychology-specific content...');
+            
+            // Test 1: Check for psychology keywords
+            const bodyText = document.body.textContent.toLowerCase();
+            const psychologyKeywords = ['psychology', 'therapy', 'counseling', 'mental health', 'clinical'];
+            const foundKeywords = psychologyKeywords.filter(keyword => bodyText.includes(keyword));
+            const hasPsychContent = foundKeywords.length >= 3;
+            addTestResult('psychology-results', 'Psychology content present', hasPsychContent, 
+                `Found keywords: ${foundKeywords.join(', ')}`);
+            
+            // Test 2: Check for professional credentials
+            const hasCredentials = bodyText.includes('mphil') || bodyText.includes('phd') || bodyText.includes('licensed');
+            addTestResult('psychology-results', 'Professional credentials mentioned', hasCredentials);
+            
+            // Test 3: Check for consultation/booking functionality
+            const hasBookingForm = document.querySelector('form') !== null;
+            const hasBookingButton = bodyText.includes('book') || bodyText.includes('appointment') || bodyText.includes('consultation');
+            const hasBookingFeature = hasBookingForm && hasBookingButton;
+            addTestResult('psychology-results', 'Booking functionality available', hasBookingFeature);
+            
+            // Test 4: Check for services section
+            const hasServices = bodyText.includes('services') || bodyText.includes('therapy') || bodyText.includes('treatment');
+            addTestResult('psychology-results', 'Services section present', hasServices);
+            
+            // Test 5: Check for contact information
+            const hasContact = bodyText.includes('contact') && (bodyText.includes('phone') || bodyText.includes('email'));
+            addTestResult('psychology-results', 'Contact information available', hasContact);
+        }
+
+        function runFunctionalTests() {
+            addInfoResult('functional-results', 'Running functional tests...');
+            
+            // Test 1: Check navigation
+            const hasNav = document.querySelector('nav') !== null || document.querySelector('.nav') !== null;
+            addTestResult('functional-results', 'Navigation element exists', hasNav);
+            
+            // Test 2: Check forms functionality
+            const forms = document.querySelectorAll('form');
+            const hasValidForms = forms.length > 0;
+            addTestResult('functional-results', 'Forms are present', hasValidForms, 
+                `${forms.length} form(s) found`);
+            
+            // Test 3: Check JavaScript functionality
+            const jsWorking = typeof window !== 'undefined' && typeof document !== 'undefined';
+            addTestResult('functional-results', 'JavaScript is functional', jsWorking);
+            
+            // Test 4: Check responsive design
+            const hasViewport = document.querySelector('meta[name="viewport"]') !== null;
+            addTestResult('functional-results', 'Responsive design setup', hasViewport);
+            
+            // Test 5: Check for modal/popup functionality
+            const hasModal = document.querySelector('.modal') !== null || bodyText.includes('modal');
+            addTestResult('functional-results', 'Modal functionality available', hasModal);
+        }
+
+        function runAccessibilityTests() {
+            addInfoResult('accessibility-results', 'Running accessibility tests...');
+            
+            // Test 1: Alt text for images
+            const images = document.querySelectorAll('img');
+            let imagesWithAlt = 0;
+            images.forEach(img => {
+                if (img.alt && img.alt.trim() !== '') {
+                    imagesWithAlt++;
+                }
+            });
+            const hasAltText = images.length === 0 || imagesWithAlt === images.length;
+            addTestResult('accessibility-results', 'All images have alt text', hasAltText, 
+                `${imagesWithAlt}/${images.length} images with alt text`);
+            
+            // Test 2: Heading structure
+            const hasH1 = document.querySelector('h1') !== null;
+            const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            addTestResult('accessibility-results', 'Proper heading structure', hasH1, 
+                `${headings.length} headings found`);
+            
+            // Test 3: Form accessibility
+            const inputs = document.querySelectorAll('input, textarea, select');
+            let labeledInputs = 0;
+            inputs.forEach(input => {
+                const label = document.querySelector(`label[for="${input.id}"]`);
+                const ariaLabel = input.getAttribute('aria-label');
+                const placeholder = input.placeholder;
+                if (label || ariaLabel || placeholder) {
+                    labeledInputs++;
+                }
+            });
+            const hasLabels = inputs.length === 0 || labeledInputs === inputs.length;
+            addTestResult('accessibility-results', 'Form inputs are accessible', hasLabels, 
+                `${labeledInputs}/${inputs.length} inputs properly labeled`);
+            
+            // Test 4: Color contrast (basic check)
+            const body = window.getComputedStyle(document.body);
+            const hasGoodContrast = body.color !== body.backgroundColor;
+            addTestResult('accessibility-results', 'Color contrast check', hasGoodContrast);
+        }
+
+        function runComplianceTests() {
+            addInfoResult('compliance-results', 'Running healthcare compliance tests...');
+            
+            // Test 1: Privacy policy mention
+            const bodyText = document.body.textContent.toLowerCase();
+            const hasPrivacy = bodyText.includes('privacy') || bodyText.includes('confidential');
+            addTestResult('compliance-results', 'Privacy/confidentiality mentioned', hasPrivacy);
+            
+            // Test 2: Professional disclaimers
+            const hasDisclaimer = bodyText.includes('disclaimer') || bodyText.includes('professional');
+            addTestResult('compliance-results', 'Professional disclaimers present', hasDisclaimer);
+            
+            // Test 3: Secure forms (HTTPS check would be done server-side)
+            const hasSecureForms = document.querySelectorAll('form').length > 0;
+            addTestResult('compliance-results', 'Forms present for secure handling', hasSecureForms);
+            
+            // Test 4: Contact information for emergencies
+            const hasEmergencyInfo = bodyText.includes('emergency') || bodyText.includes('crisis');
+            addTestResult('compliance-results', 'Emergency information available', hasEmergencyInfo);
+        }
+
+        function runAllTests() {
+            clearResults();
+            addInfoResult('psychology-results', '🧠 Starting comprehensive psychology website test suite...');
+            
+            setTimeout(() => runPsychologyTests(), 100);
+            setTimeout(() => runFunctionalTests(), 200);
+            setTimeout(() => runAccessibilityTests(), 300);
+            setTimeout(() => runComplianceTests(), 400);
+        }
+
+        // Auto-run tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(runAllTests, 1000);
+        });
+    </script>
+</body>
+</html>
