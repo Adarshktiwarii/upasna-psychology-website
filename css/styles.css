@@ -312,8 +312,10 @@ section:not(:first-child) {
 
 .hero-cta {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     flex-wrap: wrap;
+    align-items: center;
+    margin-top: 2.5rem;
 }
 
 .hero-image {
@@ -1228,7 +1230,8 @@ section:not(:first-child) {
     
     .hero-cta {
         justify-content: center;
-        gap: 1rem;
+        gap: 1.25rem;
+        flex-wrap: wrap;
     }
     
     .btn-hero-primary,
@@ -1427,12 +1430,7 @@ select:focus {
     line-height: 1.2;
 }
 
-.hero-cta {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 2.5rem;
-    flex-wrap: wrap;
-}
+/* Hero CTA styles defined above */
 
 /* Enhanced nav-link interactions handled above */
 
