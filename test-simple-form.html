@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Formspree Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 500px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; }
+        button:disabled { background: #ccc; }
+        .success { background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Simple Formspree Email Test</h1>
+    <p><strong>Purpose:</strong> Test new Formspree form with proper email configuration</p>
+    
+    <form id="testForm" method="POST">
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" value="Test User" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" value="test@example.com" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required>This is a test to verify the new Formspree form delivers emails properly.</textarea>
+        </div>
+        
+        <button type="submit" id="submitBtn">Test Email Delivery</button>
+        
+        <div id="result" style="margin-top: 20px;"></div>
+    </form>
+
+    <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 4px;">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Create new Formspree form at: <a href="https://formspree.io/forms" target="_blank">formspree.io/forms</a></li>
+            <li>Get the new endpoint (https://formspree.io/f/XXXXXXXX)</li>
+            <li>Update the form action below</li>
+            <li>Test this simple form first</li>
+            <li>Verify you receive email in inbox</li>
+            <li>Then update main website form</li>
+        </ol>
+        
+        <p><strong>Current endpoint:</strong> <span id="currentEndpoint">NOT SET - UPDATE NEEDED</span></p>
+        <p><strong>Status:</strong> <span id="status">Waiting for new Formspree form</span></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('testForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const result = document.getElementById('result');
+        
+        // New Formspree endpoint with proper email configuration
+        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xanpwznp';
+        
+        if (!FORMSPREE_ENDPOINT) {
+            document.getElementById('status').textContent = 'Create new Formspree form and update endpoint';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Waiting for Formspree setup';
+        } else {
+            form.action = FORMSPREE_ENDPOINT;
+            document.getElementById('currentEndpoint').textContent = FORMSPREE_ENDPOINT;
+            document.getElementById('status').textContent = 'Ready to test';
+        }
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!FORMSPREE_ENDPOINT) {
+                alert('Please create new Formspree form and update endpoint first');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Testing...';
+            
+            try {
+                const formData = new FormData(form);
+                const response = await fetch(FORMSPREE_ENDPOINT, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    result.innerHTML = '<div class="success">✅ Test successful! Check your email inbox for delivery.</div>';
+                } else {
+                    result.innerHTML = '<div class="success">⚠️ Response: ' + response.status + '. Check Formspree dashboard and email.</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="success">❌ Error: ' + error.message + '</div>';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Test Email Delivery';
+            }
+        });
+    </script>
+</body>
+</html>
