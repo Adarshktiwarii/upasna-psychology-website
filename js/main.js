@@ -126,6 +126,9 @@ function initModals() {
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
             
+            // Clear form data every time modal opens
+            resetForm();
+            
             // Focus on first input
             const firstInput = modal.querySelector('input, textarea, select');
             if (firstInput) {
@@ -331,6 +334,11 @@ function initConsultationForm() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        // Prevent duplicate submissions
+        if (submitBtn.disabled) {
+            return;
+        }
+        
         // Clear any existing errors
         clearFormErrors();
         
@@ -374,10 +382,8 @@ function initConsultationForm() {
             });
 
             if (response.ok) {
-                // Show success state
-                form.style.display = 'none';
-                successState.style.display = 'block';
-                successState.setAttribute('aria-live', 'polite');
+                // Show simple success popup
+                alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
                 
                 // Analytics: form_submit_success
                 if (window.gtag) {
@@ -387,17 +393,9 @@ function initConsultationForm() {
                     });
                 }
                 
-                // Scroll to top of modal
-                const modalContent = document.querySelector('.modal-content');
-                if (modalContent) {
-                    modalContent.scrollTop = 0;
-                }
-                
-                // Auto-close modal after 3 seconds
-                setTimeout(() => {
-                    closeModal();
-                    resetForm();
-                }, 3000);
+                // Close modal and reset form immediately
+                closeModal();
+                resetForm();
                 
             } else {
                 const errorData = await response.json();
@@ -528,6 +526,10 @@ function initConsultationForm() {
         clearFormErrors();
         localStorage.removeItem('consultationFormData');
         formStarted = false;
+        
+        // Reset submit button state
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
     }
 
     function clearFormErrors() {
