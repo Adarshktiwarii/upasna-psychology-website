@@ -1409,8 +1409,9 @@ select:focus {
 .btn-hero-secondary:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
     border-color: var(--primary);
-    color: var(--primary);
+    color: white;
 }
 
 .btn-hero-primary i,
