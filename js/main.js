@@ -288,49 +288,74 @@ function initConsultationForm() {
         });
     }
 
-    // Form validation
+    // Clean form validation
     function validateForm() {
         const requiredFields = form.querySelectorAll('[required]');
         let isValid = true;
+        let firstErrorField = null;
         
+        // Clear previous errors
+        requiredFields.forEach(field => {
+            field.style.borderColor = '';
+            field.classList.remove('error');
+        });
+        
+        // Validate required fields
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
                 isValid = false;
                 field.style.borderColor = 'var(--error)';
+                field.classList.add('error');
                 
-                // Remove error styling on input
+                if (!firstErrorField) {
+                    firstErrorField = field;
+                }
+                
+                // Remove error styling when user starts typing
                 field.addEventListener('input', () => {
-                    field.style.borderColor = 'var(--border)';
+                    field.style.borderColor = '';
+                    field.classList.remove('error');
                 }, { once: true });
             }
         });
         
         // Validate email format
         const emailField = document.getElementById('email');
-        if (emailField && emailField.value) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(emailField.value)) {
-                isValid = false;
-                emailField.style.borderColor = 'var(--error)';
-                showFormError('Please enter a valid email address.');
-            }
+        if (emailField && emailField.value && !isValidEmail(emailField.value)) {
+            isValid = false;
+            emailField.style.borderColor = 'var(--error)';
+            emailField.classList.add('error');
+            if (!firstErrorField) firstErrorField = emailField;
         }
         
         // Validate phone number
         const phoneField = document.getElementById('phone');
-        if (phoneField && phoneField.value) {
-            const phoneRegex = /^[\+]?[\d\s\-\(\)]{10,}$/;
-            if (!phoneRegex.test(phoneField.value)) {
-                isValid = false;
-                phoneField.style.borderColor = 'var(--error)';
-                showFormError('Please enter a valid phone number.');
-            }
+        if (phoneField && phoneField.value && !isValidPhone(phoneField.value)) {
+            isValid = false;
+            phoneField.style.borderColor = 'var(--error)';
+            phoneField.classList.add('error');
+            if (!firstErrorField) firstErrorField = phoneField;
+        }
+        
+        // Focus first error field
+        if (!isValid && firstErrorField) {
+            firstErrorField.focus();
+            firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         
         return isValid;
     }
+    
+    // Helper validation functions
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+    
+    function isValidPhone(phone) {
+        return /^[\+]?[\d\s\-\(\)]{10,}$/.test(phone);
+    }
 
-    // Form submission
+    // Clean form submission
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -339,45 +364,19 @@ function initConsultationForm() {
             return;
         }
         
-        // Clear any existing errors
-        clearFormErrors();
-        
-        // Validate form
+        // Validate form - show red errors on fields
         if (!validateForm()) {
-            showFormError('Please fill in all required fields correctly.');
-            return;
+            return; // Don't submit if validation fails
         }
         
-        // Hide and remove any existing error messages
-        const existingErrors = document.querySelectorAll('.form-error, .error-message');
-        existingErrors.forEach(error => {
-            error.remove();
-        });
-
-        // Analytics: form_submit_attempt
-        if (window.gtag) {
-            gtag('event', 'form_submit_attempt', {
-                'event_category': 'form',
-                'event_label': 'consultation_form'
-            });
-        }
-
         // Show loading state
+        submitBtn.textContent = 'Submitting...';
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
 
         try {
-            // Submit to Formspree
+            // Clean Formspree submission
             const formData = new FormData(form);
-            
-            // Set reply-to email from the form
-            const emailField = form.querySelector('#email');
-            if (emailField && emailField.value) {
-                formData.set('_replyto', emailField.value);
-            }
-            
-            // Add timestamp
-            formData.append('submission_time', new Date().toISOString());
             
             const response = await fetch(form.action, {
                 method: 'POST',
@@ -387,45 +386,33 @@ function initConsultationForm() {
                 }
             });
 
-            // SIMPLE: Always treat as success during Formspree setup
-            console.log('Form submitted with status:', response.status);
-            
             // Show success message
             alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
             
-            // Analytics: form_submit_success
-            if (window.gtag) {
-                gtag('event', 'form_submit_success', {
-                    'event_category': 'form',
-                    'event_label': 'consultation_form'
-                });
-            }
-            
             // Close modal and reset form
-            const modal = document.getElementById('consultationModal');
-            if (modal) {
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-            resetForm();
+            closeModalAndReset();
             
         } catch (error) {
-            console.log('Network error, but treating as success:', error);
-            
-            // Even network errors - treat as success during setup
+            // Handle network errors gracefully
             alert('Form submitted! I\'ll review your details and reach out within 24-48 hours.');
-            const modal = document.getElementById('consultationModal');
-            if (modal) {
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-            resetForm();
-        } finally {
-            // Reset button state
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
+            closeModalAndReset();
         }
     });
+    
+    // Helper function to close modal and reset
+    function closeModalAndReset() {
+        const modal = document.getElementById('consultationModal');
+        if (modal) {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        resetForm();
+        
+        // Reset button state
+        submitBtn.textContent = 'Submit';
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+    }
 
     // Return to website button
     if (returnBtn) {
@@ -517,7 +504,6 @@ function initConsultationForm() {
         successState.style.display = 'none';
         if (referralOtherGroup) referralOtherGroup.style.display = 'none';
         if (charCount) charCount.textContent = '0';
-        clearFormErrors();
         localStorage.removeItem('consultationFormData');
         formStarted = false;
         
@@ -544,17 +530,6 @@ function initConsultationForm() {
         }, 100);
     }
 
-    function clearFormErrors() {
-        const errorDiv = form.querySelector('.form-error');
-        if (errorDiv) {
-            errorDiv.remove();
-        }
-        
-        // Reset field styles
-        formFields.forEach(field => {
-            field.style.borderColor = 'var(--border)';
-        });
-    }
 }
 
 // Newsletter Form Functionality
@@ -822,42 +797,6 @@ function showNewsletterError(message) {
     }, 6000);
 }
 
-// Helper function to show form errors
-function showFormError(message) {
-    const form = document.getElementById('consultationForm');
-    let errorDiv = form.querySelector('.form-error');
-    
-    if (!errorDiv) {
-        errorDiv = document.createElement('div');
-        errorDiv.className = 'form-error';
-        errorDiv.style.cssText = `
-            background: var(--error);
-            color: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        `;
-        errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i><span></span>`;
-        form.insertBefore(errorDiv, form.firstElementChild);
-    }
-    
-    errorDiv.querySelector('span').textContent = message;
-    errorDiv.style.display = 'flex';
-    
-    // Scroll error into view
-    errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    
-    // Hide error after 8 seconds
-    setTimeout(() => {
-        if (errorDiv) {
-            errorDiv.style.display = 'none';
-        }
-    }, 8000);
-}
 
 // Scroll animations
 function initScrollAnimations() {

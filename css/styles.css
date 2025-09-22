@@ -1201,6 +1201,13 @@ section:not(:first-child) {
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
 .form-group textarea {
     resize: vertical;
     min-height: 4rem;
