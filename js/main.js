@@ -1,5 +1,6 @@
 // Main JavaScript for Dr. Upasna Shil Psychology Website
 
+
 // DOM Content Loaded Event
 document.addEventListener('DOMContentLoaded', function() {
     initNavigation();
@@ -436,7 +437,7 @@ function initConsultationForm() {
             });
             
             if (response.ok) {
-                alert('Thank you! I\'ll review your details and get back to you within 24-48 hours.');
+                showSuccessToast();
                 form.reset();
                 closeModalAndReset();
             } else {
@@ -444,7 +445,7 @@ function initConsultationForm() {
             }
         } catch (error) {
             console.error('Form submission error:', error);
-            alert('Thank you! I\'ll review your details and get back to you within 24-48 hours.');
+            showSuccessToast();
             form.reset();
             closeModalAndReset();
         } finally {
@@ -452,7 +453,8 @@ function initConsultationForm() {
             submitBtn.disabled = false;
         }
     });
-    
+
+
     // Helper function to close modal and reset
     function closeModalAndReset() {
         const modal = document.getElementById('consultationModal');
@@ -553,6 +555,27 @@ function initConsultationForm() {
     }
 
 
+}
+
+// Modern Toast Notification Function (Global)
+function showSuccessToast() {
+    const toast = document.getElementById('successToast');
+    const successState = document.getElementById('successState');
+    
+    // Hide any old success state
+    if (successState) {
+        successState.style.display = 'none';
+    }
+    
+    if (toast) {
+        // Show toast with smooth animation
+        toast.classList.add('show');
+        
+        // Auto-hide after 4 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 4000);
+    }
 }
 
 // Newsletter Form Functionality
