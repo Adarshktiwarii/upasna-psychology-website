@@ -348,6 +348,12 @@ function initConsultationForm() {
             return;
         }
         
+        // Hide any existing error messages
+        const existingError = document.querySelector('.form-error, .error-message');
+        if (existingError) {
+            existingError.style.display = 'none';
+        }
+
         // Analytics: form_submit_attempt
         if (window.gtag) {
             gtag('event', 'form_submit_attempt', {
@@ -420,6 +426,7 @@ function initConsultationForm() {
                     alert('Form submitted! I\'ll review your details and reach out within 24-48 hours.');
                     closeModal();
                     resetForm();
+                    return; // Exit successfully, don't throw error
                 } else {
                     throw new Error(`Form submission failed: ${response.status}`);
                 }
