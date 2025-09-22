@@ -545,22 +545,31 @@ function initConsultationForm() {
 
 // Modern Toast Notification Function (Global)
 function showSuccessToast() {
+    console.log('🔔 TOAST DEBUG: showSuccessToast called');
     const toast = document.getElementById('successToast');
     const successState = document.getElementById('successState');
+    
+    console.log('🔔 TOAST DEBUG: Toast element found:', !!toast);
+    console.log('🔔 TOAST DEBUG: Success state found:', !!successState);
     
     // Hide any old success state
     if (successState) {
         successState.style.display = 'none';
+        console.log('🔔 TOAST DEBUG: Hidden old success state');
     }
     
     if (toast) {
+        console.log('🔔 TOAST DEBUG: Adding show class to toast');
         // Show toast with smooth animation
         toast.classList.add('show');
         
         // Auto-hide after 4 seconds
         setTimeout(() => {
+            console.log('🔔 TOAST DEBUG: Removing show class from toast');
             toast.classList.remove('show');
         }, 4000);
+    } else {
+        console.error('🔔 TOAST DEBUG: Toast element not found!');
     }
 }
 
