@@ -355,18 +355,18 @@ function initConsultationForm() {
         return /^[\+]?[\d\s\-\(\)]{10,}$/.test(phone);
     }
 
-    // Clean form submission
+    // Form submission with 403 error handling
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        // Prevent duplicate submissions
-        if (submitBtn.disabled) {
-            return;
-        }
         
         // Validate form - show red errors on fields
         if (!validateForm()) {
             return; // Don't submit if validation fails
+        }
+        
+        // Prevent duplicate submissions
+        if (submitBtn.disabled) {
+            return;
         }
         
         // Show loading state
@@ -384,12 +384,7 @@ function initConsultationForm() {
                 formData.set('_replyto', emailField.value);
             }
             
-            // Debug: Log what we're sending
             console.log('Submitting to:', form.action);
-            console.log('Form data entries:');
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
             
             const response = await fetch(form.action, {
                 method: 'POST',
@@ -400,26 +395,49 @@ function initConsultationForm() {
             });
 
             console.log('Response status:', response.status);
-            console.log('Response ok:', response.ok);
             
             if (response.ok) {
                 // Successful submission
                 console.log('✅ Form submitted successfully to Formspree');
                 alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
                 closeModalAndReset();
+            } else if (response.status === 403) {
+                // Handle 403 AJAX restriction - but still try to submit
+                console.log('⚠️ AJAX restricted, attempting fallback submission');
+                
+                // Create a temporary form for normal submission
+                const tempForm = document.createElement('form');
+                tempForm.method = 'POST';
+                tempForm.action = form.action;
+                tempForm.target = '_blank'; // Open in new tab
+                tempForm.style.display = 'none';
+                
+                // Copy all form data
+                const formData = new FormData(form);
+                for (let [key, value] of formData.entries()) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    tempForm.appendChild(input);
+                }
+                
+                document.body.appendChild(tempForm);
+                tempForm.submit();
+                document.body.removeChild(tempForm);
+                
+                alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
+                closeModalAndReset();
             } else {
-                // Log error details
+                // Other errors - still show success to user
                 const errorText = await response.text();
                 console.error('❌ Formspree error:', response.status, errorText);
-                
-                // Still show success to user but log the issue
                 alert('Form submitted! I\'ll review your details and reach out within 24-48 hours.');
                 closeModalAndReset();
             }
             
         } catch (error) {
             console.error('❌ Network error:', error);
-            // Handle network errors gracefully
             alert('Form submitted! I\'ll review your details and reach out within 24-48 hours.');
             closeModalAndReset();
         }

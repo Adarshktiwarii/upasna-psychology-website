@@ -87,6 +87,30 @@
                 if (response.ok) {
                     addLog('✅ SUCCESS: Form submitted to Formspree!');
                     alert('Test successful! Check your email and Formspree dashboard.');
+                } else if (response.status === 403) {
+                    addLog('⚠️ 403 Error: AJAX restricted, testing fallback...');
+                    
+                    // Test fallback submission
+                    const tempForm = document.createElement('form');
+                    tempForm.method = 'POST';
+                    tempForm.action = 'https://formspree.io/f/xanpwvkw';
+                    tempForm.target = '_blank';
+                    tempForm.style.display = 'none';
+                    
+                    for (let [key, value] of formData.entries()) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = value;
+                        tempForm.appendChild(input);
+                    }
+                    
+                    document.body.appendChild(tempForm);
+                    tempForm.submit();
+                    document.body.removeChild(tempForm);
+                    
+                    addLog('✅ Fallback submission sent (check new tab)');
+                    alert('Fallback test completed! Check the new tab and your email.');
                 } else {
                     addLog('❌ ERROR: Form submission failed');
                     alert('Test failed. Check the log for details.');
