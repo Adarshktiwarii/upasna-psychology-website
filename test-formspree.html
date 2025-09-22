@@ -16,8 +16,8 @@
 </head>
 <body>
     <h1>Formspree Test</h1>
-    <p>Testing the Formspree endpoint: <code>https://formspree.io/f/xanpwvkw</code></p>
-    <p><strong>Status:</strong> CAPTCHA disabled in Formspree settings - AJAX should work directly</p>
+    <p>Testing the NEW Formspree endpoint: <code>https://formspree.io/f/xovkabwv</code></p>
+    <p><strong>Status:</strong> Fresh form with proper email configuration - testing email delivery</p>
     
     <form id="testForm">
         <div class="form-group">
@@ -71,7 +71,7 @@
                     addLog(`  ${key}: ${value}`);
                 }
                 
-                const response = await fetch('https://formspree.io/f/xanpwvkw', {
+                const response = await fetch('https://formspree.io/f/xovkabwv', {
                     method: 'POST',
                     body: formData,
                     headers: {
@@ -94,7 +94,7 @@
                     // Test fallback submission
                     const tempForm = document.createElement('form');
                     tempForm.method = 'POST';
-                    tempForm.action = 'https://formspree.io/f/xanpwvkw';
+                    tempForm.action = 'https://formspree.io/f/xovkabwv';
                     tempForm.target = '_blank';
                     tempForm.style.display = 'none';
                     
