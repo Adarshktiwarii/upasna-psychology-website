@@ -368,19 +368,25 @@ function initConsultationForm() {
         return /^[\+]?[\d\s\-\(\)]{10,}$/.test(phone);
     }
 
-    // Form submission with 403 error handling
+    // CLEAN Form submission - matching test form exactly
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        console.log('🎯 MAIN FORM: Submit event triggered');
+        
         // Validate form - show red errors on fields
         if (!validateForm()) {
+            console.log('❌ MAIN FORM: Validation failed');
             return; // Don't submit if validation fails
         }
         
         // Prevent duplicate submissions
         if (submitBtn.disabled) {
+            console.log('❌ MAIN FORM: Button already disabled, preventing duplicate');
             return;
         }
+        
+        console.log('✅ MAIN FORM: Starting submission process');
         
         // Show loading state
         submitBtn.textContent = 'Submitting...';
@@ -388,17 +394,19 @@ function initConsultationForm() {
         submitBtn.disabled = true;
 
         try {
-            // Clean Formspree submission
+            // Create FormData exactly like test form
             const formData = new FormData(form);
             
-            // Add Formspree configuration
+            // Add required Formspree fields
+            formData.set('_subject', 'New Consultation Request - Upasna Shil');
+            
             const emailField = form.querySelector('#email');
             if (emailField && emailField.value) {
                 formData.set('_replyto', emailField.value);
             }
             
             console.log('🚀 MAIN FORM: Submitting to:', form.action);
-            console.log('📝 MAIN FORM: Form data being sent:');
+            console.log('📝 MAIN FORM: Form data entries:');
             for (let [key, value] of formData.entries()) {
                 console.log(`  ${key}: ${value}`);
             }
@@ -418,22 +426,17 @@ function initConsultationForm() {
             console.log('📊 MAIN FORM Response body:', responseText);
             
             if (response.ok) {
-                // Successful submission
-                console.log('✅ MAIN FORM: Successfully submitted to Formspree!');
+                console.log('✅ MAIN FORM: SUCCESS - Form submitted to Formspree!');
                 alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
                 closeModalAndReset();
             } else {
-                // Log error but still show success to user for better UX
-                console.error('❌ MAIN FORM Formspree error:', response.status, responseText);
-                
-                // Since CAPTCHA is disabled, most errors should be resolved
-                // But we still want to show success to user while logging issues
+                console.error('❌ MAIN FORM: Error response from Formspree:', response.status, responseText);
                 alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
                 closeModalAndReset();
             }
             
         } catch (error) {
-            console.error('❌ Network error:', error);
+            console.error('❌ MAIN FORM: Network/JavaScript error:', error);
             alert('Form submitted! I\'ll review your details and reach out within 24-48 hours.');
             closeModalAndReset();
         }
