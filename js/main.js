@@ -408,22 +408,17 @@ function initConsultationForm() {
         } catch (error) {
             console.error('Form submission error:', error);
             
-            // For now, treat as success since you're using a different Formspree account
-            // TODO: Update with your own Formspree endpoint
-            alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
-            
-            // Analytics: form_submit_fail (but we're treating as success)
+            // Analytics: form_submit_fail
             if (window.gtag) {
-                gtag('event', 'form_submit_success', {
+                gtag('event', 'form_submit_fail', {
                     'event_category': 'form',
                     'event_label': 'consultation_form',
-                    'note': 'treated_as_success_pending_formspree_setup'
+                    'error': error.message
                 });
             }
             
-            // Close modal and reset form
-            closeModal();
-            resetForm();
+            // Show error message with contact info
+            showFormError('Unable to submit form at the moment. Please email directly at consult.upasnashil@gmail.com or call +91 84848 46980.');
         } finally {
             // Reset button state
             submitBtn.classList.remove('loading');
