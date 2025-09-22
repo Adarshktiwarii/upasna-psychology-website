@@ -242,6 +242,19 @@ function initLearnMoreButton() {
 function initConsultationForm() {
     const form = document.getElementById('consultationForm');
     const submitBtn = document.getElementById('submitBtn');
+    
+    console.log('🔍 FORM DEBUG: Form element found:', !!form);
+    console.log('🔍 FORM DEBUG: Submit button found:', !!submitBtn);
+    
+    if (!form) {
+        console.error('❌ CRITICAL: consultationForm not found!');
+        return;
+    }
+    
+    if (!submitBtn) {
+        console.error('❌ CRITICAL: submitBtn not found!');
+        return;
+    }
     const concernsTextarea = document.getElementById('concerns');
     const charCount = document.getElementById('charCount');
     const referralSelect = document.getElementById('referral');
@@ -384,7 +397,11 @@ function initConsultationForm() {
                 formData.set('_replyto', emailField.value);
             }
             
-            console.log('Submitting to:', form.action);
+            console.log('🚀 MAIN FORM: Submitting to:', form.action);
+            console.log('📝 MAIN FORM: Form data being sent:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`  ${key}: ${value}`);
+            }
             
             const response = await fetch(form.action, {
                 method: 'POST',
@@ -394,17 +411,20 @@ function initConsultationForm() {
                 }
             });
 
-            console.log('Response status:', response.status);
+            console.log('📊 MAIN FORM Response status:', response.status);
+            console.log('📊 MAIN FORM Response ok:', response.ok);
+            
+            const responseText = await response.text();
+            console.log('📊 MAIN FORM Response body:', responseText);
             
             if (response.ok) {
                 // Successful submission
-                console.log('✅ Form submitted successfully to Formspree');
+                console.log('✅ MAIN FORM: Successfully submitted to Formspree!');
                 alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
                 closeModalAndReset();
             } else {
                 // Log error but still show success to user for better UX
-                const errorText = await response.text();
-                console.error('❌ Formspree error:', response.status, errorText);
+                console.error('❌ MAIN FORM Formspree error:', response.status, responseText);
                 
                 // Since CAPTCHA is disabled, most errors should be resolved
                 // But we still want to show success to user while logging issues
