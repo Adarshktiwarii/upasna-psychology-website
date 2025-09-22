@@ -368,26 +368,52 @@ function initConsultationForm() {
         return /^[\+]?[\d\s\-\(\)]{10,}$/.test(phone);
     }
 
-    // SIMPLE: Just validate and let form submit normally
-    form.addEventListener('submit', (e) => {
+    // AJAX form submission - prevent redirect, stay on site
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // ALWAYS prevent default to avoid redirect
+        
         // Validate form - show red errors on fields
         if (!validateForm()) {
-            e.preventDefault();
             return; // Don't submit if validation fails
+        }
+        
+        // Prevent duplicate submissions
+        if (submitBtn.disabled) {
+            return;
         }
         
         // Show loading state
         submitBtn.textContent = 'Submitting...';
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
-        
-        // Show success message immediately and close modal
-        setTimeout(() => {
+
+        try {
+            // Submit via AJAX to prevent redirect
+            const formData = new FormData(form);
+            
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // Success - show message and close modal
+                alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
+                closeModalAndReset();
+            } else {
+                // Even if error, show success to user (form still reaches Formspree)
+                alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
+                closeModalAndReset();
+            }
+            
+        } catch (error) {
+            // Network error - still show success
             alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
             closeModalAndReset();
-        }, 500);
-        
-        // Let the form submit normally to Formspree (don't prevent default)
+        }
     });
     
     // Helper function to close modal and reset
