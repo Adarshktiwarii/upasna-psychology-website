@@ -466,19 +466,8 @@ function initConsultationForm() {
         });
     });
 
-    // Auto-save form data to localStorage
-    let saveTimeout;
-    formFields.forEach(field => {
-        field.addEventListener('input', () => {
-            clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(() => {
-                saveFormData();
-            }, 1000);
-        });
-    });
-
-    // Load saved form data on page load
-    loadFormData();
+    // Auto-save disabled to prevent data persistence and ensure clean form experience
+    // No form data will be saved or loaded automatically
 
     function saveFormData() {
         const formData = {};
@@ -530,6 +519,24 @@ function initConsultationForm() {
         // Reset submit button state
         submitBtn.classList.remove('loading');
         submitBtn.disabled = false;
+        
+        // Aggressively clear all form fields
+        const allFields = form.querySelectorAll('input, textarea, select');
+        allFields.forEach(field => {
+            if (field.type !== 'hidden' && field.name !== 'websiteURL') {
+                field.value = '';
+                field.selectedIndex = 0; // For select elements
+            }
+        });
+        
+        // Clear any browser autocomplete/autofill
+        setTimeout(() => {
+            allFields.forEach(field => {
+                if (field.type !== 'hidden' && field.name !== 'websiteURL') {
+                    field.value = '';
+                }
+            });
+        }, 100);
     }
 
     function clearFormErrors() {
