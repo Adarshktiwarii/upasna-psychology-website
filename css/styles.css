@@ -313,9 +313,10 @@ section:not(:first-child) {
 .hero-cta {
     display: flex;
     gap: 1.5rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     margin-top: 2.5rem;
+    justify-content: flex-start;
 }
 
 .hero-image {
@@ -1230,14 +1231,16 @@ section:not(:first-child) {
     
     .hero-cta {
         justify-content: center;
-        gap: 1.25rem;
-        flex-wrap: wrap;
+        gap: 1rem;
+        flex-wrap: nowrap;
     }
     
     .btn-hero-primary,
     .btn-hero-secondary {
-        min-width: 200px;
-        padding: 1rem 1.5rem;
+        min-width: 180px;
+        max-width: 220px;
+        padding: 1rem 1.25rem;
+        flex: 1;
     }
     
     .form-grid,
@@ -1317,6 +1320,7 @@ section:not(:first-child) {
     .hero-cta {
         flex-direction: column;
         align-items: center;
+        gap: 1rem;
     }
     
     .btn-hero-primary,
@@ -1324,7 +1328,9 @@ section:not(:first-child) {
         min-width: 100%;
         max-width: 280px;
         justify-content: center;
+        flex: none;
     }
+}
     
     .btn-large {
         padding: 0.875rem 1.5rem;
@@ -1370,14 +1376,16 @@ select:focus {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1.25rem 2rem;
+    padding: 1.25rem 1.75rem;
     border-radius: var(--radius-lg);
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
     box-shadow: var(--shadow-lg);
-    min-width: 220px;
+    min-width: 200px;
+    max-width: 250px;
     justify-content: flex-start;
+    flex: 1;
 }
 
 .btn-hero-primary {
