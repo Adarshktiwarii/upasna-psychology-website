@@ -356,6 +356,12 @@ function initConsultationForm() {
             // Submit to Formspree
             const formData = new FormData(form);
             
+            // Set reply-to email from the form
+            const emailField = form.querySelector('#email');
+            if (emailField && emailField.value) {
+                formData.set('_replyto', emailField.value);
+            }
+            
             // Add timestamp
             formData.append('submission_time', new Date().toISOString());
             
@@ -386,6 +392,12 @@ function initConsultationForm() {
                 if (modalContent) {
                     modalContent.scrollTop = 0;
                 }
+                
+                // Auto-close modal after 3 seconds
+                setTimeout(() => {
+                    closeModal();
+                    resetForm();
+                }, 3000);
                 
             } else {
                 const errorData = await response.json();

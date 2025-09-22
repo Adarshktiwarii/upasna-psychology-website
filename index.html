@@ -524,9 +524,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Share your concerns and I'll respond within 48–72 hours with a personalized treatment approach.</p>
+                <p>Share your concerns and I'll reach out to you in 24-48 hours for a discovery call.</p>
                 <form id="consultationForm" action="https://formspree.io/f/xrbkkjzg" method="POST">
-                    <input type="hidden" name="_subject" value="Mental Health Consultation Request - Dr. Upasna Shil">
+                    <input type="hidden" name="_subject" value="New Consultation Request - Upasna Shil Psychology Practice">
+                    <input type="hidden" name="_replyto" value="">
+                    <input type="hidden" name="_autoresponse" value="Thank you for reaching out! I've received your consultation request and will contact you within 24-48 hours for a discovery call. Your information is confidential and secure. Best regards, Upasna Shil, MPhil Clinical Psychologist">
                     <input type="hidden" name="source" value="Psychology Practice Website">
                     <!-- Honeypot field for spam protection -->
                     <input type="text" name="websiteURL" style="display: none;" tabindex="-1" autocomplete="off">
@@ -545,13 +547,18 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="age">Age</label>
-                                <input type="number" id="age" name="age" placeholder="25" min="16" max="100">
+                                <label for="profession">Profession *</label>
+                                <input type="text" id="profession" name="profession" placeholder="e.g., Software Engineer, Teacher, Student" required maxlength="100">
                             </div>
                             
                             <div class="form-group">
-                                <label for="urgency">Urgency Level</label>
-                                <select id="urgency" name="urgency">
+                                <label for="age">Age *</label>
+                                <input type="number" id="age" name="age" placeholder="25" min="16" max="100" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="urgency">Urgency Level *</label>
+                                <select id="urgency" name="urgency" required>
                                     <option value="">Select urgency</option>
                                     <option value="Immediate (Crisis)">Immediate (Crisis)</option>
                                     <option value="Within a week">Within a week</option>
@@ -569,8 +576,8 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="sessionType">Preferred Session Type</label>
-                                <select id="sessionType" name="sessionType">
+                                <label for="sessionType">Preferred Session Type *</label>
+                                <select id="sessionType" name="sessionType" required>
                                     <option value="">Select preference</option>
                                     <option value="In-person">In-person</option>
                                     <option value="Online (Video)">Online (Video)</option>
@@ -579,8 +586,8 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="previousTherapy">Previous Therapy Experience</label>
-                                <select id="previousTherapy" name="previousTherapy">
+                                <label for="previousTherapy">Previous Therapy Experience *</label>
+                                <select id="previousTherapy" name="previousTherapy" required>
                                     <option value="">Select experience</option>
                                     <option value="First time">First time</option>
                                     <option value="Some experience">Some experience</option>
@@ -589,8 +596,8 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="referral">How did you hear about me?</label>
-                                <select id="referral" name="referral">
+                                <label for="referral">How did you hear about me? *</label>
+                                <select id="referral" name="referral" required>
                                     <option value="">Select source</option>
                                     <option value="Google Search">Google Search</option>
                                     <option value="Social Media">Social Media</option>
@@ -619,8 +626,8 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="serviceInterest">Service Interest</label>
-                            <select id="serviceInterest" name="serviceInterest">
+                            <label for="serviceInterest">Service Interest *</label>
+                            <select id="serviceInterest" name="serviceInterest" required>
                                 <option value="">Select service</option>
                                 <option value="Individual Therapy">Individual Therapy</option>
                                 <option value="Couples Counseling">Couples Counseling</option>
@@ -644,24 +651,18 @@
                     </div>
 
                     <div class="privacy-note">
-                        By submitting this form, you agree to our Privacy Policy and consent to being contacted about your mental health consultation.
+                        By submitting this form, you agree to our Privacy Policy and consent to being contacted about your mental health consultation. Your info is private and confidential and data is encrypted.
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
                         <i class="fas fa-paper-plane"></i>
-                        <span class="btn-text">Request Consultation</span>
+                        <span class="btn-text">Submit</span>
                         <span class="btn-loading" style="display: none;">
                             <i class="fas fa-spinner fa-spin"></i>
                             Sending…
                         </span>
                     </button>
                     
-                    <div class="secondary-cta">
-                        <a href="tel:+919876543210" class="schedule-link">
-                            <i class="fas fa-phone"></i>
-                            Call Directly: +91 98765 43210
-                        </a>
-                    </div>
                 </form>
                 
                 <!-- Success State -->
