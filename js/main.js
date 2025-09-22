@@ -410,34 +410,23 @@ function initConsultationForm() {
         return /^[\+]?[\d\s\-\(\)]{10,}$/.test(phone);
     }
 
-    // AJAX form submission - prevent redirect, stay on site
+    // EXACT PM PORTFOLIO PATTERN: AJAX submission with toast and modal close
     form.addEventListener('submit', async (e) => {
-        console.log('🚨 FORM SUBMIT: Event triggered!');
-        e.preventDefault(); // ALWAYS prevent default to avoid redirect
-        console.log('🚨 FORM SUBMIT: Default prevented!');
+        e.preventDefault();
         
         // Validate form - show red errors on fields
         if (!validateForm()) {
-            console.log('❌ FORM SUBMIT: Validation failed');
-            return; // Don't submit if validation fails
-        }
-        
-        console.log('✅ FORM SUBMIT: Validation passed, proceeding...');
-        
-        // Prevent duplicate submissions
-        if (submitBtn.disabled) {
             return;
         }
         
+        const originalText = submitBtn.innerHTML;
+        
         // Show loading state
-        submitBtn.textContent = 'Submitting...';
-        submitBtn.classList.add('loading');
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
         submitBtn.disabled = true;
-
+        
         try {
-            // Submit via AJAX to prevent redirect
             const formData = new FormData(form);
-            
             const response = await fetch(form.action, {
                 method: 'POST',
                 body: formData,
@@ -445,21 +434,22 @@ function initConsultationForm() {
                     'Accept': 'application/json'
                 }
             });
-
+            
             if (response.ok) {
-                // Success - show message and close modal
-                alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
+                alert('Thank you! I\'ll review your details and get back to you within 24-48 hours.');
+                form.reset();
                 closeModalAndReset();
             } else {
-                // Even if error, show success to user (form still reaches Formspree)
-                alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
-                closeModalAndReset();
+                throw new Error('Form submission failed');
             }
-            
         } catch (error) {
-            // Network error - still show success
-            alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
+            console.error('Form submission error:', error);
+            alert('Thank you! I\'ll review your details and get back to you within 24-48 hours.');
+            form.reset();
             closeModalAndReset();
+        } finally {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
         }
     });
     
