@@ -455,20 +455,6 @@ function initConsultationForm() {
     });
 
 
-    // Helper function to close modal and reset
-    function closeModalAndReset() {
-        const modal = document.getElementById('consultationModal');
-        if (modal) {
-            modal.classList.remove('show');
-            document.body.style.overflow = '';
-        }
-        resetConsultationForm();
-        
-        // Reset button state
-        submitBtn.textContent = 'Submit';
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-    }
 
     // Return to website button
     if (returnBtn) {
@@ -575,6 +561,25 @@ function showSuccessToast() {
         setTimeout(() => {
             toast.classList.remove('show');
         }, 4000);
+    }
+}
+
+// Helper function to close modal and reset (Global)
+function closeModalAndReset() {
+    const modal = document.getElementById('consultationModal');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+    resetConsultationForm();
+    
+    // Reset button state
+    if (submitBtn) {
+        submitBtn.textContent = 'Submit';
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
     }
 }
 
