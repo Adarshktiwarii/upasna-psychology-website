@@ -368,78 +368,26 @@ function initConsultationForm() {
         return /^[\+]?[\d\s\-\(\)]{10,}$/.test(phone);
     }
 
-    // CLEAN Form submission - matching test form exactly
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        console.log('🎯 MAIN FORM: Submit event triggered');
-        
+    // SIMPLE: Just validate and let form submit normally
+    form.addEventListener('submit', (e) => {
         // Validate form - show red errors on fields
         if (!validateForm()) {
-            console.log('❌ MAIN FORM: Validation failed');
+            e.preventDefault();
             return; // Don't submit if validation fails
         }
-        
-        // Prevent duplicate submissions
-        if (submitBtn.disabled) {
-            console.log('❌ MAIN FORM: Button already disabled, preventing duplicate');
-            return;
-        }
-        
-        console.log('✅ MAIN FORM: Starting submission process');
         
         // Show loading state
         submitBtn.textContent = 'Submitting...';
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
-
-        try {
-            // Create FormData exactly like test form
-            const formData = new FormData(form);
-            
-            // Add required Formspree fields
-            formData.set('_subject', 'New Consultation Request - Upasna Shil');
-            
-            const emailField = form.querySelector('#email');
-            if (emailField && emailField.value) {
-                formData.set('_replyto', emailField.value);
-            }
-            
-            console.log('🚀 MAIN FORM: Submitting to:', form.action);
-            console.log('📝 MAIN FORM: Form data entries:');
-            for (let [key, value] of formData.entries()) {
-                console.log(`  ${key}: ${value}`);
-            }
-            
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            console.log('📊 MAIN FORM Response status:', response.status);
-            console.log('📊 MAIN FORM Response ok:', response.ok);
-            
-            const responseText = await response.text();
-            console.log('📊 MAIN FORM Response body:', responseText);
-            
-            if (response.ok) {
-                console.log('✅ MAIN FORM: SUCCESS - Form submitted to Formspree!');
-                alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
-                closeModalAndReset();
-            } else {
-                console.error('❌ MAIN FORM: Error response from Formspree:', response.status, responseText);
-                alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
-                closeModalAndReset();
-            }
-            
-        } catch (error) {
-            console.error('❌ MAIN FORM: Network/JavaScript error:', error);
-            alert('Form submitted! I\'ll review your details and reach out within 24-48 hours.');
+        
+        // Show success message immediately and close modal
+        setTimeout(() => {
+            alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
             closeModalAndReset();
-        }
+        }, 500);
+        
+        // Let the form submit normally to Formspree (don't prevent default)
     });
     
     // Helper function to close modal and reset
