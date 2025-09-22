@@ -127,7 +127,7 @@ function initModals() {
             document.body.style.overflow = 'hidden';
             
             // Clear form data every time modal opens
-            resetForm();
+            resetConsultationForm();
             
             // Focus on first input
             const firstInput = modal.querySelector('input, textarea, select');
@@ -235,6 +235,45 @@ function initLearnMoreButton() {
                 });
             }
         });
+    }
+}
+
+// Global form reset function
+function resetConsultationForm() {
+    const form = document.getElementById('consultationForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successState = document.getElementById('successState');
+    const referralOtherGroup = document.getElementById('referralOtherGroup');
+    const charCount = document.getElementById('charCount');
+    
+    if (form) {
+        form.reset();
+        form.style.display = 'block';
+        
+        // Reset submit button state
+        if (submitBtn) {
+            submitBtn.textContent = 'Submit';
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+        }
+        
+        // Hide success state
+        if (successState) successState.style.display = 'none';
+        if (referralOtherGroup) referralOtherGroup.style.display = 'none';
+        if (charCount) charCount.textContent = '0';
+        
+        // Clear all form fields aggressively
+        const allFields = form.querySelectorAll('input, textarea, select');
+        allFields.forEach(field => {
+            if (field.type !== 'hidden') {
+                field.value = '';
+                if (field.tagName === 'SELECT') {
+                    field.selectedIndex = 0;
+                }
+            }
+        });
+        
+        localStorage.removeItem('consultationFormData');
     }
 }
 
@@ -431,7 +470,7 @@ function initConsultationForm() {
             modal.classList.remove('show');
             document.body.style.overflow = '';
         }
-        resetForm();
+        resetConsultationForm();
         
         // Reset button state
         submitBtn.textContent = 'Submit';
@@ -447,7 +486,7 @@ function initConsultationForm() {
             document.body.style.overflow = '';
             
             // Reset form
-            resetForm();
+            resetConsultationForm();
         });
     }
 
@@ -523,37 +562,6 @@ function initConsultationForm() {
         }
     }
 
-    function resetForm() {
-        form.reset();
-        form.style.display = 'block';
-        successState.style.display = 'none';
-        if (referralOtherGroup) referralOtherGroup.style.display = 'none';
-        if (charCount) charCount.textContent = '0';
-        localStorage.removeItem('consultationFormData');
-        formStarted = false;
-        
-        // Reset submit button state
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-        
-        // Aggressively clear all form fields
-        const allFields = form.querySelectorAll('input, textarea, select');
-        allFields.forEach(field => {
-            if (field.type !== 'hidden' && field.name !== 'websiteURL') {
-                field.value = '';
-                field.selectedIndex = 0; // For select elements
-            }
-        });
-        
-        // Clear any browser autocomplete/autofill
-        setTimeout(() => {
-            allFields.forEach(field => {
-                if (field.type !== 'hidden' && field.name !== 'websiteURL') {
-                    field.value = '';
-                }
-            });
-        }, 100);
-    }
 
 }
 
