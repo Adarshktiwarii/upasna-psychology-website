@@ -1228,6 +1228,13 @@ section:not(:first-child) {
     
     .hero-cta {
         justify-content: center;
+        gap: 1rem;
+    }
+    
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        min-width: 200px;
+        padding: 1rem 1.5rem;
     }
     
     .form-grid,
@@ -1306,6 +1313,14 @@ section:not(:first-child) {
 @media (max-width: 480px) {
     .hero-cta {
         flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        min-width: 100%;
+        max-width: 280px;
+        justify-content: center;
     }
     
     .btn-large {
@@ -1344,6 +1359,79 @@ select:focus {
 .btn:focus:not(:focus-visible),
 .nav-link:focus:not(:focus-visible) {
     outline: none;
+}
+
+/* Enhanced Hero CTA Buttons */
+.btn-hero-primary,
+.btn-hero-secondary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 2rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    min-width: 220px;
+    justify-content: flex-start;
+}
+
+.btn-hero-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    border: none;
+}
+
+.btn-hero-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px -12px rgba(79, 70, 229, 0.35);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+}
+
+.btn-hero-secondary {
+    background: white;
+    color: var(--text-primary);
+    border: 2px solid var(--border);
+}
+
+.btn-hero-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-hero-primary i,
+.btn-hero-secondary i {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.btn-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+}
+
+.btn-text strong {
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.btn-text small {
+    font-size: 0.875rem;
+    opacity: 0.8;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
 }
 
 /* Enhanced nav-link interactions handled above */
