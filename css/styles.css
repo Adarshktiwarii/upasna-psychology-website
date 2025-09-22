@@ -113,6 +113,7 @@ section:not(:first-child) {
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.5rem;
+    gap: 2rem;
 }
 
 .nav-brand a {
@@ -133,20 +134,30 @@ section:not(:first-child) {
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
+    margin-left: auto;
 }
 
 .nav-link {
     text-decoration: none;
     color: var(--text-secondary);
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: all 0.2s ease;
     position: relative;
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 1rem;
+    margin: -0.5rem -1rem;
 }
 
 .nav-link:hover,
 .nav-link.active {
     color: var(--primary);
+    background-color: rgba(79, 70, 229, 0.1);
+}
+
+.nav-link:active {
+    transform: translateY(1px);
+    background-color: rgba(79, 70, 229, 0.15);
 }
 
 .nav-link::after {
@@ -1192,6 +1203,8 @@ section:not(:first-child) {
         opacity: 0;
         visibility: hidden;
         transition: all 0.3s ease;
+        gap: 1.5rem;
+        margin-left: 0;
     }
     
     .nav-menu.active {
@@ -1318,14 +1331,22 @@ section:not(:first-child) {
 }
 
 /* Focus styles for keyboard navigation */
-.btn:focus,
-.nav-link:focus,
+.btn:focus-visible,
+.nav-link:focus-visible,
 input:focus,
 textarea:focus,
 select:focus {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
 }
+
+/* Remove default focus outline for mouse users but keep for keyboard users */
+.btn:focus:not(:focus-visible),
+.nav-link:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Enhanced nav-link interactions handled above */
 
 /* Print styles */
 @media print {
