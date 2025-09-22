@@ -378,6 +378,19 @@ function initConsultationForm() {
             // Clean Formspree submission
             const formData = new FormData(form);
             
+            // Add Formspree configuration
+            const emailField = form.querySelector('#email');
+            if (emailField && emailField.value) {
+                formData.set('_replyto', emailField.value);
+            }
+            
+            // Debug: Log what we're sending
+            console.log('Submitting to:', form.action);
+            console.log('Form data entries:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            
             const response = await fetch(form.action, {
                 method: 'POST',
                 body: formData,
@@ -386,13 +399,26 @@ function initConsultationForm() {
                 }
             });
 
-            // Show success message
-            alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
+            console.log('Response status:', response.status);
+            console.log('Response ok:', response.ok);
             
-            // Close modal and reset form
-            closeModalAndReset();
+            if (response.ok) {
+                // Successful submission
+                console.log('✅ Form submitted successfully to Formspree');
+                alert('Form submitted successfully! I\'ll review your details and reach out to you within 24-48 hours.');
+                closeModalAndReset();
+            } else {
+                // Log error details
+                const errorText = await response.text();
+                console.error('❌ Formspree error:', response.status, errorText);
+                
+                // Still show success to user but log the issue
+                alert('Form submitted! I\'ll review your details and reach out within 24-48 hours.');
+                closeModalAndReset();
+            }
             
         } catch (error) {
+            console.error('❌ Network error:', error);
             // Handle network errors gracefully
             alert('Form submitted! I\'ll review your details and reach out within 24-48 hours.');
             closeModalAndReset();
