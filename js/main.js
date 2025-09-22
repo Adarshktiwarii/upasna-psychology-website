@@ -402,7 +402,11 @@ function initConsultationForm() {
             }
             
             // Close modal and reset form
-            closeModal();
+            const modal = document.getElementById('consultationModal');
+            if (modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
             resetForm();
             
         } catch (error) {
@@ -410,7 +414,11 @@ function initConsultationForm() {
             
             // Even network errors - treat as success during setup
             alert('Form submitted! I\'ll review your details and reach out within 24-48 hours.');
-            closeModal();
+            const modal = document.getElementById('consultationModal');
+            if (modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
             resetForm();
         } finally {
             // Reset button state
