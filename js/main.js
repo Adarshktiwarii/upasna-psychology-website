@@ -245,6 +245,7 @@ function initConsultationForm() {
     
     console.log('🔍 FORM DEBUG: Form element found:', !!form);
     console.log('🔍 FORM DEBUG: Submit button found:', !!submitBtn);
+    console.log('🔍 FORM DEBUG: Form action:', form?.action);
     
     if (!form) {
         console.error('❌ CRITICAL: consultationForm not found!');
@@ -255,6 +256,8 @@ function initConsultationForm() {
         console.error('❌ CRITICAL: submitBtn not found!');
         return;
     }
+    
+    console.log('✅ FORM DEBUG: Setting up form submission handler...');
     const concernsTextarea = document.getElementById('concerns');
     const charCount = document.getElementById('charCount');
     const referralSelect = document.getElementById('referral');
@@ -370,12 +373,17 @@ function initConsultationForm() {
 
     // AJAX form submission - prevent redirect, stay on site
     form.addEventListener('submit', async (e) => {
+        console.log('🚨 FORM SUBMIT: Event triggered!');
         e.preventDefault(); // ALWAYS prevent default to avoid redirect
+        console.log('🚨 FORM SUBMIT: Default prevented!');
         
         // Validate form - show red errors on fields
         if (!validateForm()) {
+            console.log('❌ FORM SUBMIT: Validation failed');
             return; // Don't submit if validation fails
         }
+        
+        console.log('✅ FORM SUBMIT: Validation passed, proceeding...');
         
         // Prevent duplicate submissions
         if (submitBtn.disabled) {
