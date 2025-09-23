@@ -396,7 +396,7 @@ section:not(:first-child) {
 .about-image img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: scale-down;
     object-position: center;
 }
 
