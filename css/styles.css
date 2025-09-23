@@ -413,22 +413,22 @@ section:not(:first-child) {
 }
 
 .credentials-section, .specializations-section {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .credentials-section h4, .specializations-section h4 {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-2xl);
     font-weight: 700;
     color: var(--primary);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     text-align: center;
 }
 
 .credentials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
 }
 
 .credential-item {
@@ -465,7 +465,7 @@ section:not(:first-child) {
 .expertise-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .expertise-item {
