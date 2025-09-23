@@ -575,37 +575,6 @@ function showSuccessToast() {
     }
 }
 
-// Newsletter Success Toast Function
-function showNewsletterSuccessToast() {
-    const toast = document.getElementById('successToast');
-    const successState = document.getElementById('successState');
-    
-    // Hide any old success state
-    if (successState) {
-        successState.style.display = 'none';
-    }
-    
-    if (toast) {
-        // Update toast message for newsletter
-        const toastSpan = toast.querySelector('span');
-        if (toastSpan) {
-            toastSpan.textContent = 'Welcome to our mental wellness community! Check your email for confirmation.';
-        }
-        
-        // Show toast immediately
-        toast.classList.add('show');
-        
-        // Auto-hide after 4 seconds
-        setTimeout(() => {
-            toast.classList.remove('show');
-            // Reset original message
-            if (toastSpan) {
-                toastSpan.textContent = 'Thank you! I\'ll review your details and get back to you within 24-48 hours.';
-            }
-        }, 4000);
-    }
-}
-
 // Helper function to close modal and reset (Global)
 function closeModalAndReset() {
     const modal = document.getElementById('consultationModal');
@@ -676,9 +645,6 @@ function initNewsletterForm() {
             });
 
             if (response.ok) {
-                // Show newsletter success toast
-                showNewsletterSuccessToast();
-                
                 // Show success state
                 form.style.display = 'none';
                 successState.style.display = 'block';
