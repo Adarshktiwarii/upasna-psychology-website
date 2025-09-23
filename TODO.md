@@ -7,7 +7,7 @@
 - ✅ Responsive layout for all devices
 - ✅ Modern CSS with hover effects and animations
 - ✅ Professional photography integration
-- ✅ Consistent branding and color scheme
+- ✅ Consistent branding and color scheme (original #4F46E5)
 - ✅ Header icon updated to plant/seedling theme
 - ✅ Floating CTA updated to "Start Your Therapy Now"
 
