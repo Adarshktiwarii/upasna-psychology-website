@@ -445,15 +445,14 @@ section:not(:first-child) {
 }
 
 .credential-item:hover {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.02), rgba(79, 70, 229, 0.05));
     border-color: var(--primary);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
 }
 
 .credential-item:hover i {
-    color: white;
+    color: var(--primary);
 }
 
 .credential-item i {
@@ -482,15 +481,14 @@ section:not(:first-child) {
 }
 
 .expertise-item:hover {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.02), rgba(79, 70, 229, 0.05));
     border-color: var(--primary);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
 }
 
 .expertise-item:hover i {
-    color: white;
+    color: var(--primary);
 }
 
 .expertise-item i {
