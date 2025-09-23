@@ -373,8 +373,8 @@ section:not(:first-child) {
     display: grid;
     grid-template-columns: 40% 60%;
     gap: 0;
-    align-items: stretch;
-    min-height: 70vh;
+    align-items: center;
+    min-height: 50vh;
     margin-bottom: 4rem;
 }
 
@@ -391,6 +391,10 @@ section:not(:first-child) {
     position: relative;
     overflow: hidden;
     border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .about-image img {
