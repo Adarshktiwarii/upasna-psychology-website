@@ -1693,3 +1693,29 @@ select:focus {
         break-inside: avoid;
     }
 }
+
+/* Toast Notification */
+.toast-notification {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    background: var(--success);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 10000;
+    transform: translateX(400px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    max-width: 400px;
+}
+
+.toast-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
