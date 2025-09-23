@@ -379,7 +379,7 @@ section:not(:first-child) {
 }
 
 .about-text {
-    padding: 3rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -391,7 +391,7 @@ section:not(:first-child) {
     position: relative;
     overflow: hidden;
     border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
-    padding: 2rem;
+    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
