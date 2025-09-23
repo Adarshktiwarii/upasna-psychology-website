@@ -5,9 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upasna Shil, MPhil - Clinical Psychologist | Mental Health Consultation</title>
     <meta name="description" content="Professional mental health services by Upasna Shil, MPhil Clinical Psychologist. Individual therapy, couples counseling, and psychological assessments.">
+    <meta name="keywords" content="clinical psychologist, mental health, therapy, counseling, psychology, Pune, Maharashtra, anxiety, depression, relationship counseling">
+    <meta name="author" content="Upasna Shil">
+    <meta name="robots" content="index, follow">
     
-    <!-- Favicon -->
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Upasna Shil, MPhil - Clinical Psychologist | Mental Health Consultation">
+    <meta property="og:description" content="Professional mental health services by Upasna Shil, MPhil Clinical Psychologist. Individual therapy, couples counseling, and psychological assessments.">
+    <meta property="og:url" content="https://upasna-psychology.com">
+    <meta property="og:site_name" content="Upasna Shil Psychology">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Upasna Shil, MPhil - Clinical Psychologist">
+    <meta name="twitter:description" content="Professional mental health services and psychological consultation.">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://formspree.io; connect-src 'self' https://formspree.io; img-src 'self' data:; frame-ancestors 'none';">
+    
+    <!-- Favicon & PWA -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8B5CF6">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,18 +48,18 @@
         <div class="container">
             <div class="nav-brand">
                 <a href="#home">
-                    <i class="fas fa-seedling"></i>
+                    <i class="fas fa-user-md"></i>
                     <span>Upasna Shil</span>
                 </a>
             </div>
-            <div class="nav-menu" id="navMenu">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#services" class="nav-link">Services</a>
-                <a href="#approach" class="nav-link">Approach</a>
-                <a href="#contact" class="nav-link">Contact</a>
-                <button class="btn btn-primary" id="consultationBtn">
-                    <i class="fas fa-calendar-check"></i>
+            <div class="nav-menu" id="navMenu" role="navigation" aria-label="Main navigation">
+                <a href="#home" class="nav-link" aria-label="Navigate to home section">Home</a>
+                <a href="#about" class="nav-link" aria-label="Navigate to about section">About</a>
+                <a href="#services" class="nav-link" aria-label="Navigate to services section">Services</a>
+                <a href="#approach" class="nav-link" aria-label="Navigate to approach section">Approach</a>
+                <a href="#contact" class="nav-link" aria-label="Navigate to contact section">Contact</a>
+                <button class="btn btn-primary" id="consultationBtn" aria-label="Open consultation booking form">
+                    <i class="fas fa-calendar-check" aria-hidden="true"></i>
                     Book Consultation
                 </button>
             </div>
@@ -70,7 +94,7 @@
                     </div>
                     <div class="hero-cta">
                         <button class="btn btn-primary btn-large btn-hero-primary" id="heroConsultationBtn">
-                            <i class="fas fa-seedling"></i>
+                            <i class="fas fa-heart"></i>
                             <span class="btn-text">
                                 <strong>Begin Your Healing</strong>
                                 <small>Book a consultation today</small>
@@ -118,7 +142,7 @@
                         <div class="credential-item"><i class="fas fa-graduation-cap"></i> MPhil Clinical Psychology</div>
                         <div class="credential-item"><i class="fas fa-certificate"></i> Licensed Clinical Psychologist</div>
                         <div class="credential-item"><i class="fas fa-award"></i> Certified CBT Practitioner</div>
-                        <div class="credential-item"><i class="fas fa-seedling"></i> Trauma-Informed Care Specialist</div>
+                        <div class="credential-item"><i class="fas fa-heart"></i> Trauma-Informed Care Specialist</div>
                         <div class="credential-item"><i class="fas fa-rainbow"></i> Queer Affirmative Therapist</div>
                         <div class="credential-item"><i class="fas fa-brain"></i> Psycho Diagnostics Expert</div>
                     </div>
@@ -172,7 +196,7 @@
 
                 <div class="service-card">
                     <div class="service-icon">
-                        <i class="fas fa-seedling"></i>
+                        <i class="fas fa-heart"></i>
                     </div>
                     <h3>Couples Counseling</h3>
                     <p>Relationship therapy to strengthen communication, resolve conflicts, and build deeper emotional connections between partners.</p>
@@ -407,7 +431,7 @@
                             <span>Workshop Updates</span>
                         </div>
                         <div class="benefit">
-                            <i class="fas fa-seedling"></i>
+                            <i class="fas fa-heart"></i>
                             <span>Self-Care Strategies</span>
                         </div>
                     </div>
@@ -690,15 +714,15 @@
     <!-- Floating Consultation Button -->
     <div class="floating-consultation" id="floatingConsultation">
         <button class="floating-btn">
-            <i class="fas fa-comments"></i>
-            <span>Book Consultation</span>
+            <i class="fas fa-heart"></i>
+            <span>Start your therapy now</span>
         </button>
     </div>
 
     <!-- Success Toast Notification -->
-    <div id="successToast" class="toast-notification">
+    <div id="successToast" class="toast-notification" role="alert" aria-live="polite">
         <div class="toast-content">
-            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-check-circle" aria-hidden="true"></i>
             <span>Thank you! I'll review your details and get back to you within 24-48 hours.</span>
         </div>
     </div>
