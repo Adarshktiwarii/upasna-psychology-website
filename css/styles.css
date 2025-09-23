@@ -1719,3 +1719,9 @@ select:focus {
     transform: translateX(0);
     opacity: 1;
 }
+
+/* Consistent hover effects for About Us card headings */
+.credential-item:hover h4,
+.expertise-item:hover h4 {
+    color: var(--primary);
+}
