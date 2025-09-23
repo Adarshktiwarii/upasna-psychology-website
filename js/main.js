@@ -560,16 +560,49 @@ function showSuccessToast() {
     
     if (toast) {
         console.log('🔔 TOAST DEBUG: Adding show class to toast');
-        // Show toast with smooth animation
+        
+        // Show toast immediately
         toast.classList.add('show');
+        console.log('🔔 TOAST DEBUG: Toast should now be visible');
         
         // Auto-hide after 4 seconds
         setTimeout(() => {
             console.log('🔔 TOAST DEBUG: Removing show class from toast');
             toast.classList.remove('show');
-        }, 4000);
+        }, 4000); // 4 seconds
     } else {
         console.error('🔔 TOAST DEBUG: Toast element not found!');
+    }
+}
+
+// Newsletter Success Toast Function
+function showNewsletterSuccessToast() {
+    const toast = document.getElementById('successToast');
+    const successState = document.getElementById('successState');
+    
+    // Hide any old success state
+    if (successState) {
+        successState.style.display = 'none';
+    }
+    
+    if (toast) {
+        // Update toast message for newsletter
+        const toastSpan = toast.querySelector('span');
+        if (toastSpan) {
+            toastSpan.textContent = 'Welcome to our mental wellness community! Check your email for confirmation.';
+        }
+        
+        // Show toast immediately
+        toast.classList.add('show');
+        
+        // Auto-hide after 4 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            // Reset original message
+            if (toastSpan) {
+                toastSpan.textContent = 'Thank you! I\'ll review your details and get back to you within 24-48 hours.';
+            }
+        }, 4000);
     }
 }
 
@@ -643,6 +676,9 @@ function initNewsletterForm() {
             });
 
             if (response.ok) {
+                // Show newsletter success toast
+                showNewsletterSuccessToast();
+                
                 // Show success state
                 form.style.display = 'none';
                 successState.style.display = 'block';
