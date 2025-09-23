@@ -373,13 +373,13 @@ section:not(:first-child) {
     display: grid;
     grid-template-columns: 40% 60%;
     gap: 0;
-    align-items: center;
-    min-height: 50vh;
+    align-items: stretch;
+    height: auto;
     margin-bottom: 4rem;
 }
 
 .about-text {
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -391,7 +391,7 @@ section:not(:first-child) {
     position: relative;
     overflow: hidden;
     border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
-    padding: 1rem;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
