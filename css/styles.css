@@ -1254,9 +1254,9 @@ section:not(:first-child) {
 .modal-content {
     background: var(--bg-primary);
     border-radius: var(--radius-xl);
-    max-width: 900px;
-    width: 100%;
-    max-height: 90vh;
+    max-width: 1100px;
+    width: 95%;
+    max-height: 95vh;
     overflow-y: auto;
     position: relative;
     transform: scale(0.9);
@@ -1329,7 +1329,7 @@ section:not(:first-child) {
 .modal-content .form-grid {
     gap: 0.75rem;
     margin-bottom: 0.5rem;
-    grid-template-columns: 1fr 1fr 1fr; /* 3 columns for better space usage */
+    grid-template-columns: repeat(4, 1fr); /* 4 columns for maximum space usage */
 }
 
 .modal-content .form-group {
@@ -1352,6 +1352,26 @@ section:not(:first-child) {
 /* Full width for textarea and specific fields */
 .modal-content .form-group.full-width {
     grid-column: 1 / -1;
+}
+
+/* Two-column fields for better space usage */
+.modal-content .form-group.half-width {
+    grid-column: span 2;
+}
+
+/* Compact modal body padding */
+.modal-content .modal-body {
+    padding: 0 1.5rem 1.5rem;
+}
+
+/* Ensure submit button is always visible */
+.modal-content .btn-primary {
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 .form-column {
@@ -1555,9 +1575,9 @@ section:not(:first-child) {
         grid-template-columns: 1fr;
     }
     
-    /* Tablet form layout - 2 columns */
+    /* Tablet form layout - 3 columns */
     .modal-content .form-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
     }
     
     .about-intro {
@@ -1782,15 +1802,24 @@ section:not(:first-child) {
         transform: translateY(30px);
     }
     
-    /* Mobile Floating Button */
+    /* Mobile Floating Button - Clean Design */
     .floating-consultation {
-        bottom: 1rem;
+        bottom: 1.5rem;
         right: 1rem;
+        left: auto;
     }
     
     .floating-btn {
         padding: 0.75rem 1rem;
         font-size: var(--font-size-sm);
+        border-radius: var(--radius-lg);
+        white-space: nowrap;
+        min-width: auto;
+        width: auto;
+    }
+    
+    .floating-btn span {
+        display: inline;
     }
     
     .form-grid,
@@ -1842,20 +1871,14 @@ section:not(:first-child) {
     }
     
     .floating-consultation {
-        bottom: 1rem;
+        bottom: 1.5rem;
         right: 1rem;
     }
     
-    .floating-btn span {
-        display: none;
-    }
-    
     .floating-btn {
-        width: 3.5rem;
-        height: 3.5rem;
-        border-radius: 50%;
-        padding: 0;
-        justify-content: center;
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius-lg);
+        font-size: var(--font-size-sm);
     }
     
     .contact-info {
@@ -2033,18 +2056,20 @@ section:not(:first-child) {
         font-size: var(--font-size-lg);
     }
     
-    /* Mobile Floating Button */
+    /* Mobile Floating Button - Consistent Design */
     .floating-consultation {
         bottom: 1rem;
         right: 1rem;
-        left: 1rem;
+        left: auto;
     }
     
     .floating-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 1rem;
-        min-height: 48px;
+        padding: 0.75rem 1rem;
+        font-size: var(--font-size-sm);
+        border-radius: var(--radius-lg);
+        min-height: 44px;
+        width: auto;
+        white-space: nowrap;
     }
     
     /* Reduce Motion on Very Small Screens */
