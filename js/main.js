@@ -161,6 +161,12 @@ function initFloatingConsultation() {
     const modal = document.getElementById('consultationModal');
     
     if (floatingBtn) {
+        // Initialize mobile centering
+        const isMobileInit = window.innerWidth <= 768;
+        if (isMobileInit) {
+            floatingBtn.style.transform = 'translateX(-50%) translateY(0)';
+        }
+        
         // Show/hide based on scroll position
         window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
@@ -176,11 +182,12 @@ function initFloatingConsultation() {
                 floatingBtn.style.visibility = 'hidden';
             }
             
-            // Hide near footer
+            // Hide near footer - preserve centering on mobile
+            const isMobile = window.innerWidth <= 768;
             if (scrollY + windowHeight > documentHeight - 200) {
-                floatingBtn.style.transform = 'translateY(100px)';
+                floatingBtn.style.transform = isMobile ? 'translateX(-50%) translateY(100px)' : 'translateY(100px)';
             } else {
-                floatingBtn.style.transform = 'translateY(0)';
+                floatingBtn.style.transform = isMobile ? 'translateX(-50%) translateY(0)' : 'translateY(0)';
             }
         });
 
@@ -197,6 +204,24 @@ function initFloatingConsultation() {
                     'event_category': 'engagement',
                     'event_label': 'floating_button'
                 });
+            }
+        });
+        
+        // Handle resize/orientation changes
+        window.addEventListener('resize', () => {
+            const isMobileResize = window.innerWidth <= 768;
+            if (isMobileResize) {
+                // Preserve current Y position but ensure X centering
+                const currentTransform = floatingBtn.style.transform;
+                const yMatch = currentTransform.match(/translateY\(([^)]+)\)/);
+                const yValue = yMatch ? yMatch[1] : '0';
+                floatingBtn.style.transform = `translateX(-50%) translateY(${yValue})`;
+            } else {
+                // Desktop positioning
+                const currentTransform = floatingBtn.style.transform;
+                const yMatch = currentTransform.match(/translateY\(([^)]+)\)/);
+                const yValue = yMatch ? yMatch[1] : '0';
+                floatingBtn.style.transform = `translateY(${yValue})`;
             }
         });
     }
