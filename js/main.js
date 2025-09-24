@@ -1023,26 +1023,29 @@ function initModernAnimations() {
         .footer-social
     `);
     
-    animateElements.forEach((element, index) => {
-        // Add variety in animation types based on element type
-        if (element.classList.contains('hero-stats') || element.classList.contains('stat')) {
-            element.classList.add('scale-in');
-        } else if (element.classList.contains('about-image') || element.classList.contains('service-card')) {
-            element.classList.add('rotate-in');
-        } else if (element.classList.contains('approach-item')) {
-            // Fix therapeutic approach - use simple fade-in instead of complex animations
-            element.classList.add('fade-in');
-        } else if (index % 3 === 0) {
-            element.classList.add('slide-in-left');
-        } else if (index % 3 === 1) {
-            element.classList.add('slide-in-right');
-        } else {
-            element.classList.add('fade-in');
-        }
-        
-        // Balanced stagger for smooth wave effect
-        element.style.animationDelay = `${index * 0.1}s`;
-    });
+        animateElements.forEach((element, index) => {
+            // Add variety in animation types based on element type
+            if (element.classList.contains('hero-stats') || element.classList.contains('stat')) {
+                element.classList.add('scale-in');
+            } else if (element.classList.contains('about-image')) {
+                // About image: elegant scale-up instead of rotation
+                element.classList.add('scale-in');
+            } else if (element.classList.contains('service-card')) {
+                element.classList.add('rotate-in');
+            } else if (element.classList.contains('approach-item')) {
+                // Fix therapeutic approach - use simple fade-in instead of complex animations
+                element.classList.add('fade-in');
+            } else if (index % 3 === 0) {
+                element.classList.add('slide-in-left');
+            } else if (index % 3 === 1) {
+                element.classList.add('slide-in-right');
+            } else {
+                element.classList.add('fade-in');
+            }
+
+            // Balanced stagger for smooth wave effect
+            element.style.animationDelay = `${index * 0.1}s`;
+        });
     
     console.log(`🌊 Added varied animations to ${animateElements.length} elements`);
     
