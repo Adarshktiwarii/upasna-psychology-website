@@ -224,3 +224,4 @@ echo ""
 echo "🚀 Quick start: ./dev.sh start"
 echo "🌐 Live site: https://main.d21it9hal3ownf.amplifyapp.com/"
 echo ""
+
