@@ -2484,3 +2484,88 @@ select:focus {
 .expertise-item:hover h4 {
     color: var(--primary);
 }
+
+/* Policy Modals */
+.policy-modal {
+    z-index: 10002;
+}
+
+.policy-modal-content {
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.policy-modal-body {
+    padding: 1.5rem 2rem 2rem;
+    max-height: calc(90vh - 120px);
+    overflow-y: auto;
+}
+
+.policy-content {
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.policy-content h3 {
+    color: var(--primary);
+    margin: 2rem 0 1rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.policy-content p {
+    margin-bottom: 1rem;
+}
+
+.policy-content ul {
+    margin: 1rem 0 1.5rem 1.5rem;
+    padding: 0;
+}
+
+.policy-content li {
+    margin-bottom: 0.5rem;
+    list-style-type: disc;
+}
+
+.policy-content strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Mobile policy modal adjustments */
+@media (max-width: 768px) {
+    .policy-modal-content {
+        width: 95%;
+        margin: 1rem auto;
+        max-height: calc(100vh - 2rem);
+    }
+    
+    .policy-modal-body {
+        padding: 1rem 1.5rem 1.5rem;
+        max-height: calc(100vh - 140px);
+    }
+    
+    .policy-content h3 {
+        font-size: 1.1rem;
+        margin: 1.5rem 0 0.75rem 0;
+    }
+}
+
+/* Service Card Highlight Effect */
+.service-card.highlighted {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+    border: 2px solid var(--primary);
+    transition: all 0.3s ease;
+}
+
+.service-card.highlighted .service-icon {
+    transform: scale(1.1);
+    color: var(--primary);
+}
+
+.service-card.highlighted h3 {
+    color: var(--primary);
+}

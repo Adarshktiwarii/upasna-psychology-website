@@ -276,6 +276,46 @@
 
                 <div class="service-card">
                     <div class="service-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Child Therapy</h3>
+                    <p>Specialized therapeutic support for children and adolescents, addressing developmental, emotional, and behavioral challenges through age-appropriate interventions.</p>
+                    <div class="service-features">
+                        <ul>
+                            <li>Play Therapy Techniques</li>
+                            <li>Behavioral Interventions</li>
+                            <li>Family Involvement</li>
+                            <li>School Consultation</li>
+                        </ul>
+                    </div>
+                    <div class="service-duration">
+                        <i class="fas fa-clock"></i>
+                        <span>45 minutes per session</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Social-Emotional Learning (SEL)</h3>
+                    <p>Comprehensive programs to develop emotional intelligence, social skills, and self-awareness for individuals and groups of all ages.</p>
+                    <div class="service-features">
+                        <ul>
+                            <li>Emotional Regulation Skills</li>
+                            <li>Social Skills Training</li>
+                            <li>Self-Awareness Development</li>
+                            <li>Relationship Building</li>
+                        </ul>
+                    </div>
+                    <div class="service-duration">
+                        <i class="fas fa-clock"></i>
+                        <span>60 minutes per session</span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
                     <h3>Workplace Wellness</h3>
@@ -524,19 +564,29 @@
                     <div class="footer-column">
                         <h4>Services</h4>
                         <ul>
-                            <li><a href="#services">Individual Therapy</a></li>
-                            <li><a href="#services">Couples Counseling</a></li>
-                            <li><a href="#services">Group Therapy</a></li>
-                            <li><a href="#services">Online Therapy</a></li>
+                            <li><a href="#services" data-service="individual">Individual Therapy</a></li>
+                            <li><a href="#services" data-service="couples">Couples Counseling</a></li>
+                            <li><a href="#services" data-service="assessment">Psychological Assessment</a></li>
+                            <li><a href="#services" data-service="group">Group Therapy</a></li>
+                            <li><a href="#services" data-service="online">Online Therapy</a></li>
+                            <li><a href="#services" data-service="child">Child Therapy</a></li>
+                            <li><a href="#services" data-service="sel">Social-Emotional Learning</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h4>Resources</h4>
                         <ul>
                             <li><a href="#approach">Treatment Approach</a></li>
-                            <li><a href="#about">About Upasna Shil</a></li>
+                            <li><a href="#about">About Upasna</a></li>
                             <li><a href="#contact">Contact</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#" id="privacyPolicyLink">Privacy Policy</a></li>
+                            <li><a href="#" id="refundPolicyLink">Refund Policy</a></li>
+                            <li><a href="#" id="termsServiceLink">Terms of Service</a></li>
                         </ul>
                     </div>
                 </div>
@@ -735,6 +785,191 @@
         </div>
     </div>
 
+    <!-- Policy Modals -->
+    <!-- Privacy Policy Modal -->
+    <div id="privacyPolicyModal" class="modal policy-modal" tabindex="-1" role="dialog">
+        <div class="modal-content policy-modal-content">
+            <div class="modal-header">
+                <h2>Privacy Policy</h2>
+                <button class="close-btn" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body policy-modal-body">
+                <div class="policy-content">
+                    <p><strong>Last Updated:</strong> September 25, 2025</p>
+                    
+                    <h3>1. Information We Collect</h3>
+                    <p>We collect information you provide directly to us, including:</p>
+                    <ul>
+                        <li>Personal details (name, email, phone number)</li>
+                        <li>Health information relevant to therapy sessions</li>
+                        <li>Session notes and treatment records</li>
+                        <li>Communication preferences</li>
+                    </ul>
+
+                    <h3>2. How We Use Your Information</h3>
+                    <p>Your information is used to:</p>
+                    <ul>
+                        <li>Provide professional psychological services</li>
+                        <li>Maintain treatment records as required by law</li>
+                        <li>Communicate about appointments and treatment</li>
+                        <li>Comply with legal and regulatory requirements</li>
+                    </ul>
+
+                    <h3>3. Data Protection (India)</h3>
+                    <p>We comply with the Digital Personal Data Protection Act, 2023 and maintain:</p>
+                    <ul>
+                        <li>Strict confidentiality of all client information</li>
+                        <li>Secure storage of digital and physical records</li>
+                        <li>Limited access to authorized personnel only</li>
+                        <li>Regular security audits and updates</li>
+                    </ul>
+
+                    <h3>4. Information Sharing</h3>
+                    <p>We do not share your information except:</p>
+                    <ul>
+                        <li>With your explicit written consent</li>
+                        <li>When required by law or court order</li>
+                        <li>In case of imminent danger to self or others</li>
+                        <li>For insurance claims (with your consent)</li>
+                    </ul>
+
+                    <h3>5. Your Rights</h3>
+                    <p>Under Indian data protection laws, you have the right to:</p>
+                    <ul>
+                        <li>Access your personal data</li>
+                        <li>Correct inaccurate information</li>
+                        <li>Request data deletion (subject to legal requirements)</li>
+                        <li>Withdraw consent for data processing</li>
+                    </ul>
+
+                    <h3>6. Contact Information</h3>
+                    <p>For privacy concerns, contact us at: <strong>consult@heyupasna.in</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refund Policy Modal -->
+    <div id="refundPolicyModal" class="modal policy-modal" tabindex="-1" role="dialog">
+        <div class="modal-content policy-modal-content">
+            <div class="modal-header">
+                <h2>Refund Policy</h2>
+                <button class="close-btn" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body policy-modal-body">
+                <div class="policy-content">
+                    <p><strong>Last Updated:</strong> September 25, 2025</p>
+                    
+                    <h3>1. Session Cancellations</h3>
+                    <ul>
+                        <li><strong>24+ hours notice:</strong> Full refund or rescheduling</li>
+                        <li><strong>12-24 hours notice:</strong> 50% refund or rescheduling</li>
+                        <li><strong>Less than 12 hours:</strong> No refund (emergency exceptions considered)</li>
+                    </ul>
+
+                    <h3>2. Package Refunds</h3>
+                    <ul>
+                        <li>Unused sessions: Prorated refund available</li>
+                        <li>After 3 sessions: 70% refund for remaining sessions</li>
+                        <li>After 5 sessions: 50% refund for remaining sessions</li>
+                    </ul>
+
+                    <h3>3. Assessment Services</h3>
+                    <ul>
+                        <li>Once assessment begins: No refund</li>
+                        <li>Before assessment starts: Full refund with 48-hour notice</li>
+                        <li>Report delivery delays: 20% discount on next service</li>
+                    </ul>
+
+                    <h3>4. Emergency Situations</h3>
+                    <p>Full refunds considered for:</p>
+                    <ul>
+                        <li>Medical emergencies (documentation required)</li>
+                        <li>Therapist unavailability</li>
+                        <li>Technical issues preventing online sessions</li>
+                    </ul>
+
+                    <h3>5. Refund Processing</h3>
+                    <ul>
+                        <li>Processed within 7-10 business days</li>
+                        <li>Refunded to original payment method</li>
+                        <li>Bank processing may take additional 3-5 days</li>
+                    </ul>
+
+                    <h3>6. Contact for Refunds</h3>
+                    <p>Email: <strong>consult@heyupasna.in</strong> | Phone: <strong>+91 98765 43210</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="termsServiceModal" class="modal policy-modal" tabindex="-1" role="dialog">
+        <div class="modal-content policy-modal-content">
+            <div class="modal-header">
+                <h2>Terms of Service</h2>
+                <button class="close-btn" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body policy-modal-body">
+                <div class="policy-content">
+                    <p><strong>Last Updated:</strong> September 25, 2025</p>
+                    
+                    <h3>1. Professional Services</h3>
+                    <p>Hey Upasna provides professional psychological services including:</p>
+                    <ul>
+                        <li>Individual and couples therapy</li>
+                        <li>Psychological assessments</li>
+                        <li>Group therapy sessions</li>
+                        <li>Online counseling services</li>
+                    </ul>
+
+                    <h3>2. Client Responsibilities</h3>
+                    <ul>
+                        <li>Provide accurate information</li>
+                        <li>Attend scheduled appointments</li>
+                        <li>Follow treatment recommendations</li>
+                        <li>Maintain confidentiality of other clients</li>
+                        <li>Pay fees as agreed</li>
+                    </ul>
+
+                    <h3>3. Therapist Responsibilities</h3>
+                    <ul>
+                        <li>Maintain professional standards</li>
+                        <li>Ensure confidentiality</li>
+                        <li>Provide evidence-based treatment</li>
+                        <li>Respect client autonomy and dignity</li>
+                        <li>Maintain appropriate boundaries</li>
+                    </ul>
+
+                    <h3>4. Confidentiality</h3>
+                    <p>All sessions are confidential except in cases of:</p>
+                    <ul>
+                        <li>Risk of harm to self or others</li>
+                        <li>Child abuse or neglect</li>
+                        <li>Court-ordered disclosure</li>
+                        <li>Client's written consent</li>
+                    </ul>
+
+                    <h3>5. Emergency Situations</h3>
+                    <p>For mental health emergencies:</p>
+                    <ul>
+                        <li>Contact emergency services: <strong>112</strong></li>
+                        <li>Visit nearest hospital emergency room</li>
+                        <li>Contact suicide prevention helpline: <strong>91529 87821</strong></li>
+                    </ul>
+
+                    <h3>6. Limitation of Liability</h3>
+                    <p>Services are provided in accordance with professional standards. Results may vary, and therapy requires active participation from the client.</p>
+
+                    <h3>7. Governing Law</h3>
+                    <p>These terms are governed by Indian law and regulations of the Rehabilitation Council of India (RCI).</p>
+
+                    <h3>8. Contact Information</h3>
+                    <p>Questions: <strong>consult@heyupasna.in</strong> | <strong>+91 98765 43210</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="js/main.js"></script>

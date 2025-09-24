@@ -1244,3 +1244,145 @@ function initMobileSubmitButton() {
         observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
     }
 }
+
+// Policy Modals Functionality
+function initPolicyModals() {
+    // Privacy Policy
+    const privacyLink = document.getElementById('privacyPolicyLink');
+    const privacyModal = document.getElementById('privacyPolicyModal');
+    
+    // Refund Policy
+    const refundLink = document.getElementById('refundPolicyLink');
+    const refundModal = document.getElementById('refundPolicyModal');
+    
+    // Terms of Service
+    const termsLink = document.getElementById('termsServiceLink');
+    const termsModal = document.getElementById('termsServiceModal');
+    
+    // Function to open modal
+    function openPolicyModal(modal) {
+        modal.classList.add('show');
+        document.body.classList.add('modal-open');
+        modal.focus();
+    }
+    
+    // Function to close modal
+    function closePolicyModal(modal) {
+        modal.classList.remove('show');
+        document.body.classList.remove('modal-open');
+    }
+    
+    // Event listeners for opening modals
+    if (privacyLink && privacyModal) {
+        privacyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openPolicyModal(privacyModal);
+        });
+    }
+    
+    if (refundLink && refundModal) {
+        refundLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openPolicyModal(refundModal);
+        });
+    }
+    
+    if (termsLink && termsModal) {
+        termsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openPolicyModal(termsModal);
+        });
+    }
+    
+    // Close modal functionality
+    const allPolicyModals = [privacyModal, refundModal, termsModal];
+    
+    allPolicyModals.forEach(modal => {
+        if (modal) {
+            // Close button
+            const closeBtn = modal.querySelector('.close-btn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    closePolicyModal(modal);
+                });
+            }
+            
+            // Click outside to close
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closePolicyModal(modal);
+                }
+            });
+            
+            // ESC key to close
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    closePolicyModal(modal);
+                }
+            });
+        }
+    });
+}
+
+// Footer Service Links Functionality
+function initFooterServiceLinks() {
+    const serviceLinks = document.querySelectorAll('a[data-service]');
+    
+    serviceLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Scroll to services section
+            const servicesSection = document.getElementById('services');
+            if (servicesSection) {
+                servicesSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Optional: Highlight the specific service card
+                const serviceType = link.getAttribute('data-service');
+                setTimeout(() => {
+                    highlightServiceCard(serviceType);
+                }, 500);
+            }
+        });
+    });
+}
+
+// Highlight specific service card
+function highlightServiceCard(serviceType) {
+    // Remove any existing highlights
+    const allCards = document.querySelectorAll('.service-card');
+    allCards.forEach(card => {
+        card.classList.remove('highlighted');
+    });
+    
+    // Map service types to card indices or identifiers
+    const serviceMap = {
+        'individual': 0,
+        'couples': 1,
+        'assessment': 2,
+        'group': 3,
+        'online': 4,
+        'child': 5,
+        'sel': 6
+    };
+    
+    const cardIndex = serviceMap[serviceType];
+    if (cardIndex !== undefined && allCards[cardIndex]) {
+        allCards[cardIndex].classList.add('highlighted');
+        
+        // Remove highlight after 3 seconds
+        setTimeout(() => {
+            allCards[cardIndex].classList.remove('highlighted');
+        }, 3000);
+    }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing initializations ...
+    initPolicyModals();
+    initFooterServiceLinks();
+});
