@@ -1366,17 +1366,17 @@ section:not(:first-child) {
 }
 
 /* Form image container */
-/* Subtle background image for form modal - properly contained within modal */
+/* Subtle background image for form modal - sized for actual white space */
 .modal-body::before {
     content: '';
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    right: 1.5rem;
     bottom: 1rem;
-    width: 250px;
+    width: 320px; /* Increased to better utilize white space */
     background: url('../images/consultation-bg.png') no-repeat center center;
     background-size: contain;
-    opacity: 0.12;
+    opacity: 0.15;
     border-radius: var(--radius-md);
     pointer-events: none;
     z-index: 0;
@@ -1402,6 +1402,8 @@ section:not(:first-child) {
         margin: 0;
         border-radius: var(--radius-lg); /* Smaller radius on mobile */
         overflow-y: auto; /* Allow scrolling within modal */
+        display: flex;
+        flex-direction: column;
     }
     
     .modal-header {
@@ -1433,6 +1435,19 @@ section:not(:first-child) {
         z-index: 3;
         pointer-events: auto;
         touch-action: manipulation;
+    }
+    
+    /* Ensure submit button is always visible on mobile */
+    .modal-content .btn-primary {
+        margin-top: 1.5rem !important;
+        margin-bottom: 2rem !important; /* Extra bottom margin for mobile */
+        position: relative;
+        z-index: 4;
+    }
+    
+    /* Add extra padding to modal body bottom for submit button */
+    .modal-body {
+        padding-bottom: 3rem !important; /* Ensure space for submit button */
     }
     
     /* Prevent any content from showing through */
