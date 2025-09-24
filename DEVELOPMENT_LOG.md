@@ -26,6 +26,29 @@ python3 -m http.server 8080
 
 ## 📅 **Development Sessions**
 
+### **Session 4 - September 25, 2025 - Header Name Update**
+**Agent**: Development Assistant  
+**Duration**: ~15 minutes  
+**Status**: ✅ COMPLETED
+
+#### **Work Accomplished:**
+1. **Header Modification**
+   - Changed navigation header name from "Upasna Shil" to "Hey Upasna"
+   - Updated line 52 in index.html
+   - Maintained all other header functionality
+
+2. **Deployment**
+   - Committed changes to git: `4eb8dea`
+   - Pushed to GitHub repository
+   - AWS Amplify auto-deployment triggered
+
+#### **Key Changes:**
+- **File Modified**: `index.html` (line 52)
+- **Change**: `<span>Upasna Shil</span>` → `<span>Hey Upasna</span>`
+- **Commit**: `4eb8dea - Update header: Change 'Upasna Shil' to 'Hey Upasna' in navigation`
+
+---
+
 ### **Session 3 - September 23, 2025 - Color Theme Revert**
 **Agent**: Development Assistant  
 **Duration**: ~30 minutes  
