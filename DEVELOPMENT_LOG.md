@@ -43,12 +43,14 @@ python3 -m http.server 8080
    - AWS Amplify auto-deployment triggered
 
 #### **Key Changes:**
-- **File Modified**: `index.html` (lines 52, 396)
+- **File Modified**: `index.html` (lines 52, 396, 399-407)
 - **Header Change**: `<span>Upasna Shil</span>` → `<span>Hey Upasna</span>`
 - **Email Change**: `consult.upasnashil@gmail.com` → `consult@heyupasna.in`
+- **WhatsApp Addition**: Added WhatsApp contact option with same phone number
 - **Commits**: 
   - `4eb8dea - Update header: Change 'Upasna Shil' to 'Hey Upasna' in navigation`
   - `26e7d1a - Update contact email: Change to consult@heyupasna.in in Get in Touch section`
+  - `d0c898d - Add WhatsApp contact option in Get in Touch section`
 
 ---
 
