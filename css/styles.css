@@ -1365,14 +1365,9 @@ section:not(:first-child) {
     padding: 0 1.5rem 1.5rem;
 }
 
-/* Background image approach with blur effect */
+/* Clean modal content - no background image */
 .modal-content {
-    background: 
-        linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 60%, rgba(255, 255, 255, 0.7) 100%),
-        url('../images/consultation-bg.png') no-repeat;
-    background-size: 400px auto;
-    background-position: right 20px center;
-    background-attachment: fixed;
+    background: var(--bg-primary);
 }
 
 .modal-body {
@@ -1418,9 +1413,9 @@ section:not(:first-child) {
         z-index: 1;
     }
     
-    /* Remove background image on mobile for better form access */
+    /* Clean mobile modal */
     .modal-content {
-        background: var(--bg-primary) !important; /* Clean background on mobile */
+        background: var(--bg-primary) !important;
     }
     
     /* Ensure form fields are accessible */
