@@ -91,11 +91,12 @@ python3 -m http.server 8080
 - **Animation Commit**: `ce87c6e - Improve about image animation: Change from rotation to elegant scale-up`
 
 #### **Form Optimization:**
-- **Modal Layout**: Increased width to 900px, 3-column grid on desktop
-- **Compact Design**: Reduced spacing, padding, and margins throughout
-- **Viewport Fit**: 90vh max-height, optimized to minimize scrolling
-- **Responsive Grid**: 3-col desktop, 2-col tablet, 1-col mobile
-- **Form Commit**: `40064a1 - Optimize consultation form layout: Improve viewport fit and reduce scrolling`
+- **Modal Layout**: Increased width to 1100px (95% viewport), 4-column grid on desktop
+- **Space Utilization**: Eliminated white space, better field organization
+- **Viewport Fit**: 95vh max-height, submit button always visible
+- **Responsive Grid**: 4-col desktop, 3-col tablet, 1-col mobile
+- **Mobile Button Fix**: Fixed distorted floating CTA button shape
+- **Form Commits**: `40064a1`, `2305027 - Fix form layout and mobile floating button issues`
 
 ---
 
