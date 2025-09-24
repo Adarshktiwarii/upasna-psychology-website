@@ -1365,11 +1365,12 @@ section:not(:first-child) {
     padding: 0 1.5rem 1.5rem;
 }
 
-/* Simple image on right side of modal */
+/* Simple image on right side of modal - positioned in actual white space */
 .modal-body {
-    background: url('../images/consultation-bg.png') no-repeat right center;
-    background-size: 300px auto;
-    background-position: right 20px center;
+    background: url('../images/consultation-bg.png') no-repeat;
+    background-size: 280px auto;
+    background-position: right 10px center;
+    padding-right: 320px; /* Create space for image so form doesn't overlap */
 }
 
 .modal-body > * {
@@ -1414,6 +1415,7 @@ section:not(:first-child) {
     /* Hide background image on mobile for better form access */
     .modal-body {
         background: none !important; /* Remove background image on mobile */
+        padding-right: 1.5rem !important; /* Reset padding on mobile */
     }
     
     /* Ensure form fields are accessible */
