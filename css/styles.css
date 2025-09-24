@@ -1254,9 +1254,9 @@ section:not(:first-child) {
 .modal-content {
     background: var(--bg-primary);
     border-radius: var(--radius-xl);
-    max-width: 1100px;
+    max-width: 1000px;
     width: 95%;
-    max-height: 95vh;
+    max-height: 85vh; /* Reduced to eliminate scrolling */
     overflow-y: auto;
     position: relative;
     transform: scale(0.9);
@@ -1485,10 +1485,10 @@ section:not(:first-child) {
     .modal-content .btn-primary,
     .modal-content button[type="submit"],
     .modal-content #submitBtn {
-        margin: 1.5rem auto 0 auto;
+        margin: 1.5rem auto 1rem auto; /* Added bottom margin */
         padding: 1rem 2rem;
-        width: 100%;
-        max-width: 100%;
+        width: 90%; /* Slightly smaller for better mobile UX */
+        max-width: 300px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1551,7 +1551,7 @@ section:not(:first-child) {
     }
 }
 
-/* Desktop submit button styles - outside mobile media query */
+/* Desktop submit button styles - centered and properly sized */
 @media (min-width: 769px) {
     .modal-content button[type="submit"] {
         background: var(--primary);
@@ -1561,8 +1561,9 @@ section:not(:first-child) {
         padding: 1rem 2rem;
         font-size: 1.1rem;
         font-weight: 600;
-        width: 100%;
-        margin: 1.5rem 0 0 0;
+        width: auto;
+        max-width: 300px;
+        margin: 1.5rem auto 0 auto; /* Center aligned */
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         cursor: pointer;
         transition: all 0.3s ease;
@@ -1577,15 +1578,7 @@ section:not(:first-child) {
     }
 }
 
-/* Ensure submit button is always visible */
-.modal-content .btn-primary {
-    margin-top: 1rem;
-    width: 100%;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
+/* Clean submit button base styles - removed conflicting rules */
 
 .form-column {
     display: flex;

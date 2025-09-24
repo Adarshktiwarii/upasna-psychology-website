@@ -1207,9 +1207,9 @@ function initMobileSubmitButton() {
             submitBtn.style.opacity = '1';
             submitBtn.style.position = 'relative';
             submitBtn.style.zIndex = '999';
-            submitBtn.style.width = '100%';
-            submitBtn.style.maxWidth = '100%';
-            submitBtn.style.margin = '1.5rem auto 0 auto';
+            submitBtn.style.width = '90%';
+            submitBtn.style.maxWidth = '300px';
+            submitBtn.style.margin = '1.5rem auto 1rem auto'; // Proper centering with bottom margin
             submitBtn.style.padding = '1rem 2rem';
             submitBtn.style.fontSize = '1.1rem';
             submitBtn.style.fontWeight = '600';
@@ -1223,24 +1223,9 @@ function initMobileSubmitButton() {
             submitBtn.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
             submitBtn.style.cursor = 'pointer';
             submitBtn.style.transition = 'all 0.3s ease';
-            submitBtn.style.left = '0';
-            submitBtn.style.right = '0';
         } else {
-            // Reset styles on desktop to let CSS take over
-            submitBtn.style.backgroundColor = '';
-            submitBtn.style.color = '';
-            submitBtn.style.border = '';
-            submitBtn.style.borderRadius = '';
-            submitBtn.style.boxShadow = '';
-            submitBtn.style.margin = '';
-            submitBtn.style.padding = '';
-            submitBtn.style.fontSize = '';
-            submitBtn.style.fontWeight = '';
-            submitBtn.style.textAlign = '';
-            submitBtn.style.justifyContent = '';
-            submitBtn.style.alignItems = '';
-            submitBtn.style.left = '';
-            submitBtn.style.right = '';
+            // Reset all inline styles on desktop to let CSS take over
+            submitBtn.removeAttribute('style');
         }
     }
     
