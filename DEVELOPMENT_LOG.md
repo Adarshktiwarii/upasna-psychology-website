@@ -43,9 +43,12 @@ python3 -m http.server 8080
    - AWS Amplify auto-deployment triggered
 
 #### **Key Changes:**
-- **File Modified**: `index.html` (line 52)
-- **Change**: `<span>Upasna Shil</span>` → `<span>Hey Upasna</span>`
-- **Commit**: `4eb8dea - Update header: Change 'Upasna Shil' to 'Hey Upasna' in navigation`
+- **File Modified**: `index.html` (lines 52, 396)
+- **Header Change**: `<span>Upasna Shil</span>` → `<span>Hey Upasna</span>`
+- **Email Change**: `consult.upasnashil@gmail.com` → `consult@heyupasna.in`
+- **Commits**: 
+  - `4eb8dea - Update header: Change 'Upasna Shil' to 'Hey Upasna' in navigation`
+  - `26e7d1a - Update contact email: Change to consult@heyupasna.in in Get in Touch section`
 
 ---
 
