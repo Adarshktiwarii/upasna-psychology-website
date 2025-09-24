@@ -1199,7 +1199,7 @@ function initMobileSubmitButton() {
     const submitBtn = document.getElementById('submitBtn');
     if (!submitBtn) return;
     
-    // Force button visibility on mobile
+    // Force button visibility and styling on mobile
     function ensureButtonVisibility() {
         if (window.innerWidth <= 768) {
             submitBtn.style.display = 'block';
@@ -1212,11 +1212,13 @@ function initMobileSubmitButton() {
             submitBtn.style.padding = '1rem 2rem';
             submitBtn.style.fontSize = '1.1rem';
             submitBtn.style.fontWeight = '600';
-            submitBtn.style.backgroundColor = 'var(--color-primary)';
+            submitBtn.style.backgroundColor = '#007bff'; // Fallback color
             submitBtn.style.color = 'white';
             submitBtn.style.border = 'none';
-            submitBtn.style.borderRadius = 'var(--radius-md)';
+            submitBtn.style.borderRadius = '8px';
             submitBtn.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            submitBtn.style.cursor = 'pointer';
+            submitBtn.style.transition = 'all 0.3s ease';
         }
     }
     
