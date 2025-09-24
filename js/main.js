@@ -1199,7 +1199,7 @@ function initMobileSubmitButton() {
     const submitBtn = document.getElementById('submitBtn');
     if (!submitBtn) return;
     
-    // Force button visibility and styling on mobile
+    // Force button visibility and styling on mobile only
     function ensureButtonVisibility() {
         if (window.innerWidth <= 768) {
             submitBtn.style.display = 'block';
@@ -1212,13 +1212,24 @@ function initMobileSubmitButton() {
             submitBtn.style.padding = '1rem 2rem';
             submitBtn.style.fontSize = '1.1rem';
             submitBtn.style.fontWeight = '600';
-            submitBtn.style.backgroundColor = '#007bff'; // Fallback color
+            submitBtn.style.backgroundColor = '#4F46E5'; // Fallback color
             submitBtn.style.color = 'white';
             submitBtn.style.border = 'none';
             submitBtn.style.borderRadius = '8px';
             submitBtn.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
             submitBtn.style.cursor = 'pointer';
             submitBtn.style.transition = 'all 0.3s ease';
+        } else {
+            // Reset styles on desktop to let CSS take over
+            submitBtn.style.backgroundColor = '';
+            submitBtn.style.color = '';
+            submitBtn.style.border = '';
+            submitBtn.style.borderRadius = '';
+            submitBtn.style.boxShadow = '';
+            submitBtn.style.margin = '';
+            submitBtn.style.padding = '';
+            submitBtn.style.fontSize = '';
+            submitBtn.style.fontWeight = '';
         }
     }
     

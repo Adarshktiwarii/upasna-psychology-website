@@ -1440,7 +1440,8 @@ section:not(:first-child) {
         text-align: center !important;
         font-size: 1.1rem !important;
         font-weight: 600 !important;
-        border-radius: var(--radius-md) !important;
+        border-radius: 8px !important;
+        background: #4F46E5 !important; /* Fallback color */
         background: var(--primary) !important;
         color: white !important;
         border: none !important;
@@ -1479,33 +1480,32 @@ section:not(:first-child) {
         padding-bottom: 2rem !important;
     }
     
-    /* Force submit button visibility and styling on mobile */
-    .modal-content button[type="submit"] {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: relative !important;
-        z-index: 999 !important;
-        background: #4F46E5 !important; /* Fallback color */
-        background: var(--primary) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 1rem 2rem !important;
-        font-size: 1.1rem !important;
-        font-weight: 600 !important;
-        width: 100% !important;
-        margin: 1.5rem 0 0 0 !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-        cursor: pointer !important;
-        transition: all 0.3s ease !important;
+    /* Desktop submit button styles - only apply on desktop */
+    @media (min-width: 769px) {
+        .modal-content button[type="submit"] {
+            background: var(--primary) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 1rem 2rem !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            width: 100% !important;
+            margin: 1.5rem 0 0 0 !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            display: block !important;
+            text-align: center !important;
+        }
+        
+        .modal-content button[type="submit"]:hover {
+            background: var(--primary-dark) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+        }
     }
     
-    .modal-content button[type="submit"]:hover {
-        background: var(--primary-dark) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
-    }
     
     /* Prevent any content from showing through */
     body.modal-open {
