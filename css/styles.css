@@ -1441,7 +1441,7 @@ section:not(:first-child) {
         font-size: 1.1rem !important;
         font-weight: 600 !important;
         border-radius: var(--radius-md) !important;
-        background: var(--color-primary) !important;
+        background: var(--primary) !important;
         color: white !important;
         border: none !important;
         position: relative !important;
@@ -1486,10 +1486,11 @@ section:not(:first-child) {
         opacity: 1 !important;
         position: relative !important;
         z-index: 999 !important;
-        background: var(--color-primary) !important;
+        background: #4F46E5 !important; /* Fallback color */
+        background: var(--primary) !important;
         color: white !important;
         border: none !important;
-        border-radius: var(--radius-md) !important;
+        border-radius: 8px !important;
         padding: 1rem 2rem !important;
         font-size: 1.1rem !important;
         font-weight: 600 !important;
@@ -1501,7 +1502,7 @@ section:not(:first-child) {
     }
     
     .modal-content button[type="submit"]:hover {
-        background: var(--color-primary-dark) !important;
+        background: var(--primary-dark) !important;
         transform: translateY(-2px) !important;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
     }
