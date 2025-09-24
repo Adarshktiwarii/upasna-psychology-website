@@ -1208,10 +1208,14 @@ function initMobileSubmitButton() {
             submitBtn.style.position = 'relative';
             submitBtn.style.zIndex = '999';
             submitBtn.style.width = '100%';
-            submitBtn.style.margin = '1.5rem 0 0 0';
+            submitBtn.style.maxWidth = '100%';
+            submitBtn.style.margin = '1.5rem auto 0 auto';
             submitBtn.style.padding = '1rem 2rem';
             submitBtn.style.fontSize = '1.1rem';
             submitBtn.style.fontWeight = '600';
+            submitBtn.style.textAlign = 'center';
+            submitBtn.style.justifyContent = 'center';
+            submitBtn.style.alignItems = 'center';
             submitBtn.style.backgroundColor = '#4F46E5'; // Fallback color
             submitBtn.style.color = 'white';
             submitBtn.style.border = 'none';
@@ -1219,6 +1223,8 @@ function initMobileSubmitButton() {
             submitBtn.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
             submitBtn.style.cursor = 'pointer';
             submitBtn.style.transition = 'all 0.3s ease';
+            submitBtn.style.left = '0';
+            submitBtn.style.right = '0';
         } else {
             // Reset styles on desktop to let CSS take over
             submitBtn.style.backgroundColor = '';
@@ -1230,6 +1236,11 @@ function initMobileSubmitButton() {
             submitBtn.style.padding = '';
             submitBtn.style.fontSize = '';
             submitBtn.style.fontWeight = '';
+            submitBtn.style.textAlign = '';
+            submitBtn.style.justifyContent = '';
+            submitBtn.style.alignItems = '';
+            submitBtn.style.left = '';
+            submitBtn.style.right = '';
         }
     }
     
