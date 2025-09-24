@@ -135,6 +135,7 @@ function initModals() {
         if (modal) {
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
+            document.body.classList.add('modal-open'); // Add class for mobile fixes
             
             // Clear form data every time modal opens
             resetConsultationForm();
@@ -151,6 +152,7 @@ function initModals() {
         if (modal) {
             modal.classList.remove('show');
             document.body.style.overflow = '';
+            document.body.classList.remove('modal-open'); // Remove class for mobile fixes
         }
     }
 }
@@ -196,6 +198,7 @@ function initFloatingConsultation() {
             if (modal) {
                 modal.classList.add('show');
                 document.body.style.overflow = 'hidden';
+                document.body.classList.add('modal-open'); // Add class for mobile fixes
             }
             
             // Analytics tracking
@@ -496,6 +499,7 @@ function initConsultationForm() {
             const modal = document.getElementById('consultationModal');
             modal.classList.remove('show');
             document.body.style.overflow = '';
+            document.body.classList.remove('modal-open'); // Remove class for mobile fixes
             
             // Reset form
             resetConsultationForm();
@@ -617,6 +621,7 @@ function closeModalAndReset() {
     if (modal) {
         modal.classList.remove('show');
         document.body.style.overflow = '';
+        document.body.classList.remove('modal-open'); // Remove class for mobile fixes
     }
     resetConsultationForm();
     
