@@ -1429,7 +1429,7 @@ section:not(:first-child) {
         touch-action: manipulation;
     }
     
-    /* Mobile submit button - ensure visibility */
+    /* Mobile submit button - comprehensive fix */
     .modal-content .btn-primary,
     .modal-content button[type="submit"],
     .modal-content #submitBtn {
@@ -1451,6 +1451,16 @@ section:not(:first-child) {
         opacity: 1 !important;
         height: auto !important;
         min-height: 50px !important;
+        transform: none !important;
+        overflow: visible !important;
+    }
+    
+    /* Additional mobile button container */
+    .modal-content form::after {
+        content: '';
+        display: block;
+        height: 1px;
+        margin: 1rem 0;
     }
     
     /* Ensure form layout works on mobile */

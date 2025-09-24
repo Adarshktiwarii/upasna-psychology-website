@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initNewsletterForm();
     initScrollAnimations();
     initModernAnimations();
+    initMobileSubmitButton();
 });
 
 // Navigation functionality
@@ -1191,4 +1192,46 @@ function animateNumbers(container) {
             }, 50);
         }
     });
+}
+
+// Mobile submit button visibility fix
+function initMobileSubmitButton() {
+    const submitBtn = document.getElementById('submitBtn');
+    if (!submitBtn) return;
+    
+    // Force button visibility on mobile
+    function ensureButtonVisibility() {
+        if (window.innerWidth <= 768) {
+            submitBtn.style.display = 'block';
+            submitBtn.style.visibility = 'visible';
+            submitBtn.style.opacity = '1';
+            submitBtn.style.position = 'relative';
+            submitBtn.style.zIndex = '999';
+            submitBtn.style.width = '100%';
+            submitBtn.style.margin = '1.5rem 0 0 0';
+            submitBtn.style.padding = '1rem 2rem';
+            submitBtn.style.fontSize = '1.1rem';
+            submitBtn.style.fontWeight = '600';
+            submitBtn.style.backgroundColor = 'var(--color-primary)';
+            submitBtn.style.color = 'white';
+            submitBtn.style.border = 'none';
+            submitBtn.style.borderRadius = 'var(--radius-md)';
+            submitBtn.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+        }
+    }
+    
+    // Run on load and resize
+    ensureButtonVisibility();
+    window.addEventListener('resize', ensureButtonVisibility);
+    
+    // Also run when modal opens
+    const modal = document.getElementById('consultationModal');
+    if (modal) {
+        const observer = new MutationObserver(() => {
+            if (modal.classList.contains('show')) {
+                setTimeout(ensureButtonVisibility, 100);
+            }
+        });
+        observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
+    }
 }
