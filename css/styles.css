@@ -1434,8 +1434,10 @@ section:not(:first-child) {
         touch-action: manipulation;
     }
     
-    /* Mobile submit button - simple text-only approach */
-    .modal-content .btn-primary {
+    /* Mobile submit button - ensure visibility */
+    .modal-content .btn-primary,
+    .modal-content button[type="submit"],
+    .modal-content #submitBtn {
         margin: 1.5rem 0 0 0 !important;
         padding: 1rem 2rem !important;
         width: 100% !important;
@@ -1450,6 +1452,10 @@ section:not(:first-child) {
         position: relative !important;
         z-index: 10 !important;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
+        min-height: 50px !important;
     }
     
     /* Ensure form layout works on mobile */
@@ -1466,6 +1472,20 @@ section:not(:first-child) {
     /* Modal body padding for mobile */
     .modal-body {
         padding-bottom: 2rem !important;
+    }
+    
+    /* Force submit button visibility on mobile */
+    .modal-content button[type="submit"] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        z-index: 999 !important;
+        background: #007bff !important;
+        color: white !important;
+        border: 2px solid #007bff !important;
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
     }
     
     /* Prevent any content from showing through */
