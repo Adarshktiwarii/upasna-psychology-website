@@ -1202,7 +1202,7 @@ function initMobileSubmitButton() {
     // Force button visibility and styling on mobile only
     function ensureButtonVisibility() {
         if (window.innerWidth <= 768) {
-            submitBtn.style.display = 'block';
+            submitBtn.style.display = 'flex';
             submitBtn.style.visibility = 'visible';
             submitBtn.style.opacity = '1';
             submitBtn.style.position = 'relative';
