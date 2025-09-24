@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initConsultationForm();
     initNewsletterForm();
     initScrollAnimations();
+    initModernAnimations();
 });
 
 // Navigation functionality
@@ -970,5 +971,182 @@ if ('serviceWorker' in navigator) {
             .catch(registrationError => {
                 console.log('SW registration failed: ', registrationError);
             });
+    });
+}
+
+// Modern animations and effects
+function initModernAnimations() {
+    console.log('🎨 Initializing modern animations...');
+    
+    // Immediately visible animations
+    const navIcon = document.querySelector('.nav-brand i');
+    if (navIcon) {
+        navIcon.classList.add('pulse');
+        console.log('✨ Added pulse animation to nav icon');
+    }
+    
+    // Add floating animation to service icons with staggered delays
+    const serviceIcons = document.querySelectorAll('.service-icon');
+    serviceIcons.forEach((icon, index) => {
+        icon.style.animationDelay = `${index * 0.5}s`;
+        console.log(`🌊 Added float animation to service icon ${index + 1}`);
+    });
+    
+    // Add fade-in classes to ALL elements throughout the website
+    const animateElements = document.querySelectorAll(`
+        section,
+        .hero-content,
+        .hero-stats .stat,
+        .hero-cta .btn,
+        .service-card,
+        .contact-item,
+        .about-content,
+        .about-image,
+        .approach-item,
+        .newsletter-content,
+        .footer-section,
+        .hero-subtitle,
+        .section-subtitle,
+        .approach-grid,
+        .services-grid,
+        .contact-info,
+        .newsletter-form,
+        .footer-links,
+        .footer-social
+    `);
+    
+    animateElements.forEach((element, index) => {
+        // Add variety in animation types based on element type
+        if (element.classList.contains('hero-stats') || element.classList.contains('stat')) {
+            element.classList.add('scale-in');
+        } else if (element.classList.contains('about-image') || element.classList.contains('service-card')) {
+            element.classList.add('rotate-in');
+        } else if (element.classList.contains('approach-item')) {
+            // Fix therapeutic approach - use simple fade-in instead of complex animations
+            element.classList.add('fade-in');
+        } else if (index % 3 === 0) {
+            element.classList.add('slide-in-left');
+        } else if (index % 3 === 1) {
+            element.classList.add('slide-in-right');
+        } else {
+            element.classList.add('fade-in');
+        }
+        
+        // Balanced stagger for smooth wave effect
+        element.style.animationDelay = `${index * 0.1}s`;
+    });
+    
+    console.log(`🌊 Added varied animations to ${animateElements.length} elements`);
+    
+    // Add hover-lift classes to cards
+    const cards = document.querySelectorAll('.service-card, .contact-item.clickable');
+    cards.forEach(card => {
+        card.classList.add('hover-lift');
+    });
+    
+    // Intersection Observer with balanced trigger
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                
+                // Special handling for numbers - add counter animation
+                if (entry.target.querySelector('.stat-number')) {
+                    animateNumbers(entry.target);
+                }
+                
+                console.log('👁️ Element became visible:', entry.target.className);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -75px 0px'
+    });
+    
+    // Observe all animated elements (all animation types)
+    const allAnimatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in, .rotate-in');
+    allAnimatedElements.forEach(el => observer.observe(el));
+    console.log(`🔍 Observing ${allAnimatedElements.length} elements for scroll animations`);
+    
+    // Enhanced button hover effects with micro-animations
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) scale(1.05)';
+            this.style.boxShadow = 'var(--shadow-floating)';
+        });
+        
+        btn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '';
+        });
+    });
+    console.log(`🎯 Enhanced ${buttons.length} buttons with hover effects`);
+    
+    // Add glow effect to primary buttons
+    const primaryBtns = document.querySelectorAll('.btn-primary');
+    primaryBtns.forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+            this.classList.add('glow');
+        });
+        btn.addEventListener('mouseleave', function() {
+            this.classList.remove('glow');
+        });
+    });
+    
+    // Subtle parallax effect for hero section
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = scrolled * 0.2;
+            hero.style.transform = `translateY(${parallax}px)`;
+        });
+        console.log('🌄 Added parallax effect to hero section');
+    }
+    
+    // Add micro-interactions to contact items
+    const contactItems = document.querySelectorAll('.contact-item.clickable');
+    contactItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('.contact-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+            }
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            const icon = this.querySelector('.contact-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            }
+        });
+    });
+    
+    console.log('🎉 Modern animations initialized successfully!');
+}
+
+// Number counter animation function
+function animateNumbers(container) {
+    const numberElements = container.querySelectorAll('.stat-number');
+    
+    numberElements.forEach(element => {
+        const finalNumber = element.textContent.replace(/[^\d]/g, ''); // Extract just numbers
+        const suffix = element.textContent.replace(/[\d]/g, ''); // Extract non-numbers (like +, %)
+        
+        if (finalNumber) {
+            element.classList.add('counting');
+            let current = 0;
+            const increment = Math.ceil(finalNumber / 30); // 30 steps
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= finalNumber) {
+                    current = finalNumber;
+                    clearInterval(timer);
+                    element.classList.remove('counting');
+                }
+                element.textContent = current + suffix;
+            }, 50);
+        }
     });
 }
