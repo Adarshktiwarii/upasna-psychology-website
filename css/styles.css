@@ -818,6 +818,10 @@ section:not(:first-child) {
     font-size: 1.25rem;
 }
 
+.contact-icon i.fab.fa-whatsapp {
+    font-size: 1.5rem;
+}
+
 .contact-details h4 {
     font-size: var(--font-size-lg);
     font-weight: 600;
