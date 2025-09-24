@@ -1439,34 +1439,38 @@ section:not(:first-child) {
         touch-action: manipulation;
     }
     
-    /* Ensure submit button is always visible and properly positioned on mobile */
+    /* Mobile submit button - simple text-only approach */
     .modal-content .btn-primary {
-        margin-top: 1.5rem !important;
-        margin-bottom: 0 !important;
-        position: sticky !important;
-        bottom: 0 !important;
-        z-index: 4 !important;
-        background: var(--color-primary) !important;
+        margin: 1.5rem 0 0 0 !important;
+        padding: 1rem 2rem !important;
         width: 100% !important;
         display: block !important;
         text-align: center !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
         border-radius: var(--radius-md) !important;
+        background: var(--color-primary) !important;
+        color: white !important;
+        border: none !important;
+        position: relative !important;
+        z-index: 10 !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
     }
     
-    /* Dedicated submit button container on mobile */
+    /* Ensure form layout works on mobile */
     .modal-content form {
         display: flex !important;
         flex-direction: column !important;
+        gap: 1rem !important;
     }
     
     .modal-content .form-grid {
         flex: 1 !important;
-        margin-bottom: 1rem !important;
     }
     
-    /* Add padding to modal body bottom for submit button space */
+    /* Modal body padding for mobile */
     .modal-body {
-        padding-bottom: 1rem !important;
+        padding-bottom: 2rem !important;
     }
     
     /* Prevent any content from showing through */
