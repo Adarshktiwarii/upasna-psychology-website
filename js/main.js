@@ -35,6 +35,14 @@ function initNavigation() {
                 navToggle.classList.remove('active');
             });
         });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+            }
+        });
     }
 
     // Navbar scroll effect
@@ -1044,24 +1052,25 @@ function initModernAnimations() {
         card.classList.add('hover-lift');
     });
     
-    // Intersection Observer with balanced trigger
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                
-                // Special handling for numbers - add counter animation
-                if (entry.target.querySelector('.stat-number')) {
-                    animateNumbers(entry.target);
+        // Intersection Observer with mobile-optimized trigger
+        const isMobile = window.innerWidth <= 768;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Special handling for numbers - add counter animation
+                    if (entry.target.querySelector('.stat-number')) {
+                        animateNumbers(entry.target);
+                    }
+
+                    console.log('👁️ Element became visible:', entry.target.className);
                 }
-                
-                console.log('👁️ Element became visible:', entry.target.className);
-            }
+            });
+        }, {
+            threshold: isMobile ? 0.1 : 0.15,
+            rootMargin: isMobile ? '0px 0px -50px 0px' : '0px 0px -75px 0px'
         });
-    }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -75px 0px'
-    });
     
     // Observe all animated elements (all animation types)
     const allAnimatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in, .rotate-in');
