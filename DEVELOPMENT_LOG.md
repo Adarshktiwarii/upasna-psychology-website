@@ -84,6 +84,12 @@ python3 -m http.server 8080
 - **Performance**: Optimized animations for mobile, reduced transform complexity
 - **Final Mobile Commit**: `81acf6c - Optimize mobile experience: Fix hamburger menu and enhance responsive design`
 
+#### **Animation Enhancement:**
+- **About Image**: Changed from rotation to elegant scale-up animation
+- **Enhanced Easing**: Smooth bounce effect with cubic-bezier timing
+- **Professional Look**: More elegant and less distracting than rotation
+- **Animation Commit**: `ce87c6e - Improve about image animation: Change from rotation to elegant scale-up`
+
 ---
 
 ### **Session 3 - September 23, 2025 - Color Theme Revert**
