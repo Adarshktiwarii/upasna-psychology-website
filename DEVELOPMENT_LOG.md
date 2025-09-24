@@ -90,6 +90,13 @@ python3 -m http.server 8080
 - **Professional Look**: More elegant and less distracting than rotation
 - **Animation Commit**: `ce87c6e - Improve about image animation: Change from rotation to elegant scale-up`
 
+#### **Form Optimization:**
+- **Modal Layout**: Increased width to 900px, 3-column grid on desktop
+- **Compact Design**: Reduced spacing, padding, and margins throughout
+- **Viewport Fit**: 90vh max-height, optimized to minimize scrolling
+- **Responsive Grid**: 3-col desktop, 2-col tablet, 1-col mobile
+- **Form Commit**: `40064a1 - Optimize consultation form layout: Improve viewport fit and reduce scrolling`
+
 ---
 
 ### **Session 3 - September 23, 2025 - Color Theme Revert**
