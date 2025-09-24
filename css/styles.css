@@ -1365,14 +1365,14 @@ section:not(:first-child) {
     padding: 0 1.5rem 1.5rem;
 }
 
-/* Larger image positioned after form content - better white space usage */
+/* Larger image positioned after form content - maximum white space usage */
 .modal-body::after {
     content: '';
     position: absolute;
-    top: 40px;
-    right: 15px;
-    width: 350px;
-    height: 400px;
+    top: 30px;
+    right: -10px;
+    width: 420px;
+    height: 480px;
     background: url('../images/consultation-bg.png') no-repeat center center;
     background-size: contain;
     opacity: 0.25;
