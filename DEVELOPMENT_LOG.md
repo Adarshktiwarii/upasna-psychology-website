@@ -54,6 +54,7 @@ python3 -m http.server 8080
   - `26e7d1a - Update contact email: Change to consult@heyupasna.in in Get in Touch section`
   - `d0c898d - Add WhatsApp contact option in Get in Touch section`
   - `8ddb7c1 - Make contact items clickable and fix grid layout (2x2 + 1)`
+  - `a18a1d8 - Fix WhatsApp icon size - make it larger to match other icons`
 
 ---
 
