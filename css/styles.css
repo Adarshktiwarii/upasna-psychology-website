@@ -2534,6 +2534,34 @@ select:focus {
     font-weight: 600;
 }
 
+/* Enhanced close button styling */
+.policy-modal .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.policy-modal .close-btn:hover {
+    background-color: var(--bg-secondary);
+    color: var(--primary);
+    transform: scale(1.1);
+}
+
+.policy-modal .close-btn:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
 /* Mobile policy modal adjustments */
 @media (max-width: 768px) {
     .policy-modal-content {
