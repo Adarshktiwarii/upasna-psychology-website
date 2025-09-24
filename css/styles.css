@@ -1366,18 +1366,18 @@ section:not(:first-child) {
 }
 
 /* Form image container */
-/* Subtle background image for form modal - utilizes right side white space */
+/* Subtle background image for form modal - properly contained within modal */
 .modal-body::before {
     content: '';
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 280px;
-    height: 100%;
-    background: url('../images/consultation-bg.png') no-repeat center right;
-    background-size: cover;
-    opacity: 0.15;
-    border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+    top: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    width: 250px;
+    background: url('../images/consultation-bg.png') no-repeat center center;
+    background-size: contain;
+    opacity: 0.12;
+    border-radius: var(--radius-md);
     pointer-events: none;
     z-index: 0;
 }
@@ -1393,18 +1393,19 @@ section:not(:first-child) {
         z-index: 10001; /* Even higher z-index for mobile */
         padding: 0.5rem;
         align-items: flex-start; /* Align to top on mobile */
-        padding-top: 2rem; /* Space from top to avoid navbar collision */
+        padding-top: 1rem; /* Reduced padding for better access */
     }
     
     .modal-content {
-        max-height: calc(100vh - 4rem); /* Account for top padding */
+        max-height: calc(100vh - 2rem); /* Account for reduced padding */
         width: 100%;
         margin: 0;
         border-radius: var(--radius-lg); /* Smaller radius on mobile */
+        overflow-y: auto; /* Allow scrolling within modal */
     }
     
     .modal-header {
-        padding: 1rem 1.5rem 0;
+        padding: 1rem 1.5rem 0.5rem; /* Reduced bottom padding */
         position: sticky;
         top: 0;
         background: var(--bg-primary);
@@ -1413,22 +1414,25 @@ section:not(:first-child) {
     }
     
     .modal-body {
-        padding: 0 1.5rem 1.5rem;
+        padding: 0.5rem 1.5rem 1.5rem; /* Reduced top padding */
+        position: relative;
+        z-index: 1;
     }
     
-    /* Ensure modal is always on top of everything */
-    .modal.show {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        z-index: 10001 !important;
+    /* Hide background image on mobile for better form access */
+    .modal-body::before {
+        display: none;
     }
     
-    /* Mobile modal overlay should cover everything */
-    .modal-overlay {
-        z-index: 10000;
+    /* Ensure form fields are accessible */
+    .modal-body input,
+    .modal-body textarea,
+    .modal-body select,
+    .modal-body button {
+        position: relative;
+        z-index: 3;
+        pointer-events: auto;
+        touch-action: manipulation;
     }
     
     /* Prevent any content from showing through */
