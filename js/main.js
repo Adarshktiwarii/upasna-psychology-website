@@ -1174,19 +1174,34 @@ function animateNumbers(container) {
     const numberElements = container.querySelectorAll('.stat-number');
     
     numberElements.forEach(element => {
-        const finalNumber = element.textContent.replace(/[^\d]/g, ''); // Extract just numbers
-        const suffix = element.textContent.replace(/[\d]/g, ''); // Extract non-numbers (like +, %)
+        // Store original values if not already stored
+        if (!element.dataset.originalText) {
+            element.dataset.originalText = element.textContent;
+        }
+        
+        const originalText = element.dataset.originalText;
+        const finalNumber = originalText.replace(/[^\d]/g, ''); // Extract just numbers
+        const suffix = originalText.replace(/[\d]/g, ''); // Extract non-numbers (like +, %)
         
         if (finalNumber) {
+            // Clear any existing animation
+            if (element.animationTimer) {
+                clearInterval(element.animationTimer);
+            }
+            
+            // Reset to 0 before starting animation
+            element.textContent = '0' + suffix;
             element.classList.add('counting');
+            
             let current = 0;
             const increment = Math.ceil(finalNumber / 30); // 30 steps
-            const timer = setInterval(() => {
+            element.animationTimer = setInterval(() => {
                 current += increment;
                 if (current >= finalNumber) {
                     current = finalNumber;
-                    clearInterval(timer);
+                    clearInterval(element.animationTimer);
                     element.classList.remove('counting');
+                    element.animationTimer = null;
                 }
                 element.textContent = current + suffix;
             }, 50);
@@ -1385,4 +1400,180 @@ document.addEventListener('DOMContentLoaded', function() {
     // ... existing initializations ...
     initPolicyModals();
     initFooterServiceLinks();
+    initPageTurnEffect();
 });
+
+// Enhanced Floating Pages Effect - Sophisticated Book Animation
+function initPageTurnEffect() {
+    const sections = document.querySelectorAll('.page-turn-section');
+    let currentSection = 0;
+    let isScrolling = false;
+    let animationFrameId = null;
+    
+    // Enhanced state management
+    const pageStates = {
+        idle: 'idle',
+        floating: 'floating',
+        lifting: 'lifting',
+        settling: 'settling',
+        overlapping: 'overlapping'
+    };
+    
+    // Remove all animation classes
+    function clearAllStates() {
+        sections.forEach(section => {
+            section.classList.remove('floating', 'lifting', 'settling', 'overlapping');
+        });
+    }
+    
+    // Apply sophisticated page states
+    function applyPageStates() {
+        if (isScrolling) return;
+        
+        isScrolling = true;
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        
+        // Calculate current section and scroll progress
+        let targetSection = Math.floor(scrollY / windowHeight);
+        targetSection = Math.max(0, Math.min(targetSection, sections.length - 1));
+        
+        clearAllStates();
+        
+        sections.forEach((section, index) => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const scrollProgress = (scrollY - sectionTop) / windowHeight;
+            const sectionCenter = sectionTop + (sectionHeight / 2);
+            const distanceFromCenter = Math.abs(scrollY - sectionCenter);
+            
+            // Determine page state based on scroll position and distance
+            if (index === targetSection) {
+                // Current section - sophisticated state transitions
+                if (scrollProgress < 0.1) {
+                    // Just entered - start floating
+                    section.classList.add('floating');
+                } else if (scrollProgress >= 0.1 && scrollProgress < 0.3) {
+                    // Beginning to lift
+                    section.classList.add('lifting');
+                } else if (scrollProgress >= 0.3 && scrollProgress < 0.7) {
+                    // Settling into position
+                    section.classList.add('settling');
+                } else if (scrollProgress >= 0.7 && scrollProgress < 0.9) {
+                    // Preparing to overlap
+                    section.classList.add('overlapping');
+                } else {
+                    // Fully overlapping
+                    section.classList.add('overlapping');
+                }
+            } else if (index === targetSection + 1) {
+                // Next section - prepare for reveal
+                if (scrollProgress > 0.6) {
+                    section.classList.add('floating');
+                }
+            } else if (index === targetSection - 1) {
+                // Previous section - fade out
+                if (scrollProgress < 0.3) {
+                    section.classList.add('settling');
+                }
+            }
+            
+            // Add subtle floating to all visible sections
+            if (distanceFromCenter < windowHeight * 1.5) {
+                if (!section.classList.contains('floating') && 
+                    !section.classList.contains('lifting') && 
+                    !section.classList.contains('settling') && 
+                    !section.classList.contains('overlapping')) {
+                    section.classList.add('floating');
+                }
+            }
+        });
+        
+        // Reset scrolling flag with delay for smooth transitions
+        setTimeout(() => {
+            isScrolling = false;
+        }, 150);
+    }
+    
+    // Enhanced scroll handler with smooth animations
+    function handleScroll() {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+        
+        animationFrameId = requestAnimationFrame(() => {
+            applyPageStates();
+        });
+    }
+    
+    // Add subtle mouse movement effects
+    function handleMouseMove(e) {
+        if (isScrolling) return;
+        
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+        
+        sections.forEach((section, index) => {
+            if (section.classList.contains('floating') || 
+                section.classList.contains('lifting') || 
+                section.classList.contains('settling')) {
+                
+                const intensity = 0.5; // Subtle effect
+                const rotateY = (mouseX - 0.5) * intensity;
+                const rotateX = (mouseY - 0.5) * intensity;
+                
+                section.style.setProperty('--mouse-rotate-y', `${rotateY}deg`);
+                section.style.setProperty('--mouse-rotate-x', `${rotateX}deg`);
+            }
+        });
+    }
+    
+    // Enhanced CSS custom properties for mouse interaction
+    function addMouseInteractionStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            .page-turn-section.floating,
+            .page-turn-section.lifting,
+            .page-turn-section.settling {
+                transform: translateZ(20px) 
+                          rotateY(calc(-1deg + var(--mouse-rotate-y, 0deg))) 
+                          rotateX(calc(1deg + var(--mouse-rotate-x, 0deg)));
+                transition: all 0.3s ease-out;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Initialize mouse interaction
+    addMouseInteractionStyles();
+    
+    // Event listeners
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    
+    // Initial call
+    applyPageStates();
+    
+    // Handle resize events
+    window.addEventListener('resize', () => {
+        setTimeout(applyPageStates, 100);
+    });
+    
+    // Add intersection observer for performance
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('floating');
+            } else {
+                entry.target.classList.remove('floating', 'lifting', 'settling', 'overlapping');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '50px'
+    });
+    
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+}
