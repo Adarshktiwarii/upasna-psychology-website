@@ -1093,10 +1093,7 @@ function initModernAnimations() {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
 
-                    // Special handling for numbers - add counter animation
-                    if (entry.target.querySelector('.stat-number')) {
-                        animateNumbers(entry.target);
-                    }
+                    // Numbers are now static - no animation needed
 
                     console.log('👁️ Element became visible:', entry.target.className);
                 }
@@ -1169,45 +1166,7 @@ function initModernAnimations() {
     console.log('🎉 Modern animations initialized successfully!');
 }
 
-// Number counter animation function
-function animateNumbers(container) {
-    const numberElements = container.querySelectorAll('.stat-number');
-    
-    numberElements.forEach(element => {
-        // Store original values if not already stored
-        if (!element.dataset.originalText) {
-            element.dataset.originalText = element.textContent;
-        }
-        
-        const originalText = element.dataset.originalText;
-        const finalNumber = originalText.replace(/[^\d]/g, ''); // Extract just numbers
-        const suffix = originalText.replace(/[\d]/g, ''); // Extract non-numbers (like +, %)
-        
-        if (finalNumber) {
-            // Clear any existing animation
-            if (element.animationTimer) {
-                clearInterval(element.animationTimer);
-            }
-            
-            // Reset to 0 before starting animation
-            element.textContent = '0' + suffix;
-            element.classList.add('counting');
-            
-            let current = 0;
-            const increment = Math.ceil(finalNumber / 30); // 30 steps
-            element.animationTimer = setInterval(() => {
-                current += increment;
-                if (current >= finalNumber) {
-                    current = finalNumber;
-                    clearInterval(element.animationTimer);
-                    element.classList.remove('counting');
-                    element.animationTimer = null;
-                }
-                element.textContent = current + suffix;
-            }, 50);
-        }
-    });
-}
+// Number animation removed - numbers are now static for better UX
 
 // Mobile submit button visibility fix
 function initMobileSubmitButton() {
