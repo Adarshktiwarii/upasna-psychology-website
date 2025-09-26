@@ -1,11 +1,13 @@
 # 🧠 Dr. Upasna Shil Psychology Website - Project Status
 
 ## 📊 **Current Status: DEPLOYED & LIVE**
-- **Live URL**: https://main.d21it9hal3ownf.amplifyapp.com/
+- **Production URL**: https://main.d21it9hal3ownf.amplifyapp.com/ (Custom Domain)
+- **Development URL**: TBD (New Amplify app to be created)
 - **Repository**: https://github.com/Adarshktiwarii/upasna-psychology-website
-- **Last Updated**: September 23, 2025
-- **Environment**: Production Ready
-- **Current Commit**: 0f8192d
+- **Last Updated**: September 26, 2025
+- **Environment**: Production Ready + Development Setup
+- **Current Commit**: 87ecf37 (dev), 1f038c7 (main)
+- **Branch Structure**: main (production), dev (development)
 - **Color Scheme**: Original purple/blue theme (#4F46E5)
 - **Layout**: Optimized with 3 rows of 2 cards in therapeutic services
 
