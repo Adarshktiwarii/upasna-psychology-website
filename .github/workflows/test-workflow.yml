@@ -1,0 +1,39 @@
+name: 🧠 Test GitHub Actions Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  workflow_dispatch: {}
+
+jobs:
+  test:
+    name: Test Workflow
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test workflow functionality
+        run: |
+          echo "🧠 Testing GitHub Actions workflow for Psychology Website"
+          echo "✅ Workflow is working correctly"
+          echo "📊 Current branch: ${{ github.ref_name }}"
+          echo "📝 Commit: ${{ github.sha }}"
+          echo "👤 Actor: ${{ github.actor }}"
+          
+      - name: Test Summary
+        run: |
+          echo "## 🧠 GitHub Actions Test Complete!" > $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ✅ GitHub Actions workflow is working" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Actor:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🎯 Next Steps:" >> $GITHUB_STEP_SUMMARY
+          echo "1. GitHub Actions extension is properly configured" >> $GITHUB_STEP_SUMMARY
+          echo "2. Ready to create deployment workflows" >> $GITHUB_STEP_SUMMARY
+          echo "3. Can set up CI/CD pipeline" >> $GITHUB_STEP_SUMMARY
