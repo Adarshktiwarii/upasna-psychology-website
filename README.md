@@ -205,3 +205,4 @@ For technical support or customization requests, please refer to the documentati
 **Built with ❤️ for mental health professionals**
 
 *This website template is designed specifically for clinical psychologists and mental health practitioners, focusing on user experience, accessibility, and professional presentation.*
+# Dev Branch Ready for AWS Amplify
