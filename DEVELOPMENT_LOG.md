@@ -772,3 +772,64 @@ The Hey Upasna Psychology website has been restored to a stable, production-read
 
 *This log is maintained for seamless agent handoffs and project continuity*  
 *Last Updated: September 25, 2025 - Website Restoration*
+
+
+## 🔄 **BRANCH STRUCTURE UPDATE - September 26, 2025**
+
+### **📊 NEW BRANCH STRUCTURE:**
+- ** branch**: Production environment (custom domain)
+- ** branch**: Development environment (new Amplify app)
+
+### **🚀 DEPLOYMENT SETUP:**
+- **Production**:  branch → Custom domain (existing setup)
+- **Development**:  branch → New Amplify app (to be created)
+
+### **✅ COMPLETED ACTIONS:**
+- Created  branch for development
+- Deleted unnecessary  branch
+- Updated deployment documentation
+- Pushed both branches to GitHub
+
+### **🔧 NEXT STEPS:**
+- Create new Amplify app for  branch
+- Keep existing Amplify app connected to  branch
+- Test both development and production environments
+
+### **📋 CURRENT STATUS:**
+- **GitHub**: Both branches visible and up-to-date
+- **AWS**: Ready for new Amplify app setup
+- **Documentation**: Updated with new branch structure
+
+---
+
+*Last Updated: September 26, 2025 - Branch Structure Update*
+
+## 🔄 **BRANCH STRUCTURE UPDATE - September 26, 2025**
+
+### **📊 NEW BRANCH STRUCTURE:**
+- **`main` branch**: Production environment (custom domain)
+- **`dev` branch**: Development environment (new Amplify app)
+
+### **🚀 DEPLOYMENT SETUP:**
+- **Production**: `main` branch → Custom domain (existing setup)
+- **Development**: `dev` branch → New Amplify app (to be created)
+
+### **✅ COMPLETED ACTIONS:**
+- Created `dev` branch for development
+- Deleted unnecessary `production` branch
+- Updated deployment documentation
+- Pushed both branches to GitHub
+
+### **🔧 NEXT STEPS:**
+- Create new Amplify app for `dev` branch
+- Keep existing Amplify app connected to `main` branch
+- Test both development and production environments
+
+### **📋 CURRENT STATUS:**
+- **GitHub**: Both branches visible and up-to-date
+- **AWS**: Ready for new Amplify app setup
+- **Documentation**: Updated with new branch structure
+
+---
+
+*Last Updated: September 26, 2025 - Branch Structure Update*
