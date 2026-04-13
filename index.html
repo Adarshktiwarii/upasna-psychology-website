@@ -31,7 +31,7 @@
     <!-- Favicon & PWA -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#8B5CF6">
+    <meta name="theme-color" content="#6B7D6D">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -56,6 +56,8 @@
                 <a href="#home" class="nav-link" aria-label="Navigate to home section">Home</a>
                 <a href="#about" class="nav-link" aria-label="Navigate to about section">About</a>
                 <a href="#services" class="nav-link" aria-label="Navigate to services section">Services</a>
+                <a href="workshops.html" class="nav-link" aria-label="Navigate to workshops">Workshops</a>
+                <a href="pricing.html" class="nav-link" aria-label="Navigate to pricing">Pricing</a>
                 <a href="#approach" class="nav-link" aria-label="Navigate to approach section">Approach</a>
                 <a href="#contact" class="nav-link" aria-label="Navigate to contact section">Contact</a>
                 <button class="btn btn-primary" id="consultationBtn" aria-label="Open consultation booking form">
@@ -80,7 +82,7 @@
                     <p class="hero-subtitle">Professional psychological support with compassionate care. I'm Upasna Shil, MPhil, Licensed Clinical Psychologist, dedicated to helping you navigate life's challenges and achieve emotional well-being.</p>
                     <div class="hero-stats">
                         <div class="stat">
-                            <div class="stat-number">700+</div>
+                            <div class="stat-number">500+</div>
                             <div class="stat-label">Clients Helped</div>
                         </div>
                         <div class="stat">
@@ -88,7 +90,7 @@
                             <div class="stat-label">Years Experience</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-number">97%</div>
+                            <div class="stat-number">80%</div>
                             <div class="stat-label">Success Rate</div>
                         </div>
                     </div>
@@ -233,6 +235,26 @@
                         <span>90-120 minutes</span>
                     </div>
                 </div>
+                
+                <div class="service-card" data-service-id="workplace">
+                    <div class="service-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Workplace Wellness</h3>
+                    <p>Corporate mental health programs, Employee Assistance Programs (EAP), and emotional wellness initiatives to promote employee well-being and organizational mental health.</p>
+                    <div class="service-features">
+                        <ul>
+                            <li>Employee Assistance Programs</li>
+                            <li>Team Building Sessions</li>
+                            <li>Burnout Prevention</li>
+                            <li>Mental Health Training</li>
+                        </ul>
+                    </div>
+                    <div class="service-duration">
+                        <i class="fas fa-clock"></i>
+                        <span>Customized duration</span>
+                    </div>
+                </div>
 
                 <div class="service-card" data-service-id="group">
                     <div class="service-icon">
@@ -244,7 +266,7 @@
                         <ul>
                             <li>Anxiety Support Groups</li>
                             <li>Depression Recovery Groups</li>
-                            <li>Mindfulness Workshops</li>
+                            <li>Mindfulness Initiatives</li>
                             <li>Stress Management Groups</li>
                         </ul>
                     </div>
@@ -311,26 +333,6 @@
                     <div class="service-duration">
                         <i class="fas fa-clock"></i>
                         <span>60 minutes per session</span>
-                    </div>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <h3>Workplace Wellness</h3>
-                    <p>Corporate mental health programs and workshops to promote employee well-being and organizational mental health.</p>
-                    <div class="service-features">
-                        <ul>
-                            <li>Stress Management Workshops</li>
-                            <li>Team Building Sessions</li>
-                            <li>Burnout Prevention</li>
-                            <li>Mental Health Training</li>
-                        </ul>
-                    </div>
-                    <div class="service-duration">
-                        <i class="fas fa-clock"></i>
-                        <span>Customized duration</span>
                     </div>
                 </div>
             </div>
@@ -578,7 +580,10 @@
                         <ul>
                             <li><a href="#approach">Treatment Approach</a></li>
                             <li><a href="#about">About Upasna</a></li>
+                            <li><a href="workshops.html">Workshops</a></li>
+                            <li><a href="pricing.html">Pricing</a></li>
                             <li><a href="#contact">Contact</a></li>
+                            <li><a href="https://forms.gle/placeholder" target="_blank" rel="noopener noreferrer">Submit Feedback</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -614,134 +619,158 @@
                     <input type="hidden" name="source" value="Psychology Practice Website">
                     <input type="hidden" name="_next" value="#">
 
-                    <div class="form-grid">
-                        <!-- Left Column -->
-                        <div class="form-column">
-                            <div class="form-group">
-                                <label for="fullName">Full Name *</label>
-                                <input type="text" id="fullName" name="fullName" placeholder="Your full name" required minlength="2" maxlength="80">
+                    <div id="bookingFormFields">
+                        <div class="form-grid">
+                            <!-- Left Column -->
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name *</label>
+                                    <input type="text" id="fullName" name="fullName" placeholder="Your full name" required minlength="2" maxlength="80">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="phone">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="profession">Profession *</label>
+                                    <input type="text" id="profession" name="profession" placeholder="e.g., Software Engineer, Teacher, Student" required maxlength="100">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="age">Age *</label>
+                                    <input type="number" id="age" name="age" placeholder="25" min="16" max="100" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="urgency">Urgency Level *</label>
+                                    <select id="urgency" name="urgency" required>
+                                        <option value="">Select urgency</option>
+                                        <option value="Immediate (Crisis)">Immediate (Crisis)</option>
+                                        <option value="Within a week">Within a week</option>
+                                        <option value="Within 2-3 weeks">Within 2-3 weeks</option>
+                                        <option value="Within a month">Within a month</option>
+                                    </select>
+                                </div>
                             </div>
                             
-                            <div class="form-group">
-                                <label for="phone">Phone Number *</label>
-                                <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="profession">Profession *</label>
-                                <input type="text" id="profession" name="profession" placeholder="e.g., Software Engineer, Teacher, Student" required maxlength="100">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="age">Age *</label>
-                                <input type="number" id="age" name="age" placeholder="25" min="16" max="100" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="urgency">Urgency Level *</label>
-                                <select id="urgency" name="urgency" required>
-                                    <option value="">Select urgency</option>
-                                    <option value="Immediate (Crisis)">Immediate (Crisis)</option>
-                                    <option value="Within a week">Within a week</option>
-                                    <option value="Within 2-3 weeks">Within 2-3 weeks</option>
-                                    <option value="Within a month">Within a month</option>
-                                </select>
+                            <!-- Right Column -->
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="sessionType">Preferred Session Type *</label>
+                                    <select id="sessionType" name="sessionType" required>
+                                        <option value="">Select preference</option>
+                                        <option value="In-person">In-person</option>
+                                        <option value="Online (Video)">Online (Video)</option>
+                                        <option value="Either">Either</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="previousTherapy">Previous Therapy Experience *</label>
+                                    <select id="previousTherapy" name="previousTherapy" required>
+                                        <option value="">Select experience</option>
+                                        <option value="First time">First time</option>
+                                        <option value="Some experience">Some experience</option>
+                                        <option value="Extensive experience">Extensive experience</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="referral">How did you hear about me? *</label>
+                                    <select id="referral" name="referral" required>
+                                        <option value="">Select source</option>
+                                        <option value="Google Search">Google Search</option>
+                                        <option value="Social Media">Social Media</option>
+                                        <option value="Friend/Family Referral">Friend/Family Referral</option>
+                                        <option value="Healthcare Provider">Healthcare Provider</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group" id="referralOtherGroup" style="display: none;">
+                                    <label for="referralOther">Please specify</label>
+                                    <input type="text" id="referralOther" name="referralOther" placeholder="How you heard about me">
+                                </div>
                             </div>
                         </div>
-                        
-                        <!-- Right Column -->
-                        <div class="form-column">
+
+                        <!-- Full-width rows -->
+                        <div class="form-group">
+                            <label for="concerns">Primary Concerns *</label>
+                            <textarea id="concerns" name="concerns" rows="4" placeholder="Please describe what brings you to therapy. Include any symptoms, life challenges, or goals you'd like to work on." required minlength="20" maxlength="1200"></textarea>
+                            <div class="char-counter">
+                                <span id="charCount">0</span> / 1200
+                            </div>
+                            <div class="helper-text">Please describe your concerns, symptoms, triggers, and what you hope to achieve through therapy.</div>
+                        </div>
+
+                        <div class="form-row">
                             <div class="form-group">
-                                <label for="email">Email Address *</label>
-                                <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                                <label for="serviceInterest">Service Interest *</label>
+                                <select id="serviceInterest" name="serviceInterest" required>
+                                    <option value="">Select service</option>
+                                    <option value="Individual Therapy">Individual Therapy</option>
+                                    <option value="Couples Counseling">Couples Counseling</option>
+                                    <option value="Group Therapy">Group Therapy</option>
+                                    <option value="Psychological Assessment">Psychological Assessment</option>
+                                    <option value="Online Therapy">Online Therapy</option>
+                                    <option value="Not sure">Not sure</option>
+                                </select>
                             </div>
                             
                             <div class="form-group">
-                                <label for="sessionType">Preferred Session Type *</label>
-                                <select id="sessionType" name="sessionType" required>
+                                <label for="timePreference">Preferred Time</label>
+                                <select id="timePreference" name="timePreference">
                                     <option value="">Select preference</option>
-                                    <option value="In-person">In-person</option>
-                                    <option value="Online (Video)">Online (Video)</option>
-                                    <option value="Either">Either</option>
+                                    <option value="Morning (9 AM - 12 PM)">Morning (9 AM - 12 PM)</option>
+                                    <option value="Afternoon (12 PM - 5 PM)">Afternoon (12 PM - 5 PM)</option>
+                                    <option value="Evening (5 PM - 8 PM)">Evening (5 PM - 8 PM)</option>
+                                    <option value="Flexible">Flexible</option>
                                 </select>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="previousTherapy">Previous Therapy Experience *</label>
-                                <select id="previousTherapy" name="previousTherapy" required>
-                                    <option value="">Select experience</option>
-                                    <option value="First time">First time</option>
-                                    <option value="Some experience">Some experience</option>
-                                    <option value="Extensive experience">Extensive experience</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="referral">How did you hear about me? *</label>
-                                <select id="referral" name="referral" required>
-                                    <option value="">Select source</option>
-                                    <option value="Google Search">Google Search</option>
-                                    <option value="Social Media">Social Media</option>
-                                    <option value="Friend/Family Referral">Friend/Family Referral</option>
-                                    <option value="Healthcare Provider">Healthcare Provider</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group" id="referralOtherGroup" style="display: none;">
-                                <label for="referralOther">Please specify</label>
-                                <input type="text" id="referralOther" name="referralOther" placeholder="How you heard about me">
-                            </div>
+                        </div>
+
+                        <div class="privacy-note">
+                            By submitting this form, you agree to our Privacy Policy and consent to being contacted about your mental health consultation. Your info is private and confidential and data is encrypted.
+                        </div>
+
+                        <div id="bookingStep1">
+                            <button type="button" class="btn btn-primary btn-full" id="findSlotBtn">
+                                <span class="btn-text">Find a Slot</span>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Full-width rows -->
-                    <div class="form-group">
-                        <label for="concerns">Primary Concerns *</label>
-                        <textarea id="concerns" name="concerns" rows="4" placeholder="Please describe what brings you to therapy. Include any symptoms, life challenges, or goals you'd like to work on." required minlength="20" maxlength="1200"></textarea>
-                        <div class="char-counter">
-                            <span id="charCount">0</span> / 1200
-                        </div>
-                        <div class="helper-text">Please describe your concerns, symptoms, triggers, and what you hope to achieve through therapy.</div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="serviceInterest">Service Interest *</label>
-                            <select id="serviceInterest" name="serviceInterest" required>
-                                <option value="">Select service</option>
-                                <option value="Individual Therapy">Individual Therapy</option>
-                                <option value="Couples Counseling">Couples Counseling</option>
-                                <option value="Group Therapy">Group Therapy</option>
-                                <option value="Psychological Assessment">Psychological Assessment</option>
-                                <option value="Online Therapy">Online Therapy</option>
-                                <option value="Not sure">Not sure</option>
-                            </select>
+                    <div id="bookingStep2" style="display: none;">
+                        <div style="text-align: center; margin-bottom: 1.5rem;">
+                            <h3 style="margin-bottom: 0.5rem;">Select a Time & View Pricing</h3>
+                            <p>Choose a convenient slot below. Please note our transparent <a href="pricing.html" target="_blank" style="color: var(--primary); text-decoration: underline;">pricing structure</a> applies.</p>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="timePreference">Preferred Time</label>
-                            <select id="timePreference" name="timePreference">
-                                <option value="">Select preference</option>
-                                <option value="Morning (9 AM - 12 PM)">Morning (9 AM - 12 PM)</option>
-                                <option value="Afternoon (12 PM - 5 PM)">Afternoon (12 PM - 5 PM)</option>
-                                <option value="Evening (5 PM - 8 PM)">Evening (5 PM - 8 PM)</option>
-                                <option value="Flexible">Flexible</option>
-                            </select>
+                        <!-- Calendly inline widget begin -->
+                        <div class="calendly-inline-widget" data-url="https://calendly.com/upasnashil?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:500px;"></div>
+                        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+                        <!-- Calendly inline widget end -->
+
+                        <div style="display: flex; gap: 1rem;">
+                            <button type="button" class="btn btn-outline" id="backToStep1" style="flex: 1;">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn" style="flex: 2;">
+                                <span class="btn-text">Confirm Booking</span>
+                                <span class="btn-loading" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i> Booking…
+                                </span>
+                            </button>
                         </div>
                     </div>
-
-                    <div class="privacy-note">
-                        By submitting this form, you agree to our Privacy Policy and consent to being contacted about your mental health consultation. Your info is private and confidential and data is encrypted.
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
-                        <span class="btn-text">Submit</span>
-                        <span class="btn-loading" style="display: none;">
-                            <i class="fas fa-spinner fa-spin"></i>
-                            Sending…
-                        </span>
-                    </button>
                     
                 </form>
                 
