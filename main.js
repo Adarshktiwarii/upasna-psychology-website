@@ -289,11 +289,6 @@ function resetConsultationForm() {
         form.reset();
         form.style.display = 'block';
         
-        const bookingFormFields = document.getElementById('bookingFormFields');
-        const bookingStep2 = document.getElementById('bookingStep2');
-        if (bookingFormFields) bookingFormFields.style.display = 'block';
-        if (bookingStep2) bookingStep2.style.display = 'none';
-        
         // Reset submit button state
         if (submitBtn) {
             submitBtn.textContent = 'Submit';
@@ -454,32 +449,11 @@ function initConsultationForm() {
         return /^[\+]?[\d\s\-\(\)]{10,}$/.test(phone);
     }
 
-    const findSlotBtn = document.getElementById('findSlotBtn');
-    const backToStep1Btn = document.getElementById('backToStep1');
-    const bookingFormFields = document.getElementById('bookingFormFields');
-    const bookingStep2 = document.getElementById('bookingStep2');
-    
-    if (findSlotBtn) {
-        findSlotBtn.addEventListener('click', () => {
-            if (validateForm()) {
-                if (bookingFormFields) bookingFormFields.style.display = 'none';
-                if (bookingStep2) bookingStep2.style.display = 'block';
-            }
-        });
-    }
-
-    if (backToStep1Btn) {
-        backToStep1Btn.addEventListener('click', () => {
-            if (bookingStep2) bookingStep2.style.display = 'none';
-            if (bookingFormFields) bookingFormFields.style.display = 'block';
-        });
-    }
-
     // EXACT PM PORTFOLIO PATTERN: AJAX submission with toast and modal close
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Final validation backup just in case
+        // Validate form - show red errors on fields
         if (!validateForm()) {
             return;
         }
