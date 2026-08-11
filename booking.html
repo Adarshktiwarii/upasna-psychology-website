@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Consultation | Upasna Shil</title>
+  <meta name="description" content="Book a therapy session with Upasna Shil. Choose your session, pay securely, and pick a convenient time slot.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.web3forms.com; img-src 'self' data:; frame-src https://tidycal.com; frame-ancestors 'none';">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="booking">
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand"><a href="index.html"><i class="fas fa-seedling"></i><span>Hey Upasna</span></a></div>
+      <div class="nav-menu" id="navMenu" role="navigation" aria-label="Main navigation">
+        <a href="index.html" class="nav-link" data-nav="home">Home</a>
+        <a href="index.html#about" class="nav-link" data-nav="about">About</a>
+        <a href="index.html#services" class="nav-link" data-nav="services">Services</a>
+        <a href="index.html#pricing" class="nav-link" data-nav="pricing">Pricing</a>
+        <a href="index.html#workshops" class="nav-link" data-nav="workshops">Workshops</a>
+        <a href="index.html#approach" class="nav-link" data-nav="approach">Approach</a>
+        <a href="index.html#contact" class="nav-link" data-nav="contact">Contact</a>
+        <a class="btn btn-primary" href="booking.html" data-nav="booking" aria-label="Book consultation">
+          <i class="fas fa-calendar-check" aria-hidden="true"></i>
+          Book Consultation
+        </a>
+      </div>
+      <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <section class="hero booking-hero">
+    <div class="container">
+      <div class="section-header">
+        <h1>Book Your Session</h1>
+        <p>Choose your session, pay securely and pick your convenient time slot.</p>
+      </div>
+
+      <div class="booking-flow-stepper" aria-label="Booking progress">
+        <div class="flow-step active" data-step="1"><span class="flow-step-num">1</span><span class="flow-step-label">Choose session</span></div>
+        <div class="flow-step-line"></div>
+        <div class="flow-step" data-step="2"><span class="flow-step-num">2</span><span class="flow-step-label">Pay securely</span></div>
+        <div class="flow-step-line"></div>
+        <div class="flow-step" data-step="3"><span class="flow-step-num">3</span><span class="flow-step-label">Pick a time</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 1: Session selection -->
+  <section id="choose-session" class="services booking-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Step 1 — Choose Your Session</h2>
+        <p>Select the type of session you need and proceed with payment next.</p>
+      </div>
+
+      <div class="session-cards" id="sessionCards">
+        <button type="button" class="session-card" data-session="15min" data-price="500" data-duration="15 min">
+          <div class="session-card-icon"><i class="fas fa-clock"></i></div>
+          <h3>15 Minute Meeting</h3>
+          <p class="session-card-desc">A focused check-in or brief consultation.</p>
+          <p class="session-card-price">₹500 <span>/ session</span></p>
+          <p class="session-card-meta">15 minutes</p>
+        </button>
+
+        <button type="button" class="session-card" data-session="30min" data-price="1000" data-duration="30 min">
+          <div class="session-card-icon"><i class="fas fa-comments"></i></div>
+          <h3>30 Minute Meeting</h3>
+          <p class="session-card-desc">A standard session for meaningful conversation and support.</p>
+          <p class="session-card-price">₹1,000 <span>/ session</span></p>
+          <p class="session-card-meta">30 minutes</p>
+        </button>
+
+        <button type="button" class="session-card" data-session="50min" data-price="1500" data-duration="50 min">
+          <div class="session-card-icon"><i class="fas fa-user"></i></div>
+          <h3>50 Minute Meeting</h3>
+          <p class="session-card-desc">A full therapy session for deeper work and reflection.</p>
+          <p class="session-card-price">₹1,500 <span>/ session</span></p>
+          <p class="session-card-meta">50 minutes</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 2: Razorpay payment -->
+  <section id="payment" class="services booking-section booking-section-muted" hidden>
+    <div class="container">
+      <div class="section-header">
+        <h2>Step 2 — Pay Securely</h2>
+        <p>Complete your payment on Razorpay. You'll be brought back here to book your time slot.</p>
+      </div>
+
+      <div class="payment-summary" id="paymentSummary">
+        <div class="payment-summary-row">
+          <span>Session</span>
+          <strong id="summarySession">—</strong>
+        </div>
+        <div class="payment-summary-row payment-summary-amount">
+          <span>Amount to pay</span>
+          <strong id="summaryAmount">₹0</strong>
+        </div>
+      </div>
+
+      <div class="razorpay-pay-card">
+        <div class="razorpay-pay-icon"><i class="fas fa-shield-halved"></i></div>
+        <h3>Secure checkout via Razorpay</h3>
+        <p>Pay with UPI, debit/credit card, or wallet. After payment, you'll return to this page to pick your slot on TidyCal.</p>
+        <button type="button" id="razorpayPayBtn" class="btn btn-primary btn-large" disabled>
+          <i class="fas fa-shield-halved"></i> Pay now
+        </button>
+        <p class="razorpay-powered"><i class="fas fa-bolt"></i> Powered by Razorpay</p>
+      </div>
+
+      <p class="booking-international center">
+        Need help? <a href="https://wa.me/918484846980" target="_blank" rel="noopener">Message on WhatsApp</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Step 3: TidyCal scheduling (gated) -->
+  <section id="schedule" class="services booking-section booking-section-muted" hidden>
+    <div class="container">
+      <div class="section-header">
+        <h2>Step 3 — Pick Your Time Slot</h2>
+        <p>Payment successful. Open TidyCal to choose a date and time for your session.</p>
+      </div>
+
+      <div class="booking-notice booking-notice-success">
+        <i class="fas fa-check-circle"></i>
+        <div>
+          <strong>Payment received.</strong>
+          <p>Book your <strong id="scheduleSessionLabel">session</strong> on TidyCal. You'll receive a calendar invite and reminder.</p>
+          <p id="paymentIdNote" class="payment-id-note" hidden></p>
+        </div>
+      </div>
+
+      <div class="booking-actions schedule-cta">
+        <a id="tidycalBookBtn" class="btn btn-primary btn-large" href="https://tidycal.com/consultupasnashil" target="_blank" rel="noopener">
+          <i class="fas fa-calendar-check"></i> Book on TidyCal
+        </a>
+        <p class="small-note">Opens in a new tab. Pick the same session type you paid for.</p>
+      </div>
+
+      <p class="small-note center" style="margin-top:1.5rem;">
+        Having trouble?
+        <a href="https://wa.me/918484846980" target="_blank" rel="noopener">Message on WhatsApp</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Scheduling preview (before payment) -->
+  <section id="schedule-locked" class="services booking-section booking-section-muted">
+    <div class="container">
+      <div class="schedule-upcoming-card">
+        <div class="schedule-upcoming-icon" aria-hidden="true">
+          <i class="fas fa-hand-holding-heart"></i>
+        </div>
+        <h3>Your time slot is just one step away</h3>
+        <p>Once your payment is complete, you'll return here to choose a date and time that works best for you. Take your time — there's no rush.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>Hey Upasna</h3>
+          <p>Clinical Psychologist dedicated to your mental wellness journey.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Pages</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="index.html#about">About</a></li>
+              <li><a href="index.html#services">Services</a></li>
+              <li><a href="index.html#pricing">Pricing</a></li>
+              <li><a href="index.html#workshops">Workshops</a></li>
+              <li><a href="index.html#approach">Approach</a></li>
+              <li><a href="booking.html">Book Consultation</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="index.html#approach">Treatment Approach</a></li>
+              <li><a href="index.html#about">About Upasna</a></li>
+              <li><a href="pricing.html">Pricing</a></li>
+              <li><a href="workshops.html">Workshops</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
+              <li><a href="https://wa.me/918484846980" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="index.html#contact">Privacy &amp; Policies</a></li>
+              <li><a href="mailto:consult.upasnashil@gmail.com">consult.upasnashil@gmail.com</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Hey Upasna. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/razorpay-config.js"></script>
+  <script src="js/booking.js"></script>
+</body>
+</html>

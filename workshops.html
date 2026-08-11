@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshops & Training Seminars | Upasna Shil</title>
+    <meta name="description" content="Reflective workshops, training seminars, and psychological assessments for emotional wellness, clinical skills, and mental well-being by Upasna Shil.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="workshops">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <i class="fas fa-seedling"></i>
+                    <span>Hey Upasna</span>
+                </a>
+            </div>
+            <div class="nav-menu" id="navMenu" role="navigation" aria-label="Main navigation">
+                <a href="index.html" class="nav-link" data-nav="home">Home</a>
+                <a href="index.html#about" class="nav-link" data-nav="about">About</a>
+                <a href="index.html#services" class="nav-link" data-nav="services">Services</a>
+                <a href="index.html#pricing" class="nav-link" data-nav="pricing">Pricing</a>
+                <a href="index.html#workshops" class="nav-link" data-nav="workshops">Workshops</a>
+                <a href="index.html#approach" class="nav-link" data-nav="approach">Approach</a>
+                <a href="index.html#contact" class="nav-link" data-nav="contact">Contact</a>
+                <a class="btn btn-primary" href="booking.html" data-nav="booking" aria-label="Book consultation">
+                    <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                    Book Consultation
+                </a>
+            </div>
+            <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="section-header">
+                <h1>Workshops & Training Seminars</h1>
+                <p>Reflective workshops and structured seminars for individuals, teams, schools, and organizations.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="offerings" class="services section-bg-lavender">
+        <div class="container">
+            <div class="section-header">
+                <h2>What We Offer</h2>
+                <p>Programs can be adapted for colleges, workplaces, schools, clinical learners, and community groups.</p>
+            </div>
+            <div class="services-grid workshops-offerings-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-people-group"></i></div>
+                    <h3>Emotional Wellness Workshops</h3>
+                    <p>Interactive sessions for emotional awareness, self-regulation, stress management, boundaries, and reflective personal growth.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-brain"></i></div>
+                    <h3>Clinical Skill Workshops</h3>
+                    <p>Applied learning sessions such as CBT foundations, case formulation, therapeutic communication, and client-ready tools.</p>
+                </div>
+                <div id="training-seminars" class="service-card">
+                    <div class="service-icon"><i class="fas fa-chalkboard-user"></i></div>
+                    <h3>Training Seminars</h3>
+                    <p>Structured seminars for teams and institutions covering well-being, communication, resilience, and mental health literacy.</p>
+                </div>
+                <div id="tests-assessments" class="service-card">
+                    <div class="service-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <h3>Tests and Assessments</h3>
+                    <p>Rorschach, TAT, IQ assessments, and other standardized psychological evaluations tailored to your needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about section-bg-sage">
+        <div class="container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>Simple, flexible, and designed around your audience.</p>
+            </div>
+            <div class="booking-steps">
+                <div><strong>1</strong><span>Share your audience, goals, and preferred format.</span></div>
+                <div><strong>2</strong><span>Receive a suggested theme, structure, and duration.</span></div>
+                <div><strong>3</strong><span>Confirm schedule, payment, and logistics.</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="inquiry" class="contact section-bg-peach">
+        <div class="container">
+            <div class="section-header">
+                <h2>Workshop / Seminar Inquiry</h2>
+                <p>Tell us what you're planning and we'll get back with next steps.</p>
+            </div>
+            <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="760c9fcb-9406-4cce-b78a-932545b93255">
+                <input type="hidden" name="subject" value="Workshop or training seminar inquiry from heyupasna.in">
+                <input type="checkbox" name="botcheck" style="display:none">
+                <div class="form-row">
+                    <div class="form-group"><label>Name</label><input name="name" required></div>
+                    <div class="form-group"><label>Email</label><input name="email" type="email" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Organization / group</label><input name="organization"></div>
+                    <div class="form-group">
+                        <label>Inquiry type</label>
+                        <select name="inquiry_type">
+                            <option>Workshop</option>
+                            <option>Training Seminar</option>
+                            <option>Clinical Skill Workshop</option>
+                            <option>Tests and Assessments</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"><label>Message</label><textarea name="message" rows="5" required></textarea></div>
+                <button class="btn btn-primary btn-large" type="submit"><i class="fas fa-paper-plane"></i> Send Inquiry</button>
+                <p class="form-status" aria-live="polite"></p>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Hey Upasna</h3>
+                    <p>Clinical Psychologist dedicated to your mental wellness journey.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Pages</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.html#about">About</a></li>
+                            <li><a href="index.html#services">Services</a></li>
+                            <li><a href="index.html#pricing">Pricing</a></li>
+                            <li><a href="index.html#workshops">Workshops</a></li>
+                            <li><a href="index.html#approach">Approach</a></li>
+                            <li><a href="booking.html">Book Consultation</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="index.html#approach">Treatment Approach</a></li>
+                            <li><a href="index.html#about">About Upasna</a></li>
+                            <li><a href="pricing.html">Pricing</a></li>
+                            <li><a href="workshops.html">Workshops</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                            <li><a href="https://wa.me/918484846980" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="index.html#contact">Privacy &amp; Policies</a></li>
+                            <li><a href="mailto:consult.upasnashil@gmail.com">consult.upasnashil@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Hey Upasna. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

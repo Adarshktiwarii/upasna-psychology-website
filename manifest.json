@@ -1,0 +1,16 @@
+{
+  "name": "Hey Upasna - Clinical Psychologist",
+  "short_name": "Hey Upasna",
+  "description": "Professional mental health services by Upasna Shil, MPhil Clinical Psychologist.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDFBF9",
+  "theme_color": "#6B7D6D",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}
