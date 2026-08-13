@@ -88,6 +88,10 @@
     var info = SESSIONS[sessionKey];
     if (!info || !razorpayPayBtn) return;
     razorpayPayBtn.disabled = !checkoutReady;
+    if (!checkoutReady) {
+      razorpayPayBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing checkout...';
+      return;
+    }
     razorpayPayBtn.innerHTML = '<i class="fas fa-shield-halved"></i> Pay ₹' + info.price.toLocaleString('en-IN') + ' securely';
   }
 
@@ -185,14 +189,21 @@
   function fetchRazorpayConfig() {
     return fetch(apiUrl('/api/config'))
       .then(function (response) {
-        if (!response.ok) throw new Error('Payment service is unavailable. Please try again later.');
-        return response.json();
-      })
-      .then(function (data) {
-        if (!data.keyId) throw new Error('Payment configuration is missing.');
-        razorpayKeyId = data.keyId;
-        checkoutReady = true;
-        if (selectedSession) updatePayButton(selectedSession);
+        return response.text().then(function (text) {
+          var data;
+          try {
+            data = JSON.parse(text);
+          } catch (err) {
+            throw new Error('Payment service is unavailable. Please try again later.');
+          }
+          if (!response.ok) {
+            throw new Error(data.error || 'Payment service is unavailable. Please try again later.');
+          }
+          if (!data.keyId) throw new Error('Payment configuration is missing.');
+          razorpayKeyId = data.keyId;
+          checkoutReady = true;
+          if (selectedSession) updatePayButton(selectedSession);
+        });
       });
   }
 

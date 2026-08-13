@@ -10,24 +10,35 @@ const PORT = process.env.PORT || 3000;
 
 const keyId = process.env.RAZORPAY_KEY_ID;
 const keySecret = process.env.RAZORPAY_KEY_SECRET;
+const staticDir = path.join(__dirname, 'static');
+const hasStaticDir = require('fs').existsSync(staticDir);
+const publicDir = hasStaticDir ? staticDir : __dirname;
+
+let razorpay = null;
 
 if (!keyId || !keySecret) {
   console.error('Missing RAZORPAY_KEY_ID or RAZORPAY_KEY_SECRET in environment.');
-  process.exit(1);
+} else {
+  razorpay = new Razorpay({
+    key_id: keyId,
+    key_secret: keySecret
+  });
 }
 
-const razorpay = new Razorpay({
-  key_id: keyId,
-  key_secret: keySecret
-});
+function paymentNotConfigured(res) {
+  return res.status(503).json({ error: 'Payment service is not configured on the server.' });
+}
 
 app.use(express.json());
 
 app.get('/api/config', function (req, res) {
+  if (!keyId) return paymentNotConfigured(res);
   res.json({ keyId: keyId });
 });
 
 app.post('/api/create-order', async function (req, res) {
+  if (!razorpay) return paymentNotConfigured(res);
+
   const amount = Number(req.body.amount);
   const currency = req.body.currency || 'INR';
   const receipt = req.body.receipt;
@@ -65,6 +76,8 @@ app.post('/api/create-order', async function (req, res) {
 });
 
 app.post('/api/verify-payment', function (req, res) {
+  if (!keySecret) return paymentNotConfigured(res);
+
   const orderId = req.body.razorpay_order_id;
   const paymentId = req.body.razorpay_payment_id;
   const signature = req.body.razorpay_signature;
@@ -85,8 +98,8 @@ app.post('/api/verify-payment', function (req, res) {
   res.json({ success: true, payment_id: paymentId });
 });
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(publicDir));
 
 app.listen(PORT, function () {
-  console.log('Server running at http://localhost:' + PORT);
+  console.log('Server running on port ' + PORT);
 });
