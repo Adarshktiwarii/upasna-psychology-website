@@ -22,6 +22,10 @@
   var PAYMENT_ID_KEY = 'heyupasna_payment_id';
 
   var selectedSession = null;
+  var razorpayKeyId = null;
+  var checkoutReady = false;
+  var paymentInProgress = false;
+
   var cards = document.querySelectorAll('.session-card');
   var paymentSection = document.getElementById('payment');
   var scheduleSection = document.getElementById('schedule');
@@ -30,12 +34,31 @@
   var tidycalBookBtn = document.getElementById('tidycalBookBtn');
   var scheduleSessionLabel = document.getElementById('scheduleSessionLabel');
   var paymentIdNote = document.getElementById('paymentIdNote');
+  var paymentError = document.getElementById('paymentError');
 
-  function getPaymentLink(sessionKey) {
-    if (typeof RAZORPAY_CONFIG !== 'undefined' && RAZORPAY_CONFIG.paymentLinks) {
-      return RAZORPAY_CONFIG.paymentLinks[sessionKey];
+  function apiUrl(path) {
+    var base = (typeof RAZORPAY_CONFIG !== 'undefined' && RAZORPAY_CONFIG.apiBase) || '';
+    return base + path;
+  }
+
+  function showPaymentError(message) {
+    if (!paymentError) return;
+    paymentError.textContent = message;
+    paymentError.hidden = !message;
+  }
+
+  function setPayButtonLoading(isLoading) {
+    if (!razorpayPayBtn || !selectedSession) return;
+    var info = SESSIONS[selectedSession];
+    if (!info) return;
+
+    razorpayPayBtn.disabled = isLoading || !checkoutReady;
+    if (isLoading) {
+      razorpayPayBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      return;
     }
-    return null;
+
+    razorpayPayBtn.innerHTML = '<i class="fas fa-shield-halved"></i> Pay ₹' + info.price.toLocaleString('en-IN') + ' securely';
   }
 
   function setStepActive(step) {
@@ -63,10 +86,8 @@
 
   function updatePayButton(sessionKey) {
     var info = SESSIONS[sessionKey];
-    var link = getPaymentLink(sessionKey);
-    if (!info || !razorpayPayBtn || !link) return;
-    razorpayPayBtn.disabled = false;
-    razorpayPayBtn.dataset.paymentUrl = link;
+    if (!info || !razorpayPayBtn) return;
+    razorpayPayBtn.disabled = !checkoutReady;
     razorpayPayBtn.innerHTML = '<i class="fas fa-shield-halved"></i> Pay ₹' + info.price.toLocaleString('en-IN') + ' securely';
   }
 
@@ -99,8 +120,8 @@
     scheduleLocked.hidden = true;
     setStepActive(3);
     scrollToEl(scheduleSection);
+    showPaymentError('');
 
-    // Clean URL params after handling redirect
     if (window.history.replaceState) {
       window.history.replaceState({}, '', window.location.pathname + '?session=' + sessionKey);
     }
@@ -126,13 +147,6 @@
     }
   }
 
-  function isPaymentSuccess(params) {
-    if (params.get('paid') === '1') return true;
-    if (params.get('razorpay_payment_link_status') === 'paid') return true;
-    if (params.get('razorpay_payment_id')) return true;
-    return false;
-  }
-
   function selectSession(card, skipScroll) {
     var sessionKey = card.getAttribute('data-session');
 
@@ -148,17 +162,152 @@
     scheduleSection.hidden = true;
     scheduleLocked.hidden = false;
     setStepActive(2);
+    showPaymentError('');
     if (!skipScroll) scrollToEl(paymentSection);
   }
 
-  function handlePaymentReturn() {
-    var params = new URLSearchParams(window.location.search);
-    var sessionKey = params.get('session');
-    if (!sessionKey || !SESSIONS[sessionKey]) return;
-    if (!isPaymentSuccess(params)) return;
+  function loadCheckoutScript() {
+    return new Promise(function (resolve, reject) {
+      if (window.Razorpay) {
+        resolve();
+        return;
+      }
 
-    var paymentId = params.get('razorpay_payment_id') || params.get('payment_id');
-    unlockSchedule(sessionKey, paymentId);
+      var script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      script.onload = function () { resolve(); };
+      script.onerror = function () { reject(new Error('Failed to load Razorpay checkout')); };
+      document.head.appendChild(script);
+    });
+  }
+
+  function fetchRazorpayConfig() {
+    return fetch(apiUrl('/api/config'))
+      .then(function (response) {
+        if (!response.ok) throw new Error('Payment service is unavailable. Please try again later.');
+        return response.json();
+      })
+      .then(function (data) {
+        if (!data.keyId) throw new Error('Payment configuration is missing.');
+        razorpayKeyId = data.keyId;
+        checkoutReady = true;
+        if (selectedSession) updatePayButton(selectedSession);
+      });
+  }
+
+  function createOrder(sessionKey) {
+    var info = SESSIONS[sessionKey];
+    var receipt = 'session_' + sessionKey + '_' + Date.now();
+
+    return fetch(apiUrl('/api/create-order'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: info.price * 100,
+        currency: 'INR',
+        receipt: receipt
+      })
+    }).then(function (response) {
+      return response.json().then(function (data) {
+        if (!response.ok) {
+          var message = data.error || 'Could not start payment. Please try again.';
+          if (response.status === 401) message = 'Payment authentication failed. Please contact support.';
+          throw new Error(message);
+        }
+        return data;
+      });
+    });
+  }
+
+  function verifyPayment(payload) {
+    return fetch(apiUrl('/api/verify-payment'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      return response.json().then(function (data) {
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || 'Payment verification failed. Please contact support.');
+        }
+        return data;
+      });
+    });
+  }
+
+  function openRazorpayCheckout(order, sessionKey) {
+    var info = SESSIONS[sessionKey];
+    var config = typeof RAZORPAY_CONFIG !== 'undefined' ? RAZORPAY_CONFIG : {};
+
+    var options = {
+      key: razorpayKeyId,
+      amount: order.amount,
+      currency: order.currency,
+      name: config.businessName || 'Hey Upasna',
+      description: info.label,
+      order_id: order.order_id,
+      handler: function (response) {
+        paymentInProgress = false;
+        setPayButtonLoading(true);
+
+        verifyPayment({
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature
+        })
+          .then(function (data) {
+            unlockSchedule(sessionKey, data.payment_id || response.razorpay_payment_id);
+          })
+          .catch(function (err) {
+            showPaymentError(err.message);
+          })
+          .finally(function () {
+            setPayButtonLoading(false);
+          });
+      },
+      modal: {
+        ondismiss: function () {
+          paymentInProgress = false;
+          setPayButtonLoading(false);
+          showPaymentError('Payment was cancelled. You can try again when ready.');
+        }
+      },
+      theme: {
+        color: '#6B7D6D'
+      }
+    };
+
+    var razorpay = new window.Razorpay(options);
+
+    razorpay.on('payment.failed', function (response) {
+      paymentInProgress = false;
+      setPayButtonLoading(false);
+      var reason = response.error && response.error.description
+        ? response.error.description
+        : 'Payment failed. Please try again or use a different method.';
+      showPaymentError(reason);
+    });
+
+    razorpay.open();
+  }
+
+  function startPayment() {
+    if (!selectedSession || !checkoutReady || paymentInProgress) return;
+
+    showPaymentError('');
+    paymentInProgress = true;
+    setPayButtonLoading(true);
+
+    createOrder(selectedSession)
+      .then(function (order) {
+        setPayButtonLoading(false);
+        openRazorpayCheckout(order, selectedSession);
+      })
+      .catch(function (err) {
+        paymentInProgress = false;
+        setPayButtonLoading(false);
+        showPaymentError(err.message);
+      });
   }
 
   cards.forEach(function (card) {
@@ -166,23 +315,23 @@
   });
 
   if (razorpayPayBtn) {
-    razorpayPayBtn.addEventListener('click', function () {
-      var url = razorpayPayBtn.dataset.paymentUrl;
-      if (!url || razorpayPayBtn.disabled) return;
-      window.location.href = url;
-    });
+    razorpayPayBtn.addEventListener('click', startPayment);
   }
+
+  Promise.all([loadCheckoutScript(), fetchRazorpayConfig()])
+    .catch(function (err) {
+      checkoutReady = false;
+      if (razorpayPayBtn) razorpayPayBtn.disabled = true;
+      showPaymentError(err.message);
+    });
 
   var params = new URLSearchParams(window.location.search);
   var preselect = params.get('session');
 
-  if (isPaymentSuccess(params) && preselect && SESSIONS[preselect]) {
-    handlePaymentReturn();
-  } else {
-    if (preselect) {
-      var target = document.querySelector('.session-card[data-session="' + preselect + '"]');
-      if (target) selectSession(target, true);
-    }
-    restoreUnlockedState();
+  if (preselect) {
+    var target = document.querySelector('.session-card[data-session="' + preselect + '"]');
+    if (target) selectSession(target, true);
   }
+
+  restoreUnlockedState();
 })();
