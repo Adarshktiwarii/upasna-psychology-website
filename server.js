@@ -23,6 +23,7 @@ if (!keyId || !keySecret) {
     key_id: keyId,
     key_secret: keySecret
   });
+  console.log('Razorpay configured for key:', keyId.slice(0, 12) + '...');
 }
 
 function paymentNotConfigured(res) {

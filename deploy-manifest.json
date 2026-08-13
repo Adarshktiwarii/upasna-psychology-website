@@ -14,17 +14,13 @@
       "target": {
         "kind": "Static",
         "cacheControl": "public, max-age=3600"
-      },
-      "fallback": {
-        "kind": "Compute",
-        "src": "default"
       }
     },
     {
       "path": "/*",
       "target": {
-        "kind": "Compute",
-        "src": "default"
+        "kind": "Static",
+        "cacheControl": "public, max-age=3600"
       }
     }
   ],
