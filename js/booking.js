@@ -109,15 +109,50 @@
     paymentIdNote.hidden = false;
   }
 
-  function unlockSchedule(sessionKey, paymentId) {
-    sessionStorage.setItem(STORAGE_KEY, 'true');
-    sessionStorage.setItem(SESSION_KEY, sessionKey);
-    if (paymentId) sessionStorage.setItem(PAYMENT_ID_KEY, paymentId);
+  function clearBookingStorage() {
+    sessionStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(PAYMENT_ID_KEY);
+  }
 
+  function resetBookingFlow() {
+    clearBookingStorage();
+    selectedSession = null;
+    paymentInProgress = false;
+
+    cards.forEach(function (c) { c.classList.remove('selected'); });
+
+    if (paymentIdNote) {
+      paymentIdNote.textContent = '';
+      paymentIdNote.hidden = true;
+    }
+
+    if (scheduleSessionLabel) scheduleSessionLabel.textContent = 'session';
+    if (document.getElementById('summarySession')) document.getElementById('summarySession').textContent = '—';
+    if (document.getElementById('summaryAmount')) document.getElementById('summaryAmount').textContent = '₹0';
+    if (razorpayPayBtn) {
+      razorpayPayBtn.disabled = !checkoutReady;
+      razorpayPayBtn.innerHTML = '<i class="fas fa-shield-halved"></i> Pay now';
+    }
+
+    scheduleSection.hidden = true;
+    paymentSection.hidden = true;
+    scheduleLocked.hidden = false;
+    setStepActive(1);
+    showPaymentError('');
+
+    if (window.history.replaceState) {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+
+    var chooseSession = document.getElementById('choose-session');
+    if (chooseSession) scrollToEl(chooseSession);
+  }
+
+  function unlockSchedule(sessionKey, paymentId) {
     selectedSession = sessionKey;
     updateTidyCalLink(sessionKey);
     if (paymentId) showPaymentId(paymentId);
-    else showPaymentId(sessionStorage.getItem(PAYMENT_ID_KEY));
 
     paymentSection.hidden = true;
     scheduleSection.hidden = false;
@@ -131,33 +166,12 @@
     }
   }
 
-  function restoreUnlockedState() {
-    if (sessionStorage.getItem(STORAGE_KEY) !== 'true') return;
-    var sessionKey = sessionStorage.getItem(SESSION_KEY);
-    if (!sessionKey || !SESSIONS[sessionKey]) return;
-
-    selectedSession = sessionKey;
-    updateTidyCalLink(sessionKey);
-    showPaymentId(sessionStorage.getItem(PAYMENT_ID_KEY));
-    paymentSection.hidden = true;
-    scheduleSection.hidden = false;
-    scheduleLocked.hidden = true;
-    setStepActive(3);
-
-    var card = document.querySelector('.session-card[data-session="' + sessionKey + '"]');
-    if (card) {
-      cards.forEach(function (c) { c.classList.remove('selected'); });
-      card.classList.add('selected');
-    }
-  }
-
   function selectSession(card, skipScroll) {
     var sessionKey = card.getAttribute('data-session');
 
     cards.forEach(function (c) { c.classList.remove('selected'); });
     card.classList.add('selected');
     selectedSession = sessionKey;
-    sessionStorage.setItem(SESSION_KEY, sessionKey);
 
     updateSummary(sessionKey);
     updatePayButton(sessionKey);
@@ -329,6 +343,14 @@
     razorpayPayBtn.addEventListener('click', startPayment);
   }
 
+  if (tidycalBookBtn) {
+    tidycalBookBtn.addEventListener('click', function () {
+      resetBookingFlow();
+    });
+  }
+
+  clearBookingStorage();
+
   Promise.all([loadCheckoutScript(), fetchRazorpayConfig()])
     .catch(function (err) {
       checkoutReady = false;
@@ -343,6 +365,4 @@
     var target = document.querySelector('.session-card[data-session="' + preselect + '"]');
     if (target) selectSession(target, true);
   }
-
-  restoreUnlockedState();
 })();
