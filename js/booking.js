@@ -33,8 +33,8 @@
   var scheduleLocked = document.getElementById('schedule-locked');
   var razorpayPayBtn = document.getElementById('razorpayPayBtn');
   var tidycalEmbed = document.getElementById('tidycalEmbed');
-  var tidycalFallbackLink = document.getElementById('tidycalFallbackLink');
   var completeBookingBtn = document.getElementById('completeBookingBtn');
+  var completeBookingError = document.getElementById('completeBookingError');
   var scheduleSessionLabel = document.getElementById('scheduleSessionLabel');
   var paymentIdNote = document.getElementById('paymentIdNote');
   var paymentError = document.getElementById('paymentError');
@@ -42,6 +42,17 @@
   function apiUrl(path) {
     var base = (typeof RAZORPAY_CONFIG !== 'undefined' && RAZORPAY_CONFIG.apiBase) || '';
     return base + path;
+  }
+
+  function showCompleteBookingError(message) {
+    if (!completeBookingError) return;
+    completeBookingError.textContent = message;
+    completeBookingError.hidden = !message;
+  }
+
+  function finishBookingAndGoHome() {
+    clearBookingToken();
+    window.location.href = 'index.html';
   }
 
   function showPaymentError(message) {
@@ -143,10 +154,6 @@
 
     if (scheduleSessionLabel) scheduleSessionLabel.textContent = info.label;
     if (tidycalEmbed) tidycalEmbed.src = info.tidycal;
-    if (tidycalFallbackLink) {
-      tidycalFallbackLink.href = info.tidycal;
-      tidycalFallbackLink.textContent = 'Open TidyCal in a new tab';
-    }
   }
 
   function showPaymentId(paymentId) {
@@ -345,11 +352,17 @@
   }
 
   function completeBooking() {
+    if (completingBooking) return;
+
     var token = loadBookingToken();
-    if (!token || completingBooking) return;
+    if (!token) {
+      finishBookingAndGoHome();
+      return;
+    }
 
     completingBooking = true;
     setCompleteButtonLoading(true);
+    showCompleteBookingError('');
 
     fetch(apiUrl('/api/complete-booking'), {
       method: 'POST',
@@ -364,12 +377,11 @@
           if (!response.ok || !data.success) {
             throw new Error(data.error || 'Could not complete booking.');
           }
-          clearBookingToken();
-          resetBookingFlow();
+          finishBookingAndGoHome();
         });
       })
       .catch(function (err) {
-        showPaymentError(err.message);
+        showCompleteBookingError(err.message);
       })
       .finally(function () {
         completingBooking = false;
