@@ -31,14 +31,10 @@
   var paymentSection = document.getElementById('payment');
   var scheduleSection = document.getElementById('schedule');
   var scheduleLocked = document.getElementById('schedule-locked');
-  var recoverSection = document.getElementById('recover-booking');
   var razorpayPayBtn = document.getElementById('razorpayPayBtn');
   var tidycalEmbed = document.getElementById('tidycalEmbed');
   var tidycalFallbackLink = document.getElementById('tidycalFallbackLink');
   var completeBookingBtn = document.getElementById('completeBookingBtn');
-  var recoverBookingBtn = document.getElementById('recoverBookingBtn');
-  var recoverPaymentIdInput = document.getElementById('recoverPaymentId');
-  var recoverError = document.getElementById('recoverError');
   var scheduleSessionLabel = document.getElementById('scheduleSessionLabel');
   var paymentIdNote = document.getElementById('paymentIdNote');
   var paymentError = document.getElementById('paymentError');
@@ -52,12 +48,6 @@
     if (!paymentError) return;
     paymentError.textContent = message;
     paymentError.hidden = !message;
-  }
-
-  function showRecoverError(message) {
-    if (!recoverError) return;
-    recoverError.textContent = message;
-    recoverError.hidden = !message;
   }
 
   function saveBookingToken(token) {
@@ -111,16 +101,6 @@
       return;
     }
     completeBookingBtn.innerHTML = '<i class="fas fa-check"></i> I\'ve booked my slot';
-  }
-
-  function setRecoverButtonLoading(isLoading) {
-    if (!recoverBookingBtn) return;
-    recoverBookingBtn.disabled = isLoading;
-    if (isLoading) {
-      recoverBookingBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
-      return;
-    }
-    recoverBookingBtn.innerHTML = '<i class="fas fa-unlock"></i> Continue to booking';
   }
 
   function setStepActive(step) {
@@ -200,10 +180,8 @@
     scheduleSection.hidden = true;
     paymentSection.hidden = true;
     scheduleLocked.hidden = false;
-    if (recoverSection) recoverSection.hidden = false;
     setStepActive(1);
     showPaymentError('');
-    showRecoverError('');
 
     if (window.history.replaceState) {
       window.history.replaceState({}, '', window.location.pathname);
@@ -229,10 +207,8 @@
     paymentSection.hidden = true;
     scheduleSection.hidden = false;
     scheduleLocked.hidden = true;
-    if (recoverSection) recoverSection.hidden = true;
     setStepActive(3);
     showPaymentError('');
-    showRecoverError('');
 
     if (!skipScroll) scrollToEl(scheduleSection);
 
@@ -286,7 +262,6 @@
     paymentSection.hidden = false;
     scheduleSection.hidden = true;
     scheduleLocked.hidden = false;
-    if (recoverSection) recoverSection.hidden = false;
     setStepActive(2);
     showPaymentError('');
     if (!skipScroll) scrollToEl(paymentSection);
@@ -369,21 +344,6 @@
     });
   }
 
-  function recoverBooking(paymentId) {
-    return fetch(apiUrl('/api/recover-booking'), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ payment_id: paymentId })
-    }).then(function (response) {
-      return response.json().then(function (data) {
-        if (!response.ok || !data.success) {
-          throw new Error(data.error || 'Could not find a booking for that payment ID.');
-        }
-        return data;
-      });
-    });
-  }
-
   function completeBooking() {
     var token = loadBookingToken();
     if (!token || completingBooking) return;
@@ -445,7 +405,7 @@
             );
           })
           .catch(function (err) {
-            showPaymentError(err.message + ' Your payment may still have gone through — use "Already paid?" below with payment ID ' + response.razorpay_payment_id + '.');
+            showPaymentError(err.message + ' Your payment may still have gone through — please contact support on WhatsApp with payment ID ' + response.razorpay_payment_id + '.');
           })
           .finally(function () {
             setPayButtonLoading(false);
@@ -496,30 +456,6 @@
       });
   }
 
-  function startRecoverBooking() {
-    if (!recoverPaymentIdInput) return;
-
-    var paymentId = recoverPaymentIdInput.value.trim();
-    if (!paymentId) {
-      showRecoverError('Enter your Razorpay payment ID (starts with pay_).');
-      return;
-    }
-
-    showRecoverError('');
-    setRecoverButtonLoading(true);
-
-    recoverBooking(paymentId)
-      .then(function (data) {
-        unlockSchedule(data.session_key, data.payment_id, data.booking_token);
-      })
-      .catch(function (err) {
-        showRecoverError(err.message);
-      })
-      .finally(function () {
-        setRecoverButtonLoading(false);
-      });
-  }
-
   cards.forEach(function (card) {
     card.addEventListener('click', function () { selectSession(card); });
   });
@@ -530,16 +466,6 @@
 
   if (completeBookingBtn) {
     completeBookingBtn.addEventListener('click', completeBooking);
-  }
-
-  if (recoverBookingBtn) {
-    recoverBookingBtn.addEventListener('click', startRecoverBooking);
-  }
-
-  if (recoverPaymentIdInput) {
-    recoverPaymentIdInput.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter') startRecoverBooking();
-    });
   }
 
   Promise.all([loadCheckoutScript(), fetchRazorpayConfig()])

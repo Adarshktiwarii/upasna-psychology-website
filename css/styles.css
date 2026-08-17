@@ -3292,12 +3292,5 @@ select:focus {
 .payment-id-note{margin-top:.5rem;font-size:.85rem;color:var(--text-muted)}
 .tidycal-embed-wrap{max-width:920px;margin:0 auto 1.5rem;background:#fff;border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-md)}
 .tidycal-embed{display:block;width:100%;min-height:720px;border:0;background:#fff}
-.recover-booking-card{max-width:640px;margin:0 auto;padding:2rem;background:#fff;border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}
-.recover-booking-card h3{margin:0 0 .75rem}
-.recover-booking-card p{color:var(--text-secondary);line-height:1.6;margin:0 0 1.25rem}
-.recover-booking-form{display:flex;gap:.75rem;flex-wrap:wrap}
-.recover-booking-input{flex:1 1 220px;border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;font:inherit;color:var(--text-secondary);background:#fff}
-.recover-booking-input:focus{outline:2px solid rgba(163,177,138,.35);border-color:var(--primary-light)}
-.recover-error{margin-top:1rem}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@media(max-width:640px){.flow-step-label{display:none}.flow-step-line{width:1rem}.booking-flow-stepper{gap:.35rem}.tidycal-embed{min-height:620px}.recover-booking-form{flex-direction:column}}
+@media(max-width:640px){.flow-step-label{display:none}.flow-step-line{width:1rem}.booking-flow-stepper{gap:.35rem}.tidycal-embed{min-height:620px}}
