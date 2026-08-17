@@ -8,6 +8,8 @@
     "postbuild": "chmod +x bin/postbuild.sh && ./bin/postbuild.sh"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.864.0",
+    "@aws-sdk/lib-dynamodb": "^3.864.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "razorpay": "^2.9.6"

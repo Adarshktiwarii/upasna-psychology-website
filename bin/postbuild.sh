@@ -7,6 +7,7 @@ mkdir -p ./.amplify-hosting/compute/default
 mkdir -p ./.amplify-hosting/static
 
 cp server.js package.json package-lock.json ./.amplify-hosting/compute/default/
+cp -r ./lib ./.amplify-hosting/compute/default/lib
 cp -r ./node_modules ./.amplify-hosting/compute/default/node_modules
 
 # Amplify Console env vars are available at build time; bake into compute bundle.
@@ -14,6 +15,10 @@ if [ -n "${RAZORPAY_KEY_ID:-}" ] && [ -n "${RAZORPAY_KEY_SECRET:-}" ]; then
   cat > ./.amplify-hosting/compute/default/.env <<EOF
 RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
 RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
+BOOKINGS_TABLE_NAME=${BOOKINGS_TABLE_NAME:-}
+DYNAMODB_REGION=${DYNAMODB_REGION:-ap-south-1}
+BOOKING_TOKEN_SECRET=${BOOKING_TOKEN_SECRET:-${RAZORPAY_KEY_SECRET}}
+RAZORPAY_WEBHOOK_SECRET=${RAZORPAY_WEBHOOK_SECRET:-}
 EOF
   echo "Razorpay credentials written to compute bundle."
 else

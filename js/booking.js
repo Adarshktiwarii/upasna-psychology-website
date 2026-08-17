@@ -17,21 +17,28 @@
     }
   };
 
-  var STORAGE_KEY = 'heyupasna_booking_unlocked';
-  var SESSION_KEY = 'heyupasna_booking_session';
-  var PAYMENT_ID_KEY = 'heyupasna_payment_id';
+  var BOOKING_TOKEN_KEY = 'heyupasna_booking_token';
 
   var selectedSession = null;
+  var activeBookingToken = null;
+  var activePaymentId = null;
   var razorpayKeyId = null;
   var checkoutReady = false;
   var paymentInProgress = false;
+  var completingBooking = false;
 
   var cards = document.querySelectorAll('.session-card');
   var paymentSection = document.getElementById('payment');
   var scheduleSection = document.getElementById('schedule');
   var scheduleLocked = document.getElementById('schedule-locked');
+  var recoverSection = document.getElementById('recover-booking');
   var razorpayPayBtn = document.getElementById('razorpayPayBtn');
-  var tidycalBookBtn = document.getElementById('tidycalBookBtn');
+  var tidycalEmbed = document.getElementById('tidycalEmbed');
+  var tidycalFallbackLink = document.getElementById('tidycalFallbackLink');
+  var completeBookingBtn = document.getElementById('completeBookingBtn');
+  var recoverBookingBtn = document.getElementById('recoverBookingBtn');
+  var recoverPaymentIdInput = document.getElementById('recoverPaymentId');
+  var recoverError = document.getElementById('recoverError');
   var scheduleSessionLabel = document.getElementById('scheduleSessionLabel');
   var paymentIdNote = document.getElementById('paymentIdNote');
   var paymentError = document.getElementById('paymentError');
@@ -47,6 +54,41 @@
     paymentError.hidden = !message;
   }
 
+  function showRecoverError(message) {
+    if (!recoverError) return;
+    recoverError.textContent = message;
+    recoverError.hidden = !message;
+  }
+
+  function saveBookingToken(token) {
+    activeBookingToken = token;
+    try {
+      localStorage.setItem(BOOKING_TOKEN_KEY, token);
+    } catch (err) {
+      // localStorage may be unavailable in private mode
+    }
+  }
+
+  function loadBookingToken() {
+    if (activeBookingToken) return activeBookingToken;
+    try {
+      activeBookingToken = localStorage.getItem(BOOKING_TOKEN_KEY);
+    } catch (err) {
+      activeBookingToken = null;
+    }
+    return activeBookingToken;
+  }
+
+  function clearBookingToken() {
+    activeBookingToken = null;
+    activePaymentId = null;
+    try {
+      localStorage.removeItem(BOOKING_TOKEN_KEY);
+    } catch (err) {
+      // ignore
+    }
+  }
+
   function setPayButtonLoading(isLoading) {
     if (!razorpayPayBtn || !selectedSession) return;
     var info = SESSIONS[selectedSession];
@@ -59,6 +101,26 @@
     }
 
     razorpayPayBtn.innerHTML = '<i class="fas fa-shield-halved"></i> Pay ₹' + info.price.toLocaleString('en-IN') + ' securely';
+  }
+
+  function setCompleteButtonLoading(isLoading) {
+    if (!completeBookingBtn) return;
+    completeBookingBtn.disabled = isLoading;
+    if (isLoading) {
+      completeBookingBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Finishing up...';
+      return;
+    }
+    completeBookingBtn.innerHTML = '<i class="fas fa-check"></i> I\'ve booked my slot';
+  }
+
+  function setRecoverButtonLoading(isLoading) {
+    if (!recoverBookingBtn) return;
+    recoverBookingBtn.disabled = isLoading;
+    if (isLoading) {
+      recoverBookingBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+      return;
+    }
+    recoverBookingBtn.innerHTML = '<i class="fas fa-unlock"></i> Continue to booking';
   }
 
   function setStepActive(step) {
@@ -95,30 +157,29 @@
     razorpayPayBtn.innerHTML = '<i class="fas fa-shield-halved"></i> Pay ₹' + info.price.toLocaleString('en-IN') + ' securely';
   }
 
-  function updateTidyCalLink(sessionKey) {
+  function updateTidyCalEmbed(sessionKey) {
     var info = SESSIONS[sessionKey];
-    if (!info || !tidycalBookBtn) return;
-    tidycalBookBtn.href = info.tidycal;
-    tidycalBookBtn.innerHTML = '<i class="fas fa-calendar-check"></i> Book ' + info.label + ' on TidyCal';
+    if (!info) return;
+
     if (scheduleSessionLabel) scheduleSessionLabel.textContent = info.label;
+    if (tidycalEmbed) tidycalEmbed.src = info.tidycal;
+    if (tidycalFallbackLink) {
+      tidycalFallbackLink.href = info.tidycal;
+      tidycalFallbackLink.textContent = 'Open TidyCal in a new tab';
+    }
   }
 
   function showPaymentId(paymentId) {
     if (!paymentId || !paymentIdNote) return;
-    paymentIdNote.textContent = 'Payment reference: ' + paymentId;
+    paymentIdNote.textContent = 'Payment reference: ' + paymentId + ' — save this if you need to return later.';
     paymentIdNote.hidden = false;
   }
 
-  function clearBookingStorage() {
-    sessionStorage.removeItem(STORAGE_KEY);
-    sessionStorage.removeItem(SESSION_KEY);
-    sessionStorage.removeItem(PAYMENT_ID_KEY);
-  }
-
   function resetBookingFlow() {
-    clearBookingStorage();
+    clearBookingToken();
     selectedSession = null;
     paymentInProgress = false;
+    completingBooking = false;
 
     cards.forEach(function (c) { c.classList.remove('selected'); });
 
@@ -130,6 +191,7 @@
     if (scheduleSessionLabel) scheduleSessionLabel.textContent = 'session';
     if (document.getElementById('summarySession')) document.getElementById('summarySession').textContent = '—';
     if (document.getElementById('summaryAmount')) document.getElementById('summaryAmount').textContent = '₹0';
+    if (tidycalEmbed) tidycalEmbed.src = 'about:blank';
     if (razorpayPayBtn) {
       razorpayPayBtn.disabled = !checkoutReady;
       razorpayPayBtn.innerHTML = '<i class="fas fa-shield-halved"></i> Pay now';
@@ -138,8 +200,10 @@
     scheduleSection.hidden = true;
     paymentSection.hidden = true;
     scheduleLocked.hidden = false;
+    if (recoverSection) recoverSection.hidden = false;
     setStepActive(1);
     showPaymentError('');
+    showRecoverError('');
 
     if (window.history.replaceState) {
       window.history.replaceState({}, '', window.location.pathname);
@@ -149,21 +213,64 @@
     if (chooseSession) scrollToEl(chooseSession);
   }
 
-  function unlockSchedule(sessionKey, paymentId) {
+  function unlockSchedule(sessionKey, paymentId, bookingToken, skipScroll) {
     selectedSession = sessionKey;
-    updateTidyCalLink(sessionKey);
+    activePaymentId = paymentId || null;
+    updateTidyCalEmbed(sessionKey);
     if (paymentId) showPaymentId(paymentId);
+    if (bookingToken) saveBookingToken(bookingToken);
+
+    var card = document.querySelector('.session-card[data-session="' + sessionKey + '"]');
+    if (card) {
+      cards.forEach(function (c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+    }
 
     paymentSection.hidden = true;
     scheduleSection.hidden = false;
     scheduleLocked.hidden = true;
+    if (recoverSection) recoverSection.hidden = true;
     setStepActive(3);
-    scrollToEl(scheduleSection);
     showPaymentError('');
+    showRecoverError('');
+
+    if (!skipScroll) scrollToEl(scheduleSection);
 
     if (window.history.replaceState) {
       window.history.replaceState({}, '', window.location.pathname + '?session=' + sessionKey);
     }
+  }
+
+  function fetchBookingStatus(token) {
+    return fetch(apiUrl('/api/booking-status'), {
+      headers: { Authorization: 'Bearer ' + token }
+    }).then(function (response) {
+      return response.json().then(function (data) {
+        if (!response.ok) {
+          throw new Error(data.error || 'Could not restore your booking.');
+        }
+        return data;
+      });
+    });
+  }
+
+  function restoreBookingState() {
+    var token = loadBookingToken();
+    if (!token) return Promise.resolve();
+
+    return fetchBookingStatus(token)
+      .then(function (data) {
+        if (data.status === 'completed') {
+          clearBookingToken();
+          return;
+        }
+
+        if (data.booking_token) saveBookingToken(data.booking_token);
+        unlockSchedule(data.session_key, data.payment_id, data.booking_token, true);
+      })
+      .catch(function () {
+        clearBookingToken();
+      });
   }
 
   function selectSession(card, skipScroll) {
@@ -175,10 +282,11 @@
 
     updateSummary(sessionKey);
     updatePayButton(sessionKey);
-    updateTidyCalLink(sessionKey);
+    updateTidyCalEmbed(sessionKey);
     paymentSection.hidden = false;
     scheduleSection.hidden = true;
     scheduleLocked.hidden = false;
+    if (recoverSection) recoverSection.hidden = false;
     setStepActive(2);
     showPaymentError('');
     if (!skipScroll) scrollToEl(paymentSection);
@@ -231,7 +339,8 @@
       body: JSON.stringify({
         amount: info.price * 100,
         currency: 'INR',
-        receipt: receipt
+        receipt: receipt,
+        session_key: sessionKey
       })
     }).then(function (response) {
       return response.json().then(function (data) {
@@ -253,11 +362,59 @@
     }).then(function (response) {
       return response.json().then(function (data) {
         if (!response.ok || !data.success) {
-          throw new Error(data.error || 'Payment verification failed. Please contact support.');
+          throw new Error(data.error || 'Payment verification failed. Please contact support with your payment ID.');
         }
         return data;
       });
     });
+  }
+
+  function recoverBooking(paymentId) {
+    return fetch(apiUrl('/api/recover-booking'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ payment_id: paymentId })
+    }).then(function (response) {
+      return response.json().then(function (data) {
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || 'Could not find a booking for that payment ID.');
+        }
+        return data;
+      });
+    });
+  }
+
+  function completeBooking() {
+    var token = loadBookingToken();
+    if (!token || completingBooking) return;
+
+    completingBooking = true;
+    setCompleteButtonLoading(true);
+
+    fetch(apiUrl('/api/complete-booking'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token
+      },
+      body: JSON.stringify({ booking_token: token })
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          if (!response.ok || !data.success) {
+            throw new Error(data.error || 'Could not complete booking.');
+          }
+          clearBookingToken();
+          resetBookingFlow();
+        });
+      })
+      .catch(function (err) {
+        showPaymentError(err.message);
+      })
+      .finally(function () {
+        completingBooking = false;
+        setCompleteButtonLoading(false);
+      });
   }
 
   function openRazorpayCheckout(order, sessionKey) {
@@ -281,10 +438,14 @@
           razorpay_signature: response.razorpay_signature
         })
           .then(function (data) {
-            unlockSchedule(sessionKey, data.payment_id || response.razorpay_payment_id);
+            unlockSchedule(
+              data.session_key || sessionKey,
+              data.payment_id || response.razorpay_payment_id,
+              data.booking_token
+            );
           })
           .catch(function (err) {
-            showPaymentError(err.message);
+            showPaymentError(err.message + ' Your payment may still have gone through — use "Already paid?" below with payment ID ' + response.razorpay_payment_id + '.');
           })
           .finally(function () {
             setPayButtonLoading(false);
@@ -335,6 +496,30 @@
       });
   }
 
+  function startRecoverBooking() {
+    if (!recoverPaymentIdInput) return;
+
+    var paymentId = recoverPaymentIdInput.value.trim();
+    if (!paymentId) {
+      showRecoverError('Enter your Razorpay payment ID (starts with pay_).');
+      return;
+    }
+
+    showRecoverError('');
+    setRecoverButtonLoading(true);
+
+    recoverBooking(paymentId)
+      .then(function (data) {
+        unlockSchedule(data.session_key, data.payment_id, data.booking_token);
+      })
+      .catch(function (err) {
+        showRecoverError(err.message);
+      })
+      .finally(function () {
+        setRecoverButtonLoading(false);
+      });
+  }
+
   cards.forEach(function (card) {
     card.addEventListener('click', function () { selectSession(card); });
   });
@@ -343,15 +528,24 @@
     razorpayPayBtn.addEventListener('click', startPayment);
   }
 
-  if (tidycalBookBtn) {
-    tidycalBookBtn.addEventListener('click', function () {
-      resetBookingFlow();
+  if (completeBookingBtn) {
+    completeBookingBtn.addEventListener('click', completeBooking);
+  }
+
+  if (recoverBookingBtn) {
+    recoverBookingBtn.addEventListener('click', startRecoverBooking);
+  }
+
+  if (recoverPaymentIdInput) {
+    recoverPaymentIdInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') startRecoverBooking();
     });
   }
 
-  clearBookingStorage();
-
   Promise.all([loadCheckoutScript(), fetchRazorpayConfig()])
+    .then(function () {
+      return restoreBookingState();
+    })
     .catch(function (err) {
       checkoutReady = false;
       if (razorpayPayBtn) razorpayPayBtn.disabled = true;
@@ -361,7 +555,7 @@
   var params = new URLSearchParams(window.location.search);
   var preselect = params.get('session');
 
-  if (preselect) {
+  if (preselect && !loadBookingToken()) {
     var target = document.querySelector('.session-card[data-session="' + preselect + '"]');
     if (target) selectSession(target, true);
   }

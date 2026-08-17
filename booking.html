@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book a Consultation | Upasna Shil</title>
   <meta name="description" content="Book a therapy session with Upasna Shil. Choose your session, pay securely, and pick a convenient time slot.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com; connect-src 'self' https://api.razorpay.com https://api.web3forms.com; img-src 'self' data: https://cdn.razorpay.com; frame-src https://tidycal.com https://api.razorpay.com; frame-ancestors 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com; connect-src 'self' https://api.razorpay.com https://api.web3forms.com; img-src 'self' data: https://cdn.razorpay.com; frame-src https://tidycal.com https://*.tidycal.com https://api.razorpay.com; frame-ancestors 'none';">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
@@ -106,7 +106,7 @@
       <div class="razorpay-pay-card">
         <div class="razorpay-pay-icon"><i class="fas fa-shield-halved"></i></div>
         <h3>Secure checkout via Razorpay</h3>
-        <p>Pay with UPI, debit/credit card, or wallet. After payment, you'll return to this page to pick your slot on TidyCal.</p>
+        <p>Pay with UPI, debit/credit card, or wallet. After payment, pick your time slot on the calendar below — even if you switch apps or refresh the page.</p>
         <button type="button" id="razorpayPayBtn" class="btn btn-primary btn-large" disabled>
           <i class="fas fa-shield-halved"></i> Pay now
         </button>
@@ -125,23 +125,38 @@
     <div class="container">
       <div class="section-header">
         <h2>Step 3 — Pick Your Time Slot</h2>
-        <p>Payment successful. Open TidyCal to choose a date and time for your session.</p>
+        <p>Payment successful. Choose your date and time below.</p>
       </div>
 
       <div class="booking-notice booking-notice-success">
         <i class="fas fa-check-circle"></i>
         <div>
           <strong>Payment received.</strong>
-          <p>Book your <strong id="scheduleSessionLabel">session</strong> on TidyCal. You'll receive a calendar invite and reminder.</p>
+          <p>Pick a time for your <strong id="scheduleSessionLabel">session</strong> using the calendar below. You'll receive a calendar invite and reminder from TidyCal.</p>
           <p id="paymentIdNote" class="payment-id-note" hidden></p>
         </div>
       </div>
 
+      <div class="tidycal-embed-wrap">
+        <iframe
+          id="tidycalEmbed"
+          class="tidycal-embed"
+          title="Book your session on TidyCal"
+          src="about:blank"
+          loading="lazy"
+          allow="payment"
+        ></iframe>
+      </div>
+
       <div class="booking-actions schedule-cta">
-        <a id="tidycalBookBtn" class="btn btn-primary btn-large" href="https://tidycal.com/consultupasnashil" target="_blank" rel="noopener">
-          <i class="fas fa-calendar-check"></i> Book on TidyCal
-        </a>
-        <p class="small-note">Opens in a new tab. Pick the same session type you paid for.</p>
+        <button type="button" id="completeBookingBtn" class="btn btn-primary btn-large">
+          <i class="fas fa-check"></i> I've booked my slot
+        </button>
+        <p class="small-note">Click above after you've picked a time on the calendar. This lets you book another session in the future.</p>
+        <p class="small-note">
+          Calendar not loading?
+          <a id="tidycalFallbackLink" href="https://tidycal.com/consultupasnashil" target="_blank" rel="noopener">Open TidyCal in a new tab</a>.
+        </p>
       </div>
 
       <p class="small-note center" style="margin-top:1.5rem;">
@@ -160,6 +175,24 @@
         </div>
         <h3>Your time slot is just one step away</h3>
         <p>Once your payment is complete, you'll return here to choose a date and time that works best for you. Take your time — there's no rush.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recovery: already paid but slot picker not visible -->
+  <section id="recover-booking" class="services booking-section booking-section-muted">
+    <div class="container">
+      <div class="recover-booking-card">
+        <h3>Already paid?</h3>
+        <p>If you completed payment but don't see the calendar, enter your Razorpay payment ID below (starts with <code>pay_</code>). You'll find it in your UPI app or Razorpay email/SMS.</p>
+        <div class="recover-booking-form">
+          <label class="sr-only" for="recoverPaymentId">Razorpay payment ID</label>
+          <input type="text" id="recoverPaymentId" class="recover-booking-input" placeholder="pay_xxxxxxxxxxxx" autocomplete="off" spellcheck="false">
+          <button type="button" id="recoverBookingBtn" class="btn btn-secondary">
+            <i class="fas fa-unlock"></i> Continue to booking
+          </button>
+        </div>
+        <p id="recoverError" class="payment-error recover-error" hidden role="alert"></p>
       </div>
     </div>
   </section>
