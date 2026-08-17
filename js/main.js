@@ -1321,6 +1321,16 @@ function initPolicyModals() {
             });
         }
     });
+
+    const hashPolicyMap = {
+        '#privacy-policy': privacyModal,
+        '#refund-policy': refundModal,
+        '#terms-of-service': termsModal
+    };
+    const hashModal = hashPolicyMap[window.location.hash];
+    if (hashModal) {
+        openPolicyModal(hashModal);
+    }
 }
 
 // Footer Service Links Functionality
