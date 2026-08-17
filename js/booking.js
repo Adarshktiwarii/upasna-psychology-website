@@ -14,6 +14,11 @@
       label: '50 Minute Meeting',
       price: 1500,
       tidycal: 'https://tidycal.com/consultupasnashil/60-minute-meeting'
+    },
+    '60min-family': {
+      label: '60 Minute Family / Couple Counseling',
+      price: 2500,
+      tidycal: 'https://tidycal.com/consultupasnashil/60-minutes-family-couple-counseling'
     }
   };
 

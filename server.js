@@ -16,7 +16,7 @@ const staticDir = path.join(__dirname, 'static');
 const hasStaticDir = require('fs').existsSync(staticDir);
 const publicDir = hasStaticDir ? staticDir : __dirname;
 
-const VALID_SESSION_KEYS = new Set(['15min', '30min', '50min']);
+const VALID_SESSION_KEYS = new Set(['15min', '30min', '50min', '60min-family']);
 
 let razorpay = null;
 
